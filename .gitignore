@@ -22,5 +22,8 @@
 # Perso
 .settings/
 bin/
+img/
 .classpath
 .project
+
+src/dao/connexionBDD.java
