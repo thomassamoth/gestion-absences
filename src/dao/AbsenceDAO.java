@@ -26,7 +26,11 @@ public class AbsenceDAO extends ConnexionBDD {
 		try {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
-			PreparedStatement ps = con.prepareStatement("SELECT nom, prenom, nom_cours, dateabsence FROM ABSENCE inner join etudiant on (absence.idetudiant = etudiant.idetudiant) inner join utilisateur on (utilisateur.idutilisateur = etudiant.idutilisateur) inner join cours on (cours.idcours = absence.idcours) WHERE is_handled = 0"
+			PreparedStatement ps = con.prepareStatement("SELECT nom, prenom, nom_cours, dateabsence "
+					+ "FROM ABSENCE inner join etudiant on (absence.idetudiant = etudiant.idetudiant) "
+					+ "inner join utilisateur on (utilisateur.idutilisateur = etudiant.idutilisateur) "
+					+ "inner join cours on (cours.idcours = absence.idcours) "
+					+ "WHERE is_handled = 0"
 );
 			
 			rs = ps.executeQuery();
