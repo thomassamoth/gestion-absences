@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 /**
  * Classe principale qui permet de lancer le programme
  * @author Thomas
+ * @author Walid
  *
  */
 public class GestionAbsence {
@@ -138,7 +139,8 @@ public class GestionAbsence {
 			case 1: // Gestionnaire
 				// Fenêtre gestion des absences
 				windowConnexion.dispose();
-				new ValidationAbsencesGUI(user);
+				new AccueilGestionnaireGUI(user, user.getUtilisateurPrenom());
+				//new ValidationAbsencesGUI(user);
 				break;
 
 			case 2: // Enseignant
