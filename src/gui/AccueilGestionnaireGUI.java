@@ -10,6 +10,8 @@ import java.util.ArrayList;
 // Packages
 import dao.*;
 import model.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * Classe pour afficher la fenêtre d'accueil pour les étudiants
@@ -112,31 +114,6 @@ public class AccueilGestionnaireGUI {
 		menuBtnPlanning.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change curseur quand survol
 		menuBtnPlanning.setBounds(0, 126, 140, 33);
 		sidebar.add(menuBtnPlanning);
-
-		// Change couleur fond si cliqué + action bouton
-		menuBtnPlanning.addActionListener(e -> {
-			menuBtnPlanning.setBackground(new Color(255, 31, 31));
-			menuBtnAbsences.setBackground(new Color(255, 102, 102));
-			// Action here
-		});
-
-		// Change couleur fond si cliqué + action bouton
-		menuBtnAbsences.addActionListener(e -> {
-			menuBtnAbsences.setBackground(new Color(255, 31, 31));
-			menuBtnPlanning.setBackground(new Color(255, 102, 102));
-			AccueilGestionnaireWindow.dispose();
-			//new AbsencesEtudiantGUI(util, prenom);
-		});
-
-
-
-		// Change couleur fond si cliqué + action bouton
-		btnDeconnexion.addActionListener(e -> {
-			btnDeconnexion.setBackground(new Color(255, 31, 31));
-			menuBtnPlanning.setBackground(new Color(255, 102, 102));
-			AccueilGestionnaireWindow.dispose();
-			new GestionAbsence();
-		});
 		*/
 		// texte bonjour + prénom
 		JLabel txtBonjour = new JLabel("");
@@ -150,6 +127,7 @@ public class AccueilGestionnaireGUI {
 		btnCreerEtudiant.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnCreerEtudiant.setBackground(new Color(0, 105, 217));
 		btnCreerEtudiant.setBounds(160, 124, 128, 21);
+		btnCreerEtudiant.setBorderPainted(false);
 		AccueilGestionnaireWindow.getContentPane().add(btnCreerEtudiant);
 		btnCreerEtudiant.addActionListener(e -> {
 			AccueilGestionnaireWindow.dispose();
@@ -160,8 +138,32 @@ public class AccueilGestionnaireGUI {
 		btnCreerFermeture.setForeground(Color.WHITE);
 		btnCreerFermeture.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnCreerFermeture.setBackground(new Color(0, 105, 217));
-		btnCreerFermeture.setBounds(312, 124, 157, 21);
+		btnCreerFermeture.setBounds(298, 124, 157, 21);
+		btnCreerFermeture.setBorderPainted(false);
 		AccueilGestionnaireWindow.getContentPane().add(btnCreerFermeture);
+		
+		JLabel txtMessages = new JLabel("");
+		txtMessages.setBackground(new Color(255, 255, 255));
+		txtMessages.setHorizontalAlignment(SwingConstants.CENTER);
+		txtMessages.setBounds(160, 215, 295, 21);
+		txtMessages.setOpaque(true);
+		AccueilGestionnaireWindow.getContentPane().add(txtMessages);
+		
+		JButton btnAjouterGroupe = new JButton("Ajouter Groupe");
+		btnAjouterGroupe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CreerGroupe(txtMessages);
+			}
+		});
+			
+		btnAjouterGroupe.setForeground(Color.WHITE);
+		btnAjouterGroupe.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnAjouterGroupe.setBackground(new Color(253, 126, 20));
+		btnAjouterGroupe.setBounds(465, 124, 128, 21);
+		btnAjouterGroupe.setBorderPainted(false);
+		AccueilGestionnaireWindow.getContentPane().add(btnAjouterGroupe);
+		
+		
 		
 		
 	}
