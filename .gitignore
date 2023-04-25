@@ -25,5 +25,7 @@ bin/
 img/
 .classpath
 .project
-
+doc/
 src/dao/connexionBDD.java
+*.pdf
+*.txt
