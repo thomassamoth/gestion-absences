@@ -215,55 +215,55 @@ public class GestionEtudiantGUI {
 			gestionEtudiantWindow.dispose();
 			new AccueilGestionnaireGUI(util);
 		});
-		
-			//Action ComboBox Filières
-			dropGroupes.addActionListener(e -> {
-				String selectedOption = (String) dropGroupes.getSelectedItem();
-				if (!selectedOption.equals("")) { // Si l'otion choisie est vide
-					int selectedValue = Integer.parseInt(selectedOption);
-					setNumeroGroupe(selectedValue);
-				}
-				else {
-					lblErreur.setText("Veuillez faire un choix pour le groupe!");
-					lblErreur.setBackground(new Color(248, 215,218));
-				}
-			});
 
-			// Actions bouton Valider
-			btnValider.addActionListener(e -> {
-				GestionnaireDAO gestio = new GestionnaireDAO();
+		//Action ComboBox Filières
+		dropGroupes.addActionListener(e -> {
+			String selectedOption = (String) dropGroupes.getSelectedItem();
+			if (!selectedOption.equals("")) { // Si l'otion choisie est vide
+				int selectedValue = Integer.parseInt(selectedOption);
+				setNumeroGroupe(selectedValue);
+			}
+			else {
+				lblErreur.setText("Veuillez faire un choix pour le groupe!");
+				lblErreur.setBackground(new Color(248, 215,218));
+			}
+		});
 
-				// Verification si champs obligatoires remplis
-				if(fieldNom.getText().length() <= 0 || fieldPrenom.getText().length() <= 0 || 
-						fieldUsername.getText().length() <= 0 || fieldPassword.getText().length() <= 0) {
-					JOptionPane.showMessageDialog(null, "Veuillez compléter le/les champ(s) manquants. ", "Warning",
-							JOptionPane.WARNING_MESSAGE);
+		// Actions bouton Valider
+		btnValider.addActionListener(e -> {
+			GestionnaireDAO gestio = new GestionnaireDAO();
 
-				}
-				else {
-					// Création d'un utilisateur 
-					if(gestio.ajouterUtilisateur(fieldNom.getText(), fieldPrenom.getText(), fieldUsername.getText(), fieldPassword.getText()) == 1){
+			// Verification si champs obligatoires remplis
+			if(fieldNom.getText().length() <= 0 || fieldPrenom.getText().length() <= 0 || 
+					fieldUsername.getText().length() <= 0 || fieldPassword.getText().length() <= 0) {
+				JOptionPane.showMessageDialog(null, "Veuillez compléter le/les champ(s) manquants. ", "Warning",
+						JOptionPane.WARNING_MESSAGE);
 
-						// Récuperation de l'ID de l'utilisateur que l'on vient de créer
-						int IDUser = gestio.getIDUtilisateur(fieldUsername.getText(), fieldPrenom.getText(), fieldNom.getText());
+			}
+			else {
+				// Création d'un utilisateur 
+				if(gestio.ajouterUtilisateur(fieldNom.getText(), fieldPrenom.getText(), fieldUsername.getText(), fieldPassword.getText()) == 1){
 
-						// Création d'un étudiant
-						if(gestio.ajouterEtudiant(IDUser, fieldMail.getText(), numeroGroupe, numFiliere) == 1) {
-							txtEtuAjoute.setBackground(new Color(212, 237,218));
-							txtEtuAjoute.setText("Etudiant ajouté");
-						}
-						else {
-							txtEtuAjoute.setBackground(new Color(248, 215,218));
-							txtEtuAjoute.setText("Erreur lors de l'ajout d'un étudiant");				
-						}
+					// Récuperation de l'ID de l'utilisateur que l'on vient de créer
+					int IDUser = gestio.getIDUtilisateur(fieldUsername.getText(), fieldPrenom.getText(), fieldNom.getText());
+
+					// Création d'un étudiant
+					if(gestio.ajouterEtudiant(IDUser, fieldMail.getText(), numeroGroupe, numFiliere) == 1) {
+						txtEtuAjoute.setBackground(new Color(212, 237,218));
+						txtEtuAjoute.setText("Etudiant ajouté");
 					}
-					else { // Erreur lors de la création d'un utilisateur
+					else {
 						txtEtuAjoute.setBackground(new Color(248, 215,218));
-						txtEtuAjoute.setText("Erreur lors de l'ajout d'un étudiant");
+						txtEtuAjoute.setText("Erreur lors de l'ajout d'un étudiant");				
 					}
 				}
-			});
-		}
+				else { // Erreur lors de la création d'un utilisateur
+					txtEtuAjoute.setBackground(new Color(248, 215,218));
+					txtEtuAjoute.setText("Erreur lors de l'ajout d'un étudiant");
+				}
+			}
+		});
+	}
 
 		/**
 		 * Initialise la fenêtre
@@ -281,13 +281,13 @@ public class GestionEtudiantGUI {
 			gestionEtudiantWindow.getContentPane().setLayout(null);
 		}
 
-		private void initializeHeader(Utilisateur util){
-			// Header
-			JPanel header = new JPanel();
-			header.setBackground(new Color(255, 25, 25));
-			header.setBounds(0, 0, 839, 50);
-			header.setLayout(null);
-			gestionEtudiantWindow.getContentPane().add(header);
+	private void initializeHeader(Utilisateur util){
+		// Header
+		JPanel header = new JPanel();
+		header.setBackground(new Color(255, 25, 25));
+		header.setBounds(0, 0, 839, 50);
+		header.setLayout(null);
+		gestionEtudiantWindow.getContentPane().add(header);
 
 			// Bouton Menu Déconnexion
 			JButton btnDeconnexion = new JButton("Se Déconnecter");
@@ -324,16 +324,16 @@ public class GestionEtudiantGUI {
 			ESIGELEC.setForeground(new Color(255, 255, 255));
 			ESIGELEC.setFont(new Font("Arial", Font.PLAIN, 30));
 
-		}
-		/**
-		 * Initalise le contenu du menu latéral
-		 */
-		private void initializeSidebar(){
-			// Menu latéral
-			JPanel sidebar = new JPanel();
-			sidebar.setBackground(new Color(255, 102, 102));
-			sidebar.setBounds(0, 0, 140, 443);
-			sidebar.setLayout(null);
-			gestionEtudiantWindow.getContentPane().add(sidebar);
-		}
 	}
+	/**
+	 * Initalise le contenu du menu latéral
+	 */
+	private void initializeSidebar(){
+		// Menu latéral
+		JPanel sidebar = new JPanel();
+		sidebar.setBackground(new Color(255, 102, 102));
+		sidebar.setBounds(0, 0, 140, 443);
+		sidebar.setLayout(null);
+		gestionEtudiantWindow.getContentPane().add(sidebar);
+	}
+}

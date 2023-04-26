@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-//import model.Groupe;
 
 public class GestionnaireDAO extends ConnexionBDD {
 

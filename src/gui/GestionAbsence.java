@@ -139,7 +139,7 @@ public class GestionAbsence {
 			case 1: // Gestionnaire
 				// Fenêtre gestion des absences
 				windowConnexion.dispose();
-				new AccueilGestionnaireGUI(user, user.getUtilisateurPrenom());
+				new AccueilGestionnaireGUI(user);
 				//new ValidationAbsencesGUI(user);
 				break;
 

@@ -120,6 +120,6 @@ public class AbsencesEtudiantGUI {
 		txtBonjour.setText("Bonjour " + prenom);
 		AbsencesEtudiant.getContentPane().add(txtBonjour);
 
-		//displayAbsencesInjustifiees(util.getIdentifiant());
+		//AccueilEtudiantGUI.displayAbsencesInjustifiees(util.getIdentifiant());
 	}
 }
