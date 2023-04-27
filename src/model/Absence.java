@@ -1,6 +1,6 @@
 package model;
 
-import java.util.*;
+//import java.util.*;
 
 /**
  * Classe absence
@@ -81,5 +81,9 @@ public class Absence {
 
 	public void setDuree(int duree) {
 		this.duree = duree;
-	}	
+	}
+	
+	public String displayToString() {
+		return nomCours + " - " + date + " | " + duree + " Heures";
+	}
 }

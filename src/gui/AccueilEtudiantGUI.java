@@ -37,7 +37,7 @@ public class AccueilEtudiantGUI {
 	private void initialize(Utilisateur util, String prenom) {
 		// Fenêtre
 		AccueilEtudiant = new JFrame();
-		AccueilEtudiant.setResizable(false);
+		AccueilEtudiant.setResizable(true);
 		AccueilEtudiant.getContentPane().setBackground(new Color(255, 255, 255));
 		AccueilEtudiant.setVisible(true);
 		AccueilEtudiant.setTitle("Accueil - Etudiant");
@@ -63,6 +63,11 @@ public class AccueilEtudiantGUI {
 		btnDeconnexion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change curseur quand survole
 		btnDeconnexion.setBounds(712, 0, 117, 50);
 		header.add(btnDeconnexion);
+		// Action bouton déconnecter
+		btnDeconnexion.addActionListener(e -> {
+			AccueilEtudiant.dispose();
+			new GestionAbsence();
+		});
 
 		// Affichage identifiant utilisateur
 		JLabel usernameLabel = new JLabel("");
@@ -90,15 +95,15 @@ public class AccueilEtudiantGUI {
 		AccueilEtudiant.getContentPane().add(sidebar);
 
 		// Bouton Menu absences
-		JButton btnAbsences = new JButton("Absences");
-		btnAbsences.setForeground(new Color(255, 255, 255));
-		btnAbsences.setFont(new Font("Arial", Font.PLAIN, 20));
-		btnAbsences.setBorderPainted(false);
-		btnAbsences.setFocusPainted(false); // Bordure text invisible
-		btnAbsences.setBackground(new Color(255, 102, 102));
-		btnAbsences.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change curseur quand survole
-		btnAbsences.setBounds(0, 83, 140, 33);
-		sidebar.add(btnAbsences);
+		JButton menuBtnAbsences = new JButton("Absences");
+		menuBtnAbsences.setForeground(new Color(255, 255, 255));
+		menuBtnAbsences.setFont(new Font("Arial", Font.PLAIN, 20));
+		menuBtnAbsences.setBorderPainted(false);
+		menuBtnAbsences.setFocusPainted(false); // Bordure text invisible
+		menuBtnAbsences.setBackground(new Color(255, 102, 102));
+		menuBtnAbsences.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change curseur quand survole
+		menuBtnAbsences.setBounds(0, 83, 140, 33);
+		sidebar.add(menuBtnAbsences);
 
 		// Bouton Menu Planning
 		JButton menuBtnPlanning = new JButton("Planning");
@@ -114,15 +119,26 @@ public class AccueilEtudiantGUI {
 		// Change couleur fond si cliqué + action bouton
 		menuBtnPlanning.addActionListener(e -> {
 			menuBtnPlanning.setBackground(new Color(255, 31, 31));
-			btnDeconnexion.setBackground(new Color(255, 102, 102));
+			menuBtnAbsences.setBackground(new Color(255, 102, 102));
+			// Action here
 		});
+
+		// Change couleur fond si cliqué + action bouton
+		menuBtnAbsences.addActionListener(e -> {
+			menuBtnAbsences.setBackground(new Color(255, 31, 31));
+			menuBtnPlanning.setBackground(new Color(255, 102, 102));
+			AccueilEtudiant.dispose();
+			new AbsencesEtudiantGUI(util, prenom);
+		});
+
+
 
 		// Change couleur fond si cliqué + action bouton
 		btnDeconnexion.addActionListener(e -> {
 			btnDeconnexion.setBackground(new Color(255, 31, 31));
 			menuBtnPlanning.setBackground(new Color(255, 102, 102));
-			//AccueilEtudiant.dispose();
-			//new GestionAbsence();
+			AccueilEtudiant.dispose();
+			new GestionAbsence();
 		});
 
 		// texte bonjour + prénom
@@ -136,6 +152,41 @@ public class AccueilEtudiantGUI {
 		displayAbsencesJustifiees(util.getIdentifiant());
 		displayAbsencesInjustifiees(util.getIdentifiant());
 
+		/**
+		 * Test 
+		 */
+
+		/**
+		 * Menu déroulant liste des Groupes
+		 */
+		EtudiantDAO etuDAO = new EtudiantDAO();
+		ArrayList<Absence> listeAbsencesInjustifiees = etuDAO.getAbsencesInjustifiees(util.getIdentifiant());
+
+		// Créer un modèle pour la liste déroulante
+		DefaultComboBoxModel<String> listeAbsTxt = new DefaultComboBoxModel<>();
+
+		for (int i = 0; i < listeAbsencesInjustifiees.size(); i++) {
+			Absence absence = listeAbsencesInjustifiees.get(i);
+			String absTxt = absence.displayToString();
+			listeAbsTxt.addElement(absTxt);
+		}
+
+		// Créer la liste déroulante avec le modèle
+		JComboBox<String> dropAbsInj = new JComboBox<>(listeAbsTxt);
+		dropAbsInj.setBounds(159, 412, 653, 21);
+		AccueilEtudiant.getContentPane().add(dropAbsInj);
+
+		//Action ComboBox Absences
+		dropAbsInj.addActionListener(e -> {
+			String selectedOption = (String) dropAbsInj.getSelectedItem();
+			if (!selectedOption.equals("")) { // Si l'otion choisie est vide
+				
+				//setNumeroGroupe(selectedValue);
+			}
+			else {
+				// Affichage message erreur
+			}
+		});
 	}
 
 
@@ -154,7 +205,7 @@ public class AccueilEtudiantGUI {
 		txtListeAbsence.setBounds(160, 216, 217, 30);
 		AccueilEtudiant.getContentPane().add(txtListeAbsence);
 
-		DefaultTableModel model = new DefaultTableModel(new Object[][]{}, new Object[]{"Cours", "Heures", "Date"});
+		DefaultTableModel model = new DefaultTableModel(new Object[][]{}, new Object[]{"Cours", "Durée", "Date"});
 
 		for (int i = 0; i < listeAbsencesInjustifiees.size(); i++) {
 			Object[] row = new Object[]{
@@ -172,6 +223,11 @@ public class AccueilEtudiantGUI {
 		JScrollPane ScrollAbsJustif = new JScrollPane(table);
 		ScrollAbsJustif.setBounds(160, 256, 653, 125);
 		AccueilEtudiant.getContentPane().add(ScrollAbsJustif);
+
+		JLabel txtAbsencesPage = new JLabel("Pour valider vos absences ou consulter leur statut, passer par le menu");
+		txtAbsencesPage.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtAbsencesPage.setBounds(160, 390, 464, 13);
+		AccueilEtudiant.getContentPane().add(txtAbsencesPage);
 	}
 
 	/**

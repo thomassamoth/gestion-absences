@@ -79,7 +79,11 @@ public class EtudiantDAO extends ConnexionBDD {
 	}
 	
 	
-	
+	/**
+	 * Récupère les absences justifiées d'un étudiant
+	 * @param identifiant
+	 * @return
+	 */
 	public ArrayList<Absence> getAbsencesJustifiees(String identifiant) {
 		Connection con =  null;
 		PreparedStatement ps = null;
