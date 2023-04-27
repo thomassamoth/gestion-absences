@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+<<<<<<< HEAD
 import model.Groupe;
+=======
+>>>>>>> thomassamoth-patch-1
 
 public class GestionnaireDAO extends ConnexionBDD {
 
@@ -211,6 +214,13 @@ public class GestionnaireDAO extends ConnexionBDD {
 		return ajoutEffectue;
 	}
 
+<<<<<<< HEAD
+=======
+	/**
+	 * Récupère la liste des groupes présents dans la BDD
+	 * @return listeGroupes la liste des groupes existants
+	 */
+>>>>>>> thomassamoth-patch-1
 	public ArrayList<String> getListeGroupes(){
 		Connection con =  null;
 		PreparedStatement ps = null;
@@ -222,6 +232,7 @@ public class GestionnaireDAO extends ConnexionBDD {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
 			ps = con.prepareStatement("SELECT numeroGroupe from groupe ORDER BY numeroGroupe");
+<<<<<<< HEAD
 
 			rs = ps.executeQuery();
 
@@ -248,6 +259,34 @@ public class GestionnaireDAO extends ConnexionBDD {
 					rs.close();
 			}catch (Exception ignore) {}
 
+=======
+
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				int groupe = rs.getInt("NUMEROGROUPE");
+				listeGroupes.add(Integer.toString(groupe));
+			}
+		}
+		catch (Exception ee) {
+			ee.printStackTrace();
+		}
+
+		finally {
+			// Fermeture rs
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			}catch (Exception ignore) {}
+
+			// Fermeture ps
+			try {
+				if (ps != null)
+					rs.close();
+			}catch (Exception ignore) {}
+
+>>>>>>> thomassamoth-patch-1
 			// Fermeture con
 			try {
 				if(con != null)
