@@ -6,6 +6,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.*;
 import java.util.ArrayList;
 
+
 // Packages
 import dao.*;
 import model.*;
@@ -25,8 +26,11 @@ public class AccueilEtudiantGUI {
 	 * @param util l'utilisteur dont on veut afficher les infos
 	 * @param prenom prénom de l'utilisateur, nécessaire pour texte de bienvenue
 	 */
-	public AccueilEtudiantGUI(Utilisateur util, String prenom) {
-		initialize(util, prenom);
+	public AccueilEtudiantGUI(Utilisateur util) {
+		initializeWindow();
+		initializeHeader(util);
+		initializeSidebar(util);
+		initialize(util);
 	}
 
 	/**
@@ -34,18 +38,40 @@ public class AccueilEtudiantGUI {
 	 * @param util l'utilisteur dont on veut afficher les infos
 	 * @param prenom prénom de l'utilisateur, nécessaire pour texte de bienvenue
 	 */
-	private void initialize(Utilisateur util, String prenom) {
+	private void initialize(Utilisateur util) {
+		// texte bonjour + prénom
+		JLabel txtBonjour = new JLabel("");
+		txtBonjour.setFont(new Font("Arial", Font.BOLD, 14));
+		txtBonjour.setBounds(160, 60, 148, 30);
+		txtBonjour.setText("Bonjour " + util.getUtilisateurPrenom());
+		AccueilEtudiant.getContentPane().add(txtBonjour);
+
+		// Affichage absences
+		displayAbsencesJustifiees(util.getIdentifiant());
+		displayAbsencesInjustifiees(util.getIdentifiant());		
+	}
+
+	/**
+	 * Initialise la fenêtre
+	 */
+	private void initializeWindow(){
 		// Fenêtre
 		AccueilEtudiant = new JFrame();
-		AccueilEtudiant.setResizable(true);
+		AccueilEtudiant.setResizable(false);
 		AccueilEtudiant.getContentPane().setBackground(new Color(255, 255, 255));
 		AccueilEtudiant.setVisible(true);
-		AccueilEtudiant.setTitle("Accueil - Etudiant");
+		AccueilEtudiant.setTitle("Gestion Etudiant");
 		AccueilEtudiant.setSize(853, 480);
 		AccueilEtudiant.setLocationRelativeTo(null); // Centre fenêtre dans l'écran
 		AccueilEtudiant.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		AccueilEtudiant.getContentPane().setLayout(null);
+	}
 
+	/**
+	 * 
+	 * @param util
+	 */
+	private void initializeHeader(Utilisateur util) {
 		// Header
 		JPanel header = new JPanel();
 		header.setBackground(new Color(255, 25, 25));
@@ -58,11 +84,11 @@ public class AccueilEtudiantGUI {
 		btnDeconnexion.setForeground(new Color(255, 255, 255));
 		btnDeconnexion.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnDeconnexion.setBorderPainted(false);
-		btnDeconnexion.setFocusPainted(false); // Bordure text invisible
 		btnDeconnexion.setBackground(new Color(255, 25, 25));
 		btnDeconnexion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change curseur quand survole
 		btnDeconnexion.setBounds(712, 0, 117, 50);
 		header.add(btnDeconnexion);
+
 		// Action bouton déconnecter
 		btnDeconnexion.addActionListener(e -> {
 			AccueilEtudiant.dispose();
@@ -78,7 +104,6 @@ public class AccueilEtudiantGUI {
 		usernameLabel.setText(util.getIdentifiant());
 		header.add(usernameLabel);
 
-
 		// Titre Esigelec
 		JLabel ESIGELEC = new JLabel("ESIGELEC");
 		ESIGELEC.setHorizontalAlignment(SwingConstants.CENTER);
@@ -86,7 +111,9 @@ public class AccueilEtudiantGUI {
 		header.add(ESIGELEC);
 		ESIGELEC.setForeground(new Color(255, 255, 255));
 		ESIGELEC.setFont(new Font("Arial", Font.PLAIN, 30));
+	}
 
+	private void initializeSidebar(Utilisateur util){
 		// Menu latéral
 		JPanel sidebar = new JPanel();
 		sidebar.setBackground(new Color(255, 102, 102));
@@ -128,68 +155,10 @@ public class AccueilEtudiantGUI {
 			menuBtnAbsences.setBackground(new Color(255, 31, 31));
 			menuBtnPlanning.setBackground(new Color(255, 102, 102));
 			AccueilEtudiant.dispose();
-			new AbsencesEtudiantGUI(util, prenom);
+			new AbsencesEtudiantGUI(util);
 		});
 
-
-
-		// Change couleur fond si cliqué + action bouton
-		btnDeconnexion.addActionListener(e -> {
-			btnDeconnexion.setBackground(new Color(255, 31, 31));
-			menuBtnPlanning.setBackground(new Color(255, 102, 102));
-			AccueilEtudiant.dispose();
-			new GestionAbsence();
-		});
-
-		// texte bonjour + prénom
-		JLabel txtBonjour = new JLabel("");
-		txtBonjour.setFont(new Font("Arial", Font.BOLD, 14));
-		txtBonjour.setBounds(160, 60, 148, 30);
-		txtBonjour.setText("Bonjour " + prenom);
-		AccueilEtudiant.getContentPane().add(txtBonjour);
-
-		// Affichage absences
-		displayAbsencesJustifiees(util.getIdentifiant());
-		displayAbsencesInjustifiees(util.getIdentifiant());
-
-		/**
-		 * Test 
-		 */
-
-		/**
-		 * Menu déroulant liste des Groupes
-		 */
-		EtudiantDAO etuDAO = new EtudiantDAO();
-		ArrayList<Absence> listeAbsencesInjustifiees = etuDAO.getAbsencesInjustifiees(util.getIdentifiant());
-
-		// Créer un modèle pour la liste déroulante
-		DefaultComboBoxModel<String> listeAbsTxt = new DefaultComboBoxModel<>();
-
-		for (int i = 0; i < listeAbsencesInjustifiees.size(); i++) {
-			Absence absence = listeAbsencesInjustifiees.get(i);
-			String absTxt = absence.displayToString();
-			listeAbsTxt.addElement(absTxt);
-		}
-
-		// Créer la liste déroulante avec le modèle
-		JComboBox<String> dropAbsInj = new JComboBox<>(listeAbsTxt);
-		dropAbsInj.setBounds(159, 412, 653, 21);
-		AccueilEtudiant.getContentPane().add(dropAbsInj);
-
-		//Action ComboBox Absences
-		dropAbsInj.addActionListener(e -> {
-			String selectedOption = (String) dropAbsInj.getSelectedItem();
-			if (!selectedOption.equals("")) { // Si l'otion choisie est vide
-				
-				//setNumeroGroupe(selectedValue);
-			}
-			else {
-				// Affichage message erreur
-			}
-		});
 	}
-
-
 	/**
 	 * Affiche les absences injustifiées d'un élève à partir de son identifiant
 	 * @param identifiant l'idenfiant de l'utilisateur dont on veut connaitre les absences

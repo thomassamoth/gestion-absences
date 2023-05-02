@@ -8,36 +8,39 @@ package model;
  *
  */
 public class Absence {
-	//protected int absenceID;
-	protected String nomEtudiant;
-	protected String prenomEtudiant;
-	protected String date;
-	protected String nomCours;
-	protected int duree;
+	private int idabsence;
+	private String nomEtudiant;
+	private String prenomEtudiant;
+	private String date;
+	private String nomCours;
+	private int duree;
 
 	/**
 	 * Constructeur pour les absences non traitées
+	 * @param idabsence
 	 * @param nomEtudiant
 	 * @param prenomEtudiant
 	 * @param date
 	 * @param nomCours
 	 */
-	public Absence(String nomEtudiant, String prenomEtudiant, String date, String nomCours) {
-		//this.absenceID = absenceID;
+	public Absence(int idabsence, String nomEtudiant, String prenomEtudiant, String date, String nomCours) {
+		this.idabsence = idabsence;
 		this.nomEtudiant = nomEtudiant;
 		this.prenomEtudiant = prenomEtudiant;
 		this.date = date;
 		this.nomCours = nomCours;
 	}
 	
+	
 	/**
 	 * Constructeur pour les absences, côté élèves
+	 * @param idabsence
 	 * @param duree
 	 * @param date
 	 * @param nomCours
 	 */
-
-	public Absence(int duree, String date, String nomCours) {
+	public Absence(int idabsence,int duree, String date, String nomCours) {
+		this.idabsence = idabsence;
 		this.duree = duree;
 		this.date = date;
 		this.nomCours = nomCours;
@@ -45,6 +48,10 @@ public class Absence {
 
 	public String getNomEtudiant() {
 		return nomEtudiant;
+	}
+
+	public int getIDAbsence(){
+		return idabsence;
 	}
 
 	public void setNomEtudiant(String nomEtudiant) {
@@ -83,7 +90,11 @@ public class Absence {
 		this.duree = duree;
 	}
 	
+	/**
+	 * Affiche l'absence sous forme de chaine de caractères
+	 * @return les éléments de l'absence comme chaine
+	 */
 	public String displayToString() {
-		return nomCours + " - " + date + " | " + duree + " Heures";
+		return nomCours + " - " + date + " - " + duree + " Heures";
 	}
 }

@@ -150,7 +150,7 @@ public class GestionAbsence {
 
 			case 3: // Etudiant
 				windowConnexion.dispose();
-				new AccueilEtudiantGUI(user, user.getUtilisateurPrenom());
+				new AccueilEtudiantGUI(user);
 				break;
 
 			default:

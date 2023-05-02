@@ -33,11 +33,12 @@ public class EtudiantDAO extends ConnexionBDD {
 		try {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
-			ps = con.prepareStatement("SELECT nom_cours, quota_absence, dateabsence "
+			ps = con.prepareStatement("SELECT idabsence,nom_cours, quota_absence, dateabsence "
 					+ "FROM ABSENCE INNER JOIN etudiant ON (absence.idetudiant = etudiant.idetudiant) "
 					+ "INNER JOIN utilisateur ON (utilisateur.idutilisateur = etudiant.idutilisateur) "
 					+ "INNER JOIN cours ON (cours.idcours = absence.idcours) "
-					+ "WHERE is_justified = 0 AND utilisateur.identifiant = ?");
+					+ "WHERE is_justified = 0 AND utilisateur.identifiant = ?"
+					+ "ORDER BY dateabsence DESC");
 
 			ps.setString(1, identifiant);
 
@@ -45,7 +46,8 @@ public class EtudiantDAO extends ConnexionBDD {
 
 			while(rs.next()) {
 				String dateAbsence = rs.getDate("dateabsence").toString();
-				Absence absenceInjustifiee = new Absence(rs.getInt("quota_absence"), dateAbsence ,rs.getString("nom_cours") );
+				Absence absenceInjustifiee = new Absence(rs.getInt("idabsence"), rs.getInt("quota_absence"), 
+				dateAbsence ,rs.getString("nom_cours") );
 
 				listeAbsencesInjustifiees.add(absenceInjustifiee);
 			}
@@ -95,11 +97,12 @@ public class EtudiantDAO extends ConnexionBDD {
 		try {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
-			ps = con.prepareStatement("SELECT nom_cours, quota_absence, dateabsence "
+			ps = con.prepareStatement("SELECT idabsence,nom_cours, quota_absence, dateabsence "
 					+ "FROM ABSENCE INNER JOIN etudiant ON (absence.idetudiant = etudiant.idetudiant) "
 					+ "INNER JOIN utilisateur ON (utilisateur.idutilisateur = etudiant.idutilisateur) "
 					+ "INNER JOIN cours ON (cours.idcours = absence.idcours) "
-					+ "WHERE is_justified = 1 AND utilisateur.identifiant = ?");
+					+ "WHERE is_justified = 1 AND utilisateur.identifiant = ?"
+					+ "ORDER BY dateabsence DESC");
 
 			ps.setString(1, identifiant);
 
@@ -107,9 +110,8 @@ public class EtudiantDAO extends ConnexionBDD {
 
 			while(rs.next()) {
 				String dateAbsence = rs.getDate("dateabsence").toString();
-				Absence absenceInjustifiee = new Absence(rs.getInt("quota_absence"), dateAbsence ,rs.getString("nom_cours") );
-
-				listeAbsencesJustifiees.add(absenceInjustifiee);
+				Absence absenceJustifiee = new Absence(rs.getInt("idabsence"), rs.getInt("quota_absence"), dateAbsence ,rs.getString("nom_cours") );
+				listeAbsencesJustifiees.add(absenceJustifiee);
 			}
 		}
 
@@ -139,4 +141,43 @@ public class EtudiantDAO extends ConnexionBDD {
 		}
 		return listeAbsencesJustifiees;
 	}
+
+	public int setAbsenceJustifiee(int absenceid){
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		int modifEffectuee = 0;
+
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+			ps = con.prepareStatement("UPDATE Absence SET is_justified = 1 WHERE idabsence = ?");
+
+			ps.setInt(1, absenceid);
+			
+			modifEffectuee = ps.executeUpdate();
+			
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		} finally {
+			// Fermeture ps
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (Exception ignore) {
+			}
+
+			// Fermeture con
+			try {
+				if (con != null)
+					con.close();
+			} catch (Exception ignore) {
+			}
+		}
+		return modifEffectuee;
+
+	}
+
 }
+
