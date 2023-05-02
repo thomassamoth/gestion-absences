@@ -11,16 +11,15 @@
      - Ajouter, supprimer, modifier les caractéristiques d’un cours  
 * [X] Créer un étudiant avec sa filière (Classique ou Apprentissage), son nom, son prénom et une adresse mail.
     - Ajouter, supprimer, modifier le profil d’un étudiant
-* [ ] Créer un enseignant.   
-Un enseignant est défini par son nom, son prénom et un numéro de téléphone.
-Un enseignant dispense un ou plusieurs cours.
+* [X] Créer un enseignant.   
+Un enseignant est défini par son nom, son prénom et un numéro de téléphone. Un enseignant dispense un ou plusieurs cours.  
     - Ajouter, supprimer, modifier le profil d’un enseignant
 * [X] Créer un groupe d’étudiant.  
 Un groupe est défini par son numéro et a une capacité maximale. 
 Un groupe suit des cours. Un cours pour un groupe est dispensé par un unique enseignant. 
 Un groupe suit un planning de cours hebdomadaire constant sur une session.  
 * [ ] Traiter un justificatif d’absence
-* [ ] Créer les types d’absence
+* [X] Créer les types d’absence
 * [ ] Définir les quotas d’absence pour les étudiants
 * [ ] Mettre à jour la liste des absences d’un étudiant: justifiée, non justifiée, quota ou hors quota (Cf.
 règlement d’assiduité).
@@ -40,7 +39,7 @@ l’étudiant (cf. le règlement d’assiduité)
 * [X] Authentification préalable  
 * [ ] Consulter son planning et la liste de ses cours
 * [X] Consulter la liste de ses absences
-* [ ] Déposer un justificatif pour une ou plusieurs absences (Cf. Règlement Assiduité)
+* [X] Déposer un justificatif pour une ou plusieurs absences  
 * [ ] Anticiper une ou plusieurs absences
 
 ## Lot 

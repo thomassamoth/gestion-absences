@@ -21,6 +21,7 @@
 
 # Perso
 .settings/
+.metadata/
 bin/
 img/
 .classpath
@@ -30,4 +31,4 @@ src/dao/connexionBDD.java
 *.pdf
 *.txt
 
-.metadata/
+fichiersAbsences/
