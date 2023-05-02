@@ -37,7 +37,7 @@ public class GestionEtudiantGUI {
 	 * @param user
 	 */
 	public GestionEtudiantGUI(Utilisateur user) {
-		intializeWindow();
+		initializeWindow();
 		initializeHeader(user);
 		initializeSidebar();
 		initializeContent(user);
@@ -265,21 +265,21 @@ public class GestionEtudiantGUI {
 		});
 	}
 
-		/**
-		 * Initialise la fenêtre
-		 */
-		private void intializeWindow(){
-			// Fenêtre
-			gestionEtudiantWindow = new JFrame();
-			gestionEtudiantWindow.setResizable(false);
-			gestionEtudiantWindow.getContentPane().setBackground(new Color(255, 255, 255));
-			gestionEtudiantWindow.setVisible(true);
-			gestionEtudiantWindow.setTitle("Gestion Etudiant");
-			gestionEtudiantWindow.setSize(853, 480);
-			gestionEtudiantWindow.setLocationRelativeTo(null); // Centre fenêtre dans l'écran
-			gestionEtudiantWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			gestionEtudiantWindow.getContentPane().setLayout(null);
-		}
+	/**
+	 * Initialise la fenêtre
+	 */
+	private void initializeWindow(){
+		// Fenêtre
+		gestionEtudiantWindow = new JFrame();
+		gestionEtudiantWindow.setResizable(false);
+		gestionEtudiantWindow.getContentPane().setBackground(new Color(255, 255, 255));
+		gestionEtudiantWindow.setVisible(true);
+		gestionEtudiantWindow.setTitle("Gestion Etudiant");
+		gestionEtudiantWindow.setSize(853, 480);
+		gestionEtudiantWindow.setLocationRelativeTo(null); // Centre fenêtre dans l'écran
+		gestionEtudiantWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		gestionEtudiantWindow.getContentPane().setLayout(null);
+	}
 
 	private void initializeHeader(Utilisateur util){
 		// Header
@@ -289,40 +289,40 @@ public class GestionEtudiantGUI {
 		header.setLayout(null);
 		gestionEtudiantWindow.getContentPane().add(header);
 
-			// Bouton Menu Déconnexion
-			JButton btnDeconnexion = new JButton("Se Déconnecter");
-			btnDeconnexion.setForeground(new Color(255, 255, 255));
-			btnDeconnexion.setFont(new Font("Arial", Font.PLAIN, 10));
-			btnDeconnexion.setBorderPainted(false);
-			btnDeconnexion.setFocusPainted(false); // Bordure text invisible
-			btnDeconnexion.setBackground(new Color(255, 25, 25));
-			btnDeconnexion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change curseur quand survole
-			btnDeconnexion.setBounds(712, 0, 117, 50);
-			header.add(btnDeconnexion);
+		// Bouton Menu Déconnexion
+		JButton btnDeconnexion = new JButton("Se Déconnecter");
+		btnDeconnexion.setForeground(new Color(255, 255, 255));
+		btnDeconnexion.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnDeconnexion.setBorderPainted(false);
+		btnDeconnexion.setFocusPainted(false); // Bordure text invisible
+		btnDeconnexion.setBackground(new Color(255, 25, 25));
+		btnDeconnexion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change curseur quand survole
+		btnDeconnexion.setBounds(712, 0, 117, 50);
+		header.add(btnDeconnexion);
 
-			// Action bouton déconnecter
-			btnDeconnexion.addActionListener(e -> {
-				gestionEtudiantWindow.dispose();
-				new GestionAbsence();
-			});
+		// Action bouton déconnecter
+		btnDeconnexion.addActionListener(e -> {
+			gestionEtudiantWindow.dispose();
+			new GestionAbsence();
+		});
 
-			// Affichage identifiant utilisateur
-			JLabel usernameLabel = new JLabel("");
-			usernameLabel.setForeground(new Color(255, 255, 255));
-			usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			usernameLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-			usernameLabel.setBounds(0, 0, 140, 50);
-			usernameLabel.setText(util.getIdentifiant());
-			header.add(usernameLabel);
+		// Affichage identifiant utilisateur
+		JLabel usernameLabel = new JLabel("");
+		usernameLabel.setForeground(new Color(255, 255, 255));
+		usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		usernameLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+		usernameLabel.setBounds(0, 0, 140, 50);
+		usernameLabel.setText(util.getIdentifiant());
+		header.add(usernameLabel);
 
 
-			// Titre Esigelec
-			JLabel ESIGELEC = new JLabel("ESIGELEC");
-			ESIGELEC.setHorizontalAlignment(SwingConstants.CENTER);
-			ESIGELEC.setBounds(138, 0, 701, 50);
-			header.add(ESIGELEC);
-			ESIGELEC.setForeground(new Color(255, 255, 255));
-			ESIGELEC.setFont(new Font("Arial", Font.PLAIN, 30));
+		// Titre Esigelec
+		JLabel ESIGELEC = new JLabel("ESIGELEC");
+		ESIGELEC.setHorizontalAlignment(SwingConstants.CENTER);
+		ESIGELEC.setBounds(138, 0, 701, 50);
+		header.add(ESIGELEC);
+		ESIGELEC.setForeground(new Color(255, 255, 255));
+		ESIGELEC.setFont(new Font("Arial", Font.PLAIN, 30));
 
 	}
 	/**
