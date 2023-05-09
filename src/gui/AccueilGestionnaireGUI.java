@@ -30,7 +30,7 @@ public class AccueilGestionnaireGUI {
 		intializeWindow();
 		initializeHeader(util);
 		initializeSidebar();
-		initializeContent(util, util.getUtilisateurPrenom());	
+		initializeContent(util);	
 	}
 
 	private void intializeWindow() {
@@ -98,7 +98,7 @@ public class AccueilGestionnaireGUI {
 		AccueilGestionnaireWindow.getContentPane().add(sidebar);
 	}
 
-	private void initializeContent(Utilisateur util, String prenom){
+	private void initializeContent(Utilisateur util){
 		JPanel content = new JPanel();
 		content.setBackground(new Color(255, 255, 255));
 		content.setBounds(140, 50, 699, 393);
@@ -110,7 +110,7 @@ public class AccueilGestionnaireGUI {
 		JLabel txtBonjour = new JLabel("");
 		txtBonjour.setFont(new Font("Arial", Font.BOLD, 14));
 		txtBonjour.setBounds(20, 20, 148, 30);
-		txtBonjour.setText("Bonjour " + prenom);
+		txtBonjour.setText("Bonjour " + util.getUtilisateurPrenom());
 		content.add(txtBonjour);
 
 		JButton btnAjouterEtudiant = new JButton("Ajouter Etudiant");
@@ -163,5 +163,19 @@ public class AccueilGestionnaireGUI {
 		btnAjouterEnseignant.setBackground(new Color(0, 105, 217));
 		btnAjouterEnseignant.setBounds(20, 124, 128, 21);
 		content.add(btnAjouterEnseignant);
+		
+		JButton btnModifierEtudiant = new JButton("Modifier ou supprimer étudiant");
+		btnModifierEtudiant.setForeground(Color.WHITE);
+		btnModifierEtudiant.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnModifierEtudiant.setBorderPainted(false);
+		btnModifierEtudiant.setBackground(new Color(255, 128, 0));
+		btnModifierEtudiant.setBounds(170, 124, 181, 21);
+		content.add(btnModifierEtudiant);
+		btnModifierEtudiant.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AccueilGestionnaireWindow.dispose();
+				new ChoisirEtudiant(txtMessages);
+			}
+		});
 	}
 }

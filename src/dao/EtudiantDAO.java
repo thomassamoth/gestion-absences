@@ -179,5 +179,53 @@ public class EtudiantDAO extends ConnexionBDD {
 
 	}
 
+	/**
+	 * Récupère l'id etudiant à partir de l'id utilisateur
+	 * @param idutilisateur l'id utilisateur
+	 * @return 
+	 */
+	public int getIDEtudiant(int idutilisateur){
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		int idEtudiant = 0;
+		// Connexion à la base de données
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+			ps = con.prepareStatement(
+					"SELECT idetudiant FROM Etudiant WHERE idutilisateur = ?");
+
+			ps.setInt(1, idutilisateur);
+
+			// Execute la requete
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				idEtudiant = rs.getInt("idetudiant");
+			} else
+				System.out.println("ID non trouvé");
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		} finally {
+			// Fermeture ps
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (Exception ignore) {
+			}
+
+			// Fermeture con
+			try {
+				if (con != null)
+					con.close();
+			} catch (Exception ignore) {
+			}
+		}
+		return idEtudiant;
+	}
+
 }
 

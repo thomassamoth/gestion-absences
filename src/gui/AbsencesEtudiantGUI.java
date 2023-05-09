@@ -69,11 +69,6 @@ public class AbsencesEtudiantGUI {
 		// Remplir la JComboBox avec les absences injustifiées de l'utilisateur
 		EtudiantDAO etuDAO = new EtudiantDAO();
 		ArrayList<Absence> listeAbsencesInjustifiees = etuDAO.getAbsencesInjustifiees(util.getIdentifiant());
-		// Debug
-		System.out.println("Liste : ");
-		for(int i=0; i<listeAbsencesInjustifiees.size();i++) {
-			System.out.println(listeAbsencesInjustifiees.get(i).getIDAbsence());
-		}
 		DefaultComboBoxModel<String> listeDeroulanteAbs = new DefaultComboBoxModel<>();
 		for (Absence absence : listeAbsencesInjustifiees) {
 			listeDeroulanteAbs.addElement(absence.displayToString());
@@ -105,18 +100,26 @@ public class AbsencesEtudiantGUI {
 		btnValider.setBackground(new Color(37, 167, 67));
 		btnValider.setEnabled(false);
 		content.add(btnValider);
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(20, 124, 85, 21);
+		content.add(btnNewButton);
+		// Action du JButton Annuler
+		btnNewButton.addActionListener(e -> {
+			new PlanifierAbsenceGUI(util);
+		});
 
 		// Action de la JComboBox dropAbsInj
 		dropAbsInj.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Choix dans la liste
 				int indexAbs = dropAbsInj.getSelectedIndex();
-				if (indexAbs != -1) {
-					Absence absenceChoisie = listeAbsencesInjustifiees.get(indexAbs);
-					int idabs = absenceChoisie.getIDAbsence();
-					choixFichier(btnValider, etuDAO, idabs, content);
-				} else {
-					JOptionPane.showMessageDialog(null, "Erreur", "Error", JOptionPane.ERROR_MESSAGE);
-				}
+				
+				// Récupère indice de la selection
+				Absence absenceChoisie = listeAbsencesInjustifiees.get(indexAbs);
+				
+				int idAbsence = absenceChoisie.getIDAbsence();
+				choixFichier(btnValider, etuDAO, idAbsence, content);
 			}
 		});
 	}
