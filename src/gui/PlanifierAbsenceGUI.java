@@ -7,20 +7,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import java.awt.Toolkit;
+
+import javax.swing.*;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import dao.EtudiantDAO;
+import dao.CoursDAO;
+
 import model.Absence;
 import model.Utilisateur;
 
+/**
+ * Classe pour planifier une absence
+ * @author Thomas Beyet
+ */
 public class PlanifierAbsenceGUI {
 	private JFrame AbsencesEtudiant;
+	private JTextField dateField;
+
+	java.sql.Date sqlDate;
+
+	/**
+	 * L'id de la matiere que l'on souhaite récuperer
+	 */
+	private int IDMatiere;
 
 	/**
 	 * Créer la fenêtre de gestion des absences pour l'étudiant
@@ -47,7 +61,7 @@ public class PlanifierAbsenceGUI {
 
 	/**
 	 * 
-	 * @param util
+	 * @param util l'utilisateur dont on veut afficher le username
 	 */
 	private void initializeHeader(Utilisateur util) {
 		// Header
@@ -91,6 +105,12 @@ public class PlanifierAbsenceGUI {
 		ESIGELEC.setFont(new Font("Arial", Font.PLAIN, 30));
 	}
 
+	/**
+	 * Initialise la barre de navigation
+	 * 
+	 * @param util utilisé le bouton annuler por afficher ses infos 
+	 * sur 
+	 */
 	private void initializeSidebar(Utilisateur util) {
 		// Menu latéral
 		JPanel sidebar = new JPanel();
@@ -121,12 +141,7 @@ public class PlanifierAbsenceGUI {
 		menuBtnPlanning.setBounds(0, 126, 140, 33);
 		sidebar.add(menuBtnPlanning);
 
-		// Change couleur fond si cliqué + action bouton
-		menuBtnPlanning.addActionListener(e -> {
-			menuBtnPlanning.setBackground(new Color(255, 31, 31));
-			menuBtnAbsences.setBackground(new Color(255, 102, 102));
-			// Action here
-		});
+		menuBtnAbsences.setBackground(new Color(255, 31, 31));
 
 		// Change couleur fond si cliqué + action bouton
 		menuBtnAbsences.addActionListener(e -> {
@@ -137,6 +152,11 @@ public class PlanifierAbsenceGUI {
 		});
 	}
 
+	/**
+	 * Initialise le contenu de la fenêtre
+	 * 
+	 * @param util l'utilisatur connecté
+	 */
 	private void initializeContent(Utilisateur util) {
 		JPanel content = new JPanel();
 		content.setVisible(true);
@@ -145,20 +165,38 @@ public class PlanifierAbsenceGUI {
 		content.setLayout(null);
 		AbsencesEtudiant.getContentPane().add(content);
 
-		// JLabel Bonjour
-		JLabel txtBonjour = new JLabel("Bonjour " + util.getUtilisateurPrenom());
-		txtBonjour.setBounds(20, 10, 148, 30);
-		txtBonjour.setFont(new Font("Arial", Font.BOLD, 14));
-		content.add(txtBonjour);
+		// JLabel Bonjour :)
+		JLabel txtPlanifierAbsence = new JLabel("Planifier Absence");
+		txtPlanifierAbsence.setBounds(20, 10, 148, 30);
+		txtPlanifierAbsence.setFont(new Font("Arial", Font.BOLD, 14));
+		content.add(txtPlanifierAbsence);
 
-		// Remplir la JComboBox avec les absences injustifiées de l'utilisateur
+		// Remplir la JComboBox avec les matieres
 		EtudiantDAO etuDAO = new EtudiantDAO();
-		System.out.println(etuDAO.getIDEtudiant(util.getUtilisateurID()));
-		ArrayList<Absence> listeAbsencesInjustifiees = etuDAO.getAbsencesInjustifiees(util.getIdentifiant());
-		DefaultComboBoxModel<String> listeDeroulanteAbs = new DefaultComboBoxModel<>();
-		for (Absence absence : listeAbsencesInjustifiees) {
-			listeDeroulanteAbs.addElement(absence.displayToString());
-		}
+		CoursDAO coursDAO = new CoursDAO();
+
+		// ArrayList des matières
+		ArrayList<String> listeDeroulanteMat = coursDAO.getListeMatieres();
+		listeDeroulanteMat.add(0, ""); // Ajoute un element vide pour que l'utilisateur doive choisir quelquechose
+
+		// Créer un tableau à partir de l'arrayList pour mettre entrée de la combobox
+		Object[] listeMatieresArray = listeDeroulanteMat.toArray();
+
+
+		JComboBox listeMat = new JComboBox(listeMatieresArray);
+		listeMat.setBounds(127, 83, 117, 21);
+		content.add(listeMat);
+		
+		// Action de la JComboBox listeMatiere
+		listeMat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// récupère ID de la matière
+				IDMatiere = listeMat.getSelectedIndex();
+				if (IDMatiere == 0) {
+					JOptionPane.showMessageDialog(null, "Impossible de choisir une matière vide.", "Warning",JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
 
 		// JButton Annuler
 		JButton btnAnnuler = new JButton("Annuler");
@@ -175,6 +213,19 @@ public class PlanifierAbsenceGUI {
 			new AccueilEtudiantGUI(util);
 		});
 
+		JLabel lblMatire = new JLabel("Matière");
+		lblMatire.setBounds(127, 61, 45, 13);
+		content.add(lblMatire);
+
+		dateField = new JTextField();
+		dateField.setBounds(21, 84, 96, 19);
+		content.add(dateField);
+		dateField.setColumns(10);
+
+		JLabel lblDate = new JLabel("Date");
+		lblDate.setBounds(20, 61, 45, 13);
+		content.add(lblDate);
+
 		// JButton Valider
 		JButton btnValider = new JButton("Valider");
 		btnValider.setBounds(105, 181, 85, 21);
@@ -182,7 +233,43 @@ public class PlanifierAbsenceGUI {
 		btnValider.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnValider.setBorderPainted(false);
 		btnValider.setBackground(new Color(37, 167, 67));
-		btnValider.setEnabled(false);
 		content.add(btnValider);
+
+		// Action bouton valider
+		btnValider.addActionListener(e -> {
+			int idEtudiant = etuDAO.getIDEtudiant(util.getUtilisateurID());
+			String dateChamp = null;
+			
+			// Champs remplis
+			if (dateField.getText().length() == 0 || listeMat.getSelectedIndex() == 0) {
+				// Joue audio erreur :)
+				Toolkit.getDefaultToolkit().beep();
+				JOptionPane.showMessageDialog(null, "Veuillez saisir une date ou choisir une matière.");
+			} else {
+				dateChamp = dateField.getText();
+
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Format de la date
+				try {
+					java.util.Date utilDate = dateFormat.parse(dateChamp); // on convertit la chaine en date
+					sqlDate = new java.sql.Date(utilDate.getTime());
+
+					/* Vérification si la date est dans le futur pour voir si c'est bien une absence planifiée */
+					if (sqlDate.toLocalDate().isAfter(LocalDate.now()) == false) {
+						JOptionPane.showMessageDialog(null, "Impossible de planifier une absence dans le passé !", "Warning",JOptionPane.WARNING_MESSAGE);
+					}
+					else {
+						// Execute requete
+						if (etuDAO.ajouterAbsencePlanifiee(idEtudiant, sqlDate, IDMatiere) == 1) {
+							System.out.println("Ajout effectué");
+						} else
+							System.out.println("Erreur ajout");
+					}
+				} catch (Exception ea) {
+					ea.printStackTrace();
+				}
+				
+			}
+
+		});
 	}
 }

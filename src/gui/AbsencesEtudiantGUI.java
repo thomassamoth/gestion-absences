@@ -100,12 +100,19 @@ public class AbsencesEtudiantGUI {
 		btnValider.setBackground(new Color(37, 167, 67));
 		btnValider.setEnabled(false);
 		content.add(btnValider);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(20, 124, 85, 21);
-		content.add(btnNewButton);
+
+		JButton btnPlanifier = new JButton("Planifier absence");
+		btnPlanifier.setBackground(new Color(0, 105, 217));
+		btnPlanifier.setBounds(10, 241, 134, 21);
+		content.add(btnPlanifier);
+
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(26, 145, 164, 21);
+		content.add(lblNewLabel);
+		lblNewLabel.setBackground(new Color(255, 255, 255));
+
 		// Action du JButton Annuler
-		btnNewButton.addActionListener(e -> {
+		btnPlanifier.addActionListener(e -> {
 			new PlanifierAbsenceGUI(util);
 		});
 
@@ -114,10 +121,10 @@ public class AbsencesEtudiantGUI {
 			public void actionPerformed(ActionEvent e) {
 				// Choix dans la liste
 				int indexAbs = dropAbsInj.getSelectedIndex();
-				
+
 				// Récupère indice de la selection
 				Absence absenceChoisie = listeAbsencesInjustifiees.get(indexAbs);
-				
+
 				int idAbsence = absenceChoisie.getIDAbsence();
 				choixFichier(btnValider, etuDAO, idAbsence, content);
 			}
@@ -162,18 +169,18 @@ public class AbsencesEtudiantGUI {
 				public void actionPerformed(ActionEvent e) {
 					// Copier le fichier sélectionné dans le dossier de destination
 					try {
-						Files.copy(fichierAbsence.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+						Files.copy(fichierAbsence.toPath(), destinationFile.toPath(),
+								StandardCopyOption.REPLACE_EXISTING);
 						System.out.println("Fichier enregistré dans le dossier !");
 
 						if (etuDAO.setAbsenceJustifiee(idabsence) == 1) {
-							System.out.println("Absence modifiee");
+							JOptionPane.showMessageDialog(null, "Statut de l'absence modifié.", "Information", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							System.out.println("Erreur lors de la modif statut absence");
 						}
 						content.repaint();
 					} catch (IOException ea) {
-						System.out.println(
-								"Erreur enregistrement du fichier !");
+						System.out.println("Erreur enregistrement du fichier !");
 						ea.printStackTrace();
 					}
 				}

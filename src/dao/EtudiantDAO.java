@@ -4,6 +4,8 @@ import java.sql.*;
 
 import java.util.*;
 
+import java.text.SimpleDateFormat;
+
 import model.*;
 
 /**
@@ -225,6 +227,56 @@ public class EtudiantDAO extends ConnexionBDD {
 			}
 		}
 		return idEtudiant;
+	}
+	
+	/**
+	 * Ajoute une absence planifiée
+	 * @param idEtudiant l'id de l'étudiant
+	 * @param date la date de l'absence
+	 * @param idmatiere l'id de la matiere
+	 * @return 1 si requete ok. 0 sinon
+	 */
+	public int ajouterAbsencePlanifiee(int idEtudiant, java.sql.Date date, int idmatiere) {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+
+	    int ajoutEffectue = 0;
+
+	    try {
+	        con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+	        // conversion de la chaîne de caractères en objet java.sql.Date
+	        //java.sql.Date sqlDate = java.sql.Date.valueOf(date);
+
+	        ps = con.prepareStatement(
+	                "INSERT INTO Absence(idetudiant, dateabsence, idcours, is_handled, is_justified) "
+	                + "VALUES(?, ?, ?, 0, 1)");
+
+	        ps.setInt(1, idEtudiant);
+	        ps.setDate(2, date);
+	        ps.setInt(3, idmatiere);
+
+	        ajoutEffectue = ps.executeUpdate();
+
+	    } catch (Exception ee) {
+	        ee.printStackTrace();
+	    } finally {
+	        // Fermeture ps
+	        try {
+	            if (ps != null) {
+	                ps.close();
+	            }
+	        } catch (Exception ignore) {
+	        }
+
+	        // Fermeture con
+	        try {
+	            if (con != null)
+	                con.close();
+	        } catch (Exception ignore) {
+	        }
+	    }
+	    return ajoutEffectue;
 	}
 
 }
