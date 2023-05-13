@@ -20,8 +20,8 @@ import model.*;
 /**
  * Classe pour afficher la fenêtre des absences d'un élève
  * 
- * @author Thomas
- * @version 1.0
+ * @author Thomas Beyet
+ * @version 1.1
  */
 public class AbsencesEtudiantGUI {
 
@@ -78,7 +78,7 @@ public class AbsencesEtudiantGUI {
 
 		// JButton Annuler
 		JButton btnAnnuler = new JButton("Annuler");
-		btnAnnuler.setBounds(10, 181, 85, 21);
+		btnAnnuler.setBounds(20, 281, 85, 21);
 		btnAnnuler.setForeground(Color.WHITE);
 		btnAnnuler.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnAnnuler.setBorderPainted(false);
@@ -93,7 +93,7 @@ public class AbsencesEtudiantGUI {
 
 		// JButton Valider
 		JButton btnValider = new JButton("Valider");
-		btnValider.setBounds(105, 181, 85, 21);
+		btnValider.setBounds(115, 281, 85, 21);
 		btnValider.setForeground(Color.WHITE);
 		btnValider.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnValider.setBorderPainted(false);
@@ -103,13 +103,25 @@ public class AbsencesEtudiantGUI {
 
 		JButton btnPlanifier = new JButton("Planifier absence");
 		btnPlanifier.setBackground(new Color(0, 105, 217));
-		btnPlanifier.setBounds(10, 241, 134, 21);
+		btnPlanifier.setBounds(20, 341, 134, 21);
 		content.add(btnPlanifier);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(26, 145, 164, 21);
+		lblNewLabel.setBounds(26, 250, 164, 21);
 		content.add(lblNewLabel);
 		lblNewLabel.setBackground(new Color(255, 255, 255));
+
+		JTextPane fieldCommentaire = new JTextPane();
+		fieldCommentaire.setBackground(new Color(243, 244, 246));
+		fieldCommentaire.setBounds(20, 142, 341, 119);
+		content.add(fieldCommentaire);
+
+		JLabel lblCommentaire = new JLabel("Commentaire");
+		lblCommentaire.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCommentaire.setFont(new Font("Arial", Font.ITALIC, 14));
+		lblCommentaire.setBounds(20, 114, 217, 30);
+		content.add(lblCommentaire);
+
 
 		// Action du JButton Annuler
 		btnPlanifier.addActionListener(e -> {
@@ -125,20 +137,21 @@ public class AbsencesEtudiantGUI {
 				// Récupère indice de la selection
 				Absence absenceChoisie = listeAbsencesInjustifiees.get(indexAbs);
 
+				// Récupère ID de l'absence
 				int idAbsence = absenceChoisie.getIDAbsence();
-				choixFichier(btnValider, etuDAO, idAbsence, content);
+				choixFichier(btnValider, etuDAO, idAbsence, fieldCommentaire);
 			}
 		});
 	}
 
 	/**
 	 * 
-	 * @param btnValider
-	 * @param etuDAO
-	 * @param idabsence
-	 * @param AbsencesEtudiant
+	 * @param btnValider Permet de changer l'état du bouton valider
+	 * @param etuDAO etudiantDAO pour avoir les fonctions associées
+	 * @param fieldCommentaire le champ texte dont je veux récuperer le contenu
+	 * @param idabsence l'identifiant de l'absence
 	 */
-	private void choixFichier(JButton btnValider, EtudiantDAO etuDAO, int idabsence, JPanel content) {
+	private void choixFichier(JButton btnValider, EtudiantDAO etuDAO, int idabsence, JTextPane fieldCommentaire) {
 		JFileChooser fileChooser = new JFileChooser();
 
 		// Fichiers pdf seulement affichés
@@ -155,8 +168,9 @@ public class AbsencesEtudiantGUI {
 
 			// Récupérer le fichier sélectionné
 			File fichierAbsence = fileChooser.getSelectedFile();
-			// Créer nouveau fichier dans dossier de dest.
-			File destinationFile = new File(dossierDest, fichierAbsence.getName());
+
+			// Créer nouveau fichier dans dossier destination
+			File destinationFichier = new File(dossierDest, fichierAbsence.getName());
 
 			try {
 				dossierDest = new File("fichiersAbsences").getCanonicalPath();
@@ -168,20 +182,29 @@ public class AbsencesEtudiantGUI {
 			btnValider.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// Copier le fichier sélectionné dans le dossier de destination
+					String comment = fieldCommentaire.getText();
+					if(comment.length() != 0) {
+						System.out.println(comment);
+						if(etuDAO.ajouterCommentaireAbsence(idabsence, comment) == 1) {
+							System.out.println("OK pour comment");
+						}
+					}
 					try {
-						Files.copy(fichierAbsence.toPath(), destinationFile.toPath(),
+						Files.copy(fichierAbsence.toPath(), destinationFichier.toPath(),
 								StandardCopyOption.REPLACE_EXISTING);
 						System.out.println("Fichier enregistré dans le dossier !");
-
+						
+						// Change statut absence
 						if (etuDAO.setAbsenceJustifiee(idabsence) == 1) {
-							JOptionPane.showMessageDialog(null, "Statut de l'absence modifié.", "Information", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Statut de l'absence modifié.", "Information",
+									JOptionPane.INFORMATION_MESSAGE);
 						} else {
-							System.out.println("Erreur lors de la modif statut absence");
+							JOptionPane.showMessageDialog(null, "Erreur lors de la modification du statut de l'absence", "Information",
+									JOptionPane.ERROR_MESSAGE);
 						}
-						content.repaint();
-					} catch (IOException ea) {
-						System.out.println("Erreur enregistrement du fichier !");
-						ea.printStackTrace();
+					} catch (IOException ef) {
+						System.out.println("Erreur lors de l'enregistrement du fichier !");
+						ef.printStackTrace();
 					}
 				}
 			});

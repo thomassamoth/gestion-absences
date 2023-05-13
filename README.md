@@ -40,7 +40,7 @@ l’étudiant (cf. le règlement d’assiduité)
 * [ ] Consulter son planning et la liste de ses cours
 * [X] Consulter la liste de ses absences
 * [X] Déposer un justificatif pour une ou plusieurs absences  
-* [ ] Anticiper une ou plusieurs absences
+* [X] Anticiper une ou plusieurs absences
 
 ## Lot 
 
