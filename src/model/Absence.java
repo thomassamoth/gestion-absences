@@ -4,9 +4,20 @@ package model;
 
 /**
  * Classe absence
- * @author Thomas
+ * @author Thomas Beyet
+ * @author Walid Ben Attia
  *
  */
+
+/*protected String nomEtudiant;
+protected String prenomEtudiant;
+protected String date;
+protected String nomCours;
+protected int duree;
+ */
+
+
+
 public class Absence {
 	private int idabsence;
 	private String nomEtudiant;
@@ -14,24 +25,26 @@ public class Absence {
 	private String date;
 	private String nomCours;
 	private int duree;
+	protected int justified;
+	protected int handled;
 
 	/**
 	 * Constructeur pour les absences non traitées
-	 * @param idabsence
 	 * @param nomEtudiant
 	 * @param prenomEtudiant
 	 * @param date
 	 * @param nomCours
 	 */
-	public Absence(int idabsence, String nomEtudiant, String prenomEtudiant, String date, String nomCours) {
-		this.idabsence = idabsence;
+	public Absence(String nomEtudiant, String prenomEtudiant, String date, String nomCours , int justified , int handled) {
+		//this.absenceID = absenceID;
 		this.nomEtudiant = nomEtudiant;
 		this.prenomEtudiant = prenomEtudiant;
 		this.date = date;
 		this.nomCours = nomCours;
+		this.justified = justified;
+		this.handled = handled;
 	}
-	
-	
+
 	/**
 	 * Constructeur pour les absences, côté élèves
 	 * @param idabsence
@@ -54,6 +67,15 @@ public class Absence {
 		return idabsence;
 	}
 
+	public int  getIsHandled()
+	{
+		return handled;
+	}
+	public int getIsJustified()
+	{
+		return justified;
+	}
+	
 	public void setNomEtudiant(String nomEtudiant) {
 		this.nomEtudiant = nomEtudiant;
 	}
@@ -89,7 +111,7 @@ public class Absence {
 	public void setDuree(int duree) {
 		this.duree = duree;
 	}
-	
+
 	/**
 	 * Affiche l'absence sous forme de chaine de caractères
 	 * @return les éléments de l'absence comme chaine

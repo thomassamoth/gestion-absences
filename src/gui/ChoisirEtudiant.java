@@ -5,22 +5,24 @@ import javax.swing.*;
 
 //Packages
 import dao.*;
-//import model.*;
+import model.*;
+
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
 public class ChoisirEtudiant {
 	private JFrame choisirEtudiant;
-	private JTextField fieldNumero;
-	private JTextField fieldCapacite;
+	private JTextField fieldPrenom;
+	private JTextField fieldNom;
 
 
-	public ChoisirEtudiant(JLabel txtMessages) {
-		initialize(txtMessages);
+	public ChoisirEtudiant(JLabel txtMessages, Utilisateur user) {
+		initialize(txtMessages, user);
 	}
 
-	private void initialize(JLabel txtMessages) {
+	private void initialize(JLabel txtMessages, Utilisateur user) {
 		// Fenêtre
 		choisirEtudiant = new JFrame();
 		choisirEtudiant.setResizable(false);
@@ -42,24 +44,25 @@ public class ChoisirEtudiant {
 		txtNumeroGroupe.setBounds(10, 35, 91, 13);
 		choisirEtudiant.getContentPane().add(txtNumeroGroupe);
 		
-		fieldNumero = new JTextField();
-		fieldNumero.setBounds(10, 57, 74, 19);
-		choisirEtudiant.getContentPane().add(fieldNumero);
-		fieldNumero.setColumns(10);
+		fieldPrenom = new JTextField();
+		fieldPrenom.setBounds(10, 57, 74, 19);
+		choisirEtudiant.getContentPane().add(fieldPrenom);
+		fieldPrenom.setColumns(10);
 		
 		JLabel lblCapcitMaximale = new JLabel("Nom");
 		lblCapcitMaximale.setBounds(158, 35, 103, 13);
 		choisirEtudiant.getContentPane().add(lblCapcitMaximale);
 		
-		fieldCapacite = new JTextField();
-		fieldCapacite.setColumns(10);
-		fieldCapacite.setBounds(158, 57, 74, 19);
-		choisirEtudiant.getContentPane().add(fieldCapacite);
+		fieldNom = new JTextField();
+		fieldNom.setColumns(10);
+		fieldNom.setBounds(158, 57, 74, 19);
+		choisirEtudiant.getContentPane().add(fieldNom);
 		
-		JButton btnOK = new JButton("Modifier");
-		btnOK.setBounds(158, 86, 103, 21);
-		btnOK.setBackground(new Color(37, 167, 67));
-		choisirEtudiant.getContentPane().add(btnOK);
+		JButton btnModifier = new JButton("Modifier");
+		btnModifier.setBounds(158, 86, 103, 21);
+		btnModifier.setBackground(new Color(37, 167, 67));
+		choisirEtudiant.getContentPane().add(btnModifier);
+		
 		
 		JLabel txtErreur = new JLabel("");
 		txtErreur.setBackground(new Color(255, 255, 255));
@@ -68,23 +71,19 @@ public class ChoisirEtudiant {
 		txtErreur.setOpaque(true);
 		choisirEtudiant.getContentPane().add(txtErreur);
 		
-		JButton btnSupprimer = new JButton("Supprimer");
-		btnSupprimer.setBackground(new Color(37, 167, 67));
-		btnSupprimer.setBounds(10, 86, 91, 21);
-		choisirEtudiant.getContentPane().add(btnSupprimer);
-		btnOK.addActionListener(new ActionListener() {
+
+		btnModifier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GestionnaireDAO gestio = new GestionnaireDAO();
-				if(gestio.ajouterGroupe(Integer.valueOf(fieldNumero.getText()), Integer.valueOf(fieldCapacite.getText())) == 1) {
-					choisirEtudiant.dispose();
-					txtMessages.setText("Le groupe a bien été ajouté");
-					txtMessages.setBackground(new Color(217, 237, 218));
+				if(fieldNom.getText().length() <= 0 || fieldNom.getText().length() <= 0) {
+					JOptionPane.showMessageDialog(null, "Veuillez compléter le/les champ(s) manquants. ", "Warning",
+							JOptionPane.WARNING_MESSAGE);
 				}
 				else {
-					txtErreur.setText("Erreur lors de l'ajout d'un groupe");
-					txtErreur.setBackground(new Color(248, 215,218));
+					choisirEtudiant.dispose();
+					new ModifierEtudiantGUI(user, fieldNom.getText(), fieldNom.getText());
 				}
-			}
+				
+				}
 		});
 	}
 }

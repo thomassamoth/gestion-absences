@@ -1,15 +1,18 @@
 package gui;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import java.awt.Toolkit;
-
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+//Imports File Chooser
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -23,18 +26,19 @@ import model.Utilisateur;
 
 /**
  * Classe pour planifier une absence
+ * 
  * @author Thomas Beyet
  */
 public class PlanifierAbsenceGUI {
 	private JFrame AbsencesEtudiant;
 	private JTextField dateField;
-
+	//private boolean ajoutJustificatif = false;
 	java.sql.Date sqlDate;
 
 	/**
 	 * L'id de la matiere que l'on souhaite récuperer
 	 */
-	private int IDMatiere;
+	private int idMatiere;
 
 	/**
 	 * Créer la fenêtre de gestion des absences pour l'étudiant
@@ -52,7 +56,7 @@ public class PlanifierAbsenceGUI {
 		AbsencesEtudiant.setResizable(false);
 		AbsencesEtudiant.getContentPane().setBackground(new Color(255, 255, 255));
 		AbsencesEtudiant.setVisible(true);
-		AbsencesEtudiant.setTitle("Justification Absences");
+		AbsencesEtudiant.setTitle("Planification Absences");
 		AbsencesEtudiant.setSize(853, 480);
 		AbsencesEtudiant.setLocationRelativeTo(null); // Centre fenêtre dans l'écran
 		AbsencesEtudiant.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -108,8 +112,7 @@ public class PlanifierAbsenceGUI {
 	/**
 	 * Initialise la barre de navigation
 	 * 
-	 * @param util utilisé le bouton annuler por afficher ses infos 
-	 * sur 
+	 * @param util utilisé le bouton annuler por afficher ses infos sur
 	 */
 	private void initializeSidebar(Utilisateur util) {
 		// Menu latéral
@@ -142,6 +145,7 @@ public class PlanifierAbsenceGUI {
 		sidebar.add(menuBtnPlanning);
 
 		menuBtnAbsences.setBackground(new Color(255, 31, 31));
+		menuBtnAbsences.setBackground(new Color(255, 31, 31));
 
 		// Change couleur fond si cliqué + action bouton
 		menuBtnAbsences.addActionListener(e -> {
@@ -155,9 +159,13 @@ public class PlanifierAbsenceGUI {
 	/**
 	 * Initialise le contenu de la fenêtre
 	 * 
-	 * @param util l'utilisatur connecté
+	 * @param util l'utilisateur connecté
 	 */
+	@SuppressWarnings("rawtypes")
 	private void initializeContent(Utilisateur util) {
+		File fichierAbsence = null;
+		File destinationFichier = null;
+
 		JPanel content = new JPanel();
 		content.setVisible(true);
 		content.setBackground(new Color(255, 255, 255));
@@ -182,18 +190,18 @@ public class PlanifierAbsenceGUI {
 		// Créer un tableau à partir de l'arrayList pour mettre entrée de la combobox
 		Object[] listeMatieresArray = listeDeroulanteMat.toArray();
 
-
 		JComboBox listeMat = new JComboBox(listeMatieresArray);
 		listeMat.setBounds(127, 83, 117, 21);
 		content.add(listeMat);
-		
+
 		// Action de la JComboBox listeMatiere
 		listeMat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// récupère ID de la matière
-				IDMatiere = listeMat.getSelectedIndex();
-				if (IDMatiere == 0) {
-					JOptionPane.showMessageDialog(null, "Impossible de choisir une matière vide.", "Warning",JOptionPane.WARNING_MESSAGE);
+				idMatiere = listeMat.getSelectedIndex();
+				if (idMatiere == 0) {
+					JOptionPane.showMessageDialog(null, "Impossible de choisir une matière vide.", "Warning",
+							JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -207,15 +215,15 @@ public class PlanifierAbsenceGUI {
 		btnAnnuler.setBackground(new Color(218, 54, 72));
 		content.add(btnAnnuler);
 
-		// Action du JButton Annuler
+		// Action du bouton Annuler
 		btnAnnuler.addActionListener(e -> {
 			AbsencesEtudiant.dispose();
 			new AccueilEtudiantGUI(util);
 		});
 
-		JLabel lblMatire = new JLabel("Matière");
-		lblMatire.setBounds(127, 61, 45, 13);
-		content.add(lblMatire);
+		JLabel lblMatiere = new JLabel("Matière");
+		lblMatiere.setBounds(127, 61, 45, 13);
+		content.add(lblMatiere);
 
 		dateField = new JTextField();
 		dateField.setBounds(21, 84, 96, 19);
@@ -235,41 +243,106 @@ public class PlanifierAbsenceGUI {
 		btnValider.setBackground(new Color(37, 167, 67));
 		content.add(btnValider);
 
+		JButton btnAjoutJustif = new JButton("Ajouter justificatif");
+		btnAjoutJustif.setBounds(20, 132, 134, 21);
+		content.add(btnAjoutJustif);
+
+		// Action bouton ajouter justif
+		btnAjoutJustif.addActionListener(e -> {
+			choixFichier(btnAjoutJustif);
+		});
+
 		// Action bouton valider
 		btnValider.addActionListener(e -> {
 			int idEtudiant = etuDAO.getIDEtudiant(util.getUtilisateurID());
 			String dateChamp = null;
-			
-			// Champs remplis
+
+			// Champs pas remplis correctement
 			if (dateField.getText().length() == 0 || listeMat.getSelectedIndex() == 0) {
 				// Joue audio erreur :)
 				Toolkit.getDefaultToolkit().beep();
 				JOptionPane.showMessageDialog(null, "Veuillez saisir une date ou choisir une matière.");
-			} else {
-				dateChamp = dateField.getText();
+			}
 
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Format de la date
-				try {
-					java.util.Date utilDate = dateFormat.parse(dateChamp); // on convertit la chaine en date
-					sqlDate = new java.sql.Date(utilDate.getTime());
+			dateChamp = dateField.getText();
 
-					/* Vérification si la date est dans le futur pour voir si c'est bien une absence planifiée */
-					if (sqlDate.toLocalDate().isAfter(LocalDate.now()) == false) {
-						JOptionPane.showMessageDialog(null, "Impossible de planifier une absence dans le passé !", "Warning",JOptionPane.WARNING_MESSAGE);
-					}
-					else {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Format de la date
+			try {
+				java.util.Date utilDate = dateFormat.parse(dateChamp); // on convertit la chaine en date
+				sqlDate = new java.sql.Date(utilDate.getTime());
+
+				/*
+				 * Vérification si la date est dans le futur pour voir si c'est bien une absence
+				 * planifiée
+				 */
+				if (sqlDate.toLocalDate().isAfter(LocalDate.now()) == false) {
+					JOptionPane.showMessageDialog(null, "Impossible de planifier une absence dans le passé !",
+							"Warning", JOptionPane.WARNING_MESSAGE);
+				} else {
+					try {
+						Files.copy(fichierAbsence.toPath(), destinationFichier.toPath(),
+								StandardCopyOption.REPLACE_EXISTING);
+						System.out.println("Fichier enregistré dans le dossier !");
+
 						// Execute requete
-						if (etuDAO.ajouterAbsencePlanifiee(idEtudiant, sqlDate, IDMatiere) == 1) {
+						if (etuDAO.ajouterAbsencePlanifiee(idEtudiant, sqlDate, idMatiere) == 1) {
 							System.out.println("Ajout effectué");
 						} else
 							System.out.println("Erreur ajout");
+					} catch (IOException ef) {
+						System.out.println("Erreur lors de l'enregistrement du fichier !");
+						ef.printStackTrace();
 					}
-				} catch (Exception ea) {
-					ea.printStackTrace();
 				}
-				
+			} catch (Exception ea) {
+				ea.printStackTrace();
 			}
 
 		});
+	}
+
+	private File choixFichier(JButton btnAjoutJustif) {
+	    JFileChooser fileChooser = new JFileChooser();
+	    
+	    // Fichiers pdf seulement affichés
+	    fileChooser.setDialogTitle("Choisir un justificatif d'absence");
+	    fileChooser.setFileFilter(new FileNameExtensionFilter("Fichiers PDF", "pdf"));
+
+	    // Afficher explorateur fichiers et récupérer résultat
+	    int choixUser = fileChooser.showOpenDialog(null);
+
+	    if (choixUser == JFileChooser.APPROVE_OPTION) {
+	        btnAjoutJustif.setEnabled(true);
+	        btnAjoutJustif.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	        
+	        // Créer le dossier de destination s'il n'existe pas
+	        File dossierDest = new File("fichiersAbsences");
+	        if (!dossierDest.exists()) {
+	            dossierDest.mkdir();
+	        }
+
+	        // Récupérer le fichier sélectionné
+	        File fichierAbsence = fileChooser.getSelectedFile();
+	        File destinationFichier = new File(dossierDest, fichierAbsence.getName());
+
+	        // Actions bouton Valider
+	        btnAjoutJustif.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e) {
+	                // Copier le fichier sélectionné dans le dossier de destination
+	                try {
+	                    Files.copy(fichierAbsence.toPath(), destinationFichier.toPath(),
+	                            StandardCopyOption.REPLACE_EXISTING);
+	                    System.out.println("Fichier enregistré dans le dossier !");
+	                } catch (IOException ea) {
+	                    System.out.println("Erreur enregistrement du fichier !");
+	                    ea.printStackTrace();
+	                }
+	            }
+	        });
+	        return destinationFichier;
+	    }
+	    
+	    // Retourner null si aucun fichier n'a été sélectionné
+	    return null;
 	}
 }

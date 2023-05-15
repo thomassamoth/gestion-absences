@@ -3,7 +3,7 @@ package model;
 public class Utilisateur{
 	protected int utilisateurID;
 	protected String utilisateurPrenom;
-	//protected String utilisateurNom;
+	protected String utilisateurNom;
 	protected String identifiant;
 	protected String motDePasse;
 
@@ -63,6 +63,15 @@ public class Utilisateur{
 	public void setUtilisateurPrenom(String utilisateurPrenom) {
 		this.utilisateurPrenom = utilisateurPrenom;
 	}
+
+	public String getUtilisateurNom() {
+		return utilisateurNom;
+	}
+
+	public void setUtilisateurNom(String utilisateurNom) {
+		this.utilisateurNom = utilisateurNom;
+	}
+	
 	
 	
 	

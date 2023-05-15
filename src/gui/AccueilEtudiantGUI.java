@@ -60,7 +60,7 @@ public class AccueilEtudiantGUI {
 		AccueilEtudiant.setResizable(false);
 		AccueilEtudiant.getContentPane().setBackground(new Color(255, 255, 255));
 		AccueilEtudiant.setVisible(true);
-		AccueilEtudiant.setTitle("Gestion Etudiant");
+		AccueilEtudiant.setTitle("Accueil Etudiant");
 		AccueilEtudiant.setSize(853, 480);
 		AccueilEtudiant.setLocationRelativeTo(null); // Centre fenêtre dans l'écran
 		AccueilEtudiant.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -171,7 +171,7 @@ public class AccueilEtudiantGUI {
 		JLabel txtListeAbsence = new JLabel("Liste de vos absences injustifiées");
 		txtListeAbsence.setHorizontalAlignment(SwingConstants.LEFT);
 		txtListeAbsence.setFont(new Font("Arial", Font.ITALIC, 14));
-		txtListeAbsence.setBounds(160, 216, 217, 30);
+		txtListeAbsence.setBounds(160, 239, 217, 30);
 		AccueilEtudiant.getContentPane().add(txtListeAbsence);
 
 		DefaultTableModel model = new DefaultTableModel(new Object[][]{}, new Object[]{"Cours", "Durée", "Date"});
@@ -186,16 +186,17 @@ public class AccueilEtudiantGUI {
 
 		// Créer la table avec les données d'avant
 		JTable table = new JTable(model);
+		table.setEnabled(false);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		// Créer JScrollPane et ajouter la table dedans
 		JScrollPane ScrollAbsJustif = new JScrollPane(table);
-		ScrollAbsJustif.setBounds(160, 256, 653, 125);
+		ScrollAbsJustif.setBounds(159, 269, 653, 125);
 		AccueilEtudiant.getContentPane().add(ScrollAbsJustif);
 
 		JLabel txtAbsencesPage = new JLabel("Pour valider vos absences ou consulter leur statut, passer par le menu");
 		txtAbsencesPage.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtAbsencesPage.setBounds(160, 390, 464, 13);
+		txtAbsencesPage.setBounds(164, 404, 464, 13);
 		AccueilEtudiant.getContentPane().add(txtAbsencesPage);
 	}
 
@@ -228,11 +229,12 @@ public class AccueilEtudiantGUI {
 
 		// Créer table avec les données d'avant
 		JTable table = new JTable(model);
+		table.setEnabled(false);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		// Créer JScrollPane et ajouter la table dedans
 		JScrollPane ScrollAbsJustif = new JScrollPane(table);
-		ScrollAbsJustif.setBounds(159, 130, 653, 75);
+		ScrollAbsJustif.setBounds(159, 130, 653, 110);
 		AccueilEtudiant.getContentPane().add(ScrollAbsJustif);
 	}
 }

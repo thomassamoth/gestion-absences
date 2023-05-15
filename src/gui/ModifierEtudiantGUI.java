@@ -35,11 +35,11 @@ public class ModifierEtudiantGUI {
 	 * Constructeur pour la fenêtre de creation des étudiants
 	 * @param user
 	 */
-	public ModifierEtudiantGUI(Utilisateur user) {
+	public ModifierEtudiantGUI(Utilisateur user, String prenom, String nom) {
 		initializeWindow();
 		initializeHeader(user);
 		initializeSidebar();
-		initializeContent(user);
+		initializeContent(user, prenom, nom);
 	}
 
 	private void setFiliere(int numFiliere) {
@@ -51,7 +51,7 @@ public class ModifierEtudiantGUI {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void initializeContent(Utilisateur util){
+	private void initializeContent(Utilisateur util, String prenom, String nom){
 		JPanel content = new JPanel();
 		content.setVisible(true);
 		content.setBackground(new Color(255, 255, 255));
@@ -64,12 +64,12 @@ public class ModifierEtudiantGUI {
 		titreAjouterEtudiant.setBounds(236, 10, 211, 28);
 		content.add(titreAjouterEtudiant);
 
-		JLabel txtNom = new JLabel("Nom *");
+		JLabel txtNom = new JLabel("Nom de l'élève *");
 		txtNom.setFont(new Font("Arial", Font.BOLD, 10));
 		txtNom.setBounds(10, 60, 96, 13);
 		content.add(txtNom);
 
-		JLabel txtPrenom = new JLabel("Prénom *");
+		JLabel txtPrenom = new JLabel("Prénom de l'élève *");
 		txtPrenom.setFont(new Font("Arial", Font.BOLD, 10));
 		txtPrenom.setBounds(116, 60, 96, 13);
 		content.add(txtPrenom);
@@ -79,14 +79,14 @@ public class ModifierEtudiantGUI {
 		txtNomEtu.setBounds(10, 76, 96, 19);
 		txtNomEtu.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		content.add(txtNomEtu);
-		txtNomEtu.setText(user.getNomEtudiant);
+		txtNomEtu.setText(nom);
 		
 		JLabel txtPrenomEtu = new JLabel("");
 		txtPrenomEtu.setForeground(Color.BLACK);
 		txtPrenomEtu.setBorder(null);
 		txtPrenomEtu.setBounds(116, 76, 96, 19);
 		content.add(txtPrenomEtu);
-		txtPrenomEtu.setText(user.getPrenomEtudiant);
+		txtPrenomEtu.setText(prenom);
 		
 		JLabel txtFiliere = new JLabel("Filière");
 		txtFiliere.setBounds(10, 105, 84, 13);

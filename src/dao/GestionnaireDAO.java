@@ -118,8 +118,6 @@ public class GestionnaireDAO extends ConnexionBDD {
 		return idUtilisateur;
 	}
 
-
-	}
 	/**
 	 * Ajoute un etudiant dans la table
 	 * 
@@ -261,5 +259,83 @@ public class GestionnaireDAO extends ConnexionBDD {
 			}catch (Exception ignore) {}
 		}
 		return listeGroupes;
+	}
+	
+	public int ajouterProfesseur(int idutilisateur, int idprofesseur , String numerotel) {
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		int ajoutEffectue = 0;
+		// Connexion à la base de données
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+			ps = con.prepareStatement(
+					"INSERT INTO PROFESSEUR(idutilisateur, idprofesseur, numerotel) " + "VALUES (?, ?, ?)");
+
+			ps.setInt(1, idutilisateur);
+			ps.setInt(2, idprofesseur);
+			ps.setString(3, numerotel);
+			
+			
+
+			ajoutEffectue = ps.executeUpdate();
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		} finally {
+			// Fermeture ps
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (Exception ignore) {
+			}
+
+			// Fermeture con
+			try {
+				if (con != null)
+					con.close();
+			} catch (Exception ignore) {
+			}
+		}
+		return ajoutEffectue;
+	}
+	
+	public int supprimerUtilisateur(String identifiant, String prenom, String nom) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int returnValue = 0;
+		// connexion a la base de donnees
+		try {
+
+			// tentative de connexion
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+			
+			ps = con.prepareStatement("DELETE FROM UTILISATEUR WHERE IDUTILISATEUR = ?");
+			ps.setInt(1, getIDUtilisateur(identifiant, prenom, nom) );
+
+			// Execution de la requete
+			returnValue = ps.executeUpdate();
+		} catch (Exception e) {
+			if (e.getMessage().contains("ORA-02292"))
+				System.out.println("Eleve déjà supprimé ou inexistant");
+			else
+				e.printStackTrace();
+		} finally {
+			// fermeture du preparedStatement et de la connexion
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (Exception ignore) {
+			}
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception ignore) {
+			}
+		}
+		return returnValue;
 	}
 }

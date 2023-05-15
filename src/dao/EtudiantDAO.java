@@ -143,7 +143,12 @@ public class EtudiantDAO extends ConnexionBDD {
 		}
 		return listeAbsencesJustifiees;
 	}
-
+	
+	/**
+	 * Permet de mettre le statut 'is_justified' à 1.
+	 * @param absenceid l'ID de l'absence à justifier
+	 * @return 1 si requète ok. 0 sinon.
+	 */
 	public int setAbsenceJustifiee(int absenceid){
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -178,7 +183,6 @@ public class EtudiantDAO extends ConnexionBDD {
 			}
 		}
 		return modifEffectuee;
-
 	}
 
 	/**
@@ -279,5 +283,43 @@ public class EtudiantDAO extends ConnexionBDD {
 	    return ajoutEffectue;
 	}
 
+	
+	public int ajouterCommentaireAbsence(int idabsence, String commentaire) {
+		Connection con = null;
+	    PreparedStatement ps = null;
+
+	    int ajoutEffectue = 0;
+
+	    try {
+	        con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+	        ps = con.prepareStatement("UPDATE Absence "
+	        		+ "SET commentaire = ? where idabsence = ?");
+
+	        ps.setString(1, commentaire);
+	        ps.setInt(2, idabsence);
+
+	        ajoutEffectue = ps.executeUpdate();
+
+	    } catch (Exception ee) {
+	        ee.printStackTrace();
+	    } finally {
+	        // Fermeture ps
+	        try {
+	            if (ps != null) {
+	                ps.close();
+	            }
+	        } catch (Exception ignore) {
+	        }
+
+	        // Fermeture con
+	        try {
+	            if (con != null)
+	                con.close();
+	        } catch (Exception ignore) {
+	        }
+	    }
+	    return ajoutEffectue;
+	}
 }
 
