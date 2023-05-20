@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 import model.*;
 
-
 /**
- * Classe pour afficher la fenêtre de validation des absences
+ * Classe pour afficher la fen&ecirc;tre de validation des absences
+ * 
  * @author Thomas
  * @version 1.0
  */
@@ -26,7 +26,7 @@ public class ValidationAbsenceGUI {
 	private JFrame validationAbsences;
 
 	/**
-	 * Create the window with a user input
+	 * Creer la fenetre de validation des absences
 	 */
 	public ValidationAbsenceGUI(Utilisateur util) {
 		initialize(util);
@@ -44,7 +44,7 @@ public class ValidationAbsenceGUI {
 		header.setBackground(new Color(240, 240, 240));
 		header.setBounds(0, 0, 839, 50);
 		header.setLayout(null);
-		validationAbsences.getContentPane().add(header);		
+		validationAbsences.getContentPane().add(header);
 
 		// Titre header
 		JLabel titreValidationAbsences = new JLabel("VALIDATION ABSENCES");
@@ -80,8 +80,7 @@ public class ValidationAbsenceGUI {
 		menuBtnAbsences.setBounds(0, 83, 140, 33);
 		sidebar.add(menuBtnAbsences);
 
-
-		// Bouton Menu Planning 
+		// Bouton Menu Planning
 		JButton menuBtnPlanning = new JButton("Planning");
 		menuBtnPlanning.setForeground(new Color(255, 255, 255));
 		menuBtnPlanning.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -93,21 +92,17 @@ public class ValidationAbsenceGUI {
 		sidebar.add(menuBtnPlanning);
 
 		// Fonctions pour les boutons du menu
-		/*menuBtnAbsences.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				menuBtnAbsences.setBackground(new Color(255, 31, 31));
-				menuBtnPlanning.setBackground(new Color(255, 102, 102));
-			
-			}
-		});
-		
-		menuBtnPlanning.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				menuBtnPlanning.setBackground(new Color(255, 31, 31));
-				menuBtnAbsences.setBackground(new Color(255, 102, 102));
-			}
-		});*/
-
+		/*
+		 * menuBtnAbsences.addActionListener(new ActionListener() { public void
+		 * actionPerformed(ActionEvent e) { menuBtnAbsences.setBackground(new Color(255,
+		 * 31, 31)); menuBtnPlanning.setBackground(new Color(255, 102, 102));
+		 * 
+		 * } });
+		 * 
+		 * menuBtnPlanning.addActionListener(new ActionListener() { public void
+		 * actionPerformed(ActionEvent e) { menuBtnPlanning.setBackground(new Color(255,
+		 * 31, 31)); menuBtnAbsences.setBackground(new Color(255, 102, 102)); } });
+		 */
 
 		/* == Content == */
 		JLabel titreAbsenceNonTraitee = new JLabel("Liste des absence(s) non traitée(s)");
@@ -118,9 +113,8 @@ public class ValidationAbsenceGUI {
 		displayAbsencesNonTraitees();
 	}
 
-
 	/**
-	 * Créer la fenêtre de validation des absences.
+	 * Créer la fen&ecirc;tre de validation des absences.
 	 */
 	public void creerFenetreValidationAbsences() {
 		// Fenêtre
@@ -130,7 +124,7 @@ public class ValidationAbsenceGUI {
 		validationAbsences.setResizable(false);
 		validationAbsences.setSize(853, 480);
 
-		//Centre fenêtre dans l'écran
+		// Centre fenêtre dans l'écran
 		validationAbsences.setLocationRelativeTo(null);
 		validationAbsences.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -139,95 +133,89 @@ public class ValidationAbsenceGUI {
 		validationAbsences.getContentPane().setLayout(null);
 	}
 
-
 	public class CheckBoxCellRenderer extends JCheckBox implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
-		public CheckBoxCellRenderer() {
-	        super();
-	    }
 
-	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-	        this.setSelected((Boolean) value);
-	        return this;
-	    }
+		public CheckBoxCellRenderer() {
+			super();
+		}
+
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			this.setSelected((Boolean) value);
+			return this;
+		}
 	}
 
 	public class CheckBoxCellEditor extends AbstractCellEditor implements TableCellEditor {
 		private static final long serialVersionUID = 1L;
 		private JCheckBox checkBox;
 
-	    public CheckBoxCellEditor() {
-	        super();
-	        checkBox = new JCheckBox();
-	    }
+		public CheckBoxCellEditor() {
+			super();
+			checkBox = new JCheckBox();
+		}
 
-	    public Object getCellEditorValue() {
-	        return checkBox.isSelected();
-	    }
+		public Object getCellEditorValue() {
+			return checkBox.isSelected();
+		}
 
-	    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-	        checkBox.setSelected((Boolean) value);
-	        return checkBox;
-	    }
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+			checkBox.setSelected((Boolean) value);
+			return checkBox;
+		}
 	}
 
-	
-	
-	
 	/**
 	 * Affiche la liste des absences non traitées dans un tableau
 	 */
-	
+
 	public void displayAbsencesNonTraitees() {
 		AbsenceDAO absDAO = new AbsenceDAO();
-		
+
 		ArrayList<Absence> listeAbsencesNT = absDAO.getAbsencesNonTraitees();
 
-		DefaultTableModel model = new DefaultTableModel(new Object[][]{}, new Object[]{"Nom", "Prénom", "Matière", "Date","justifié","selectionner"});
+		DefaultTableModel model = new DefaultTableModel(new Object[][] {},
+				new Object[] { "Nom", "Prénom", "Matière", "Date", "justifié", "selectionner" });
 
 		for (int i = 0; i < listeAbsencesNT.size(); i++) {
-		    Object[] row = new Object[]{
-		    		listeAbsencesNT.get(i).getNomEtudiant(), 
-		    		listeAbsencesNT.get(i).getPrenomEtudiant(), 
-		    		listeAbsencesNT.get(i).getNomCours(), 
-		    		listeAbsencesNT.get(i).getDate(),
-		    		listeAbsencesNT.get(i).getIsJustified(),
-		    		false};
-		    if ((listeAbsencesNT.get(i).getIsJustified() == 1) && (listeAbsencesNT.get(i).getIsHandled() == 0))
-		    {
-		        model.addRow(row);
-		    }
-		   
+			Object[] row = new Object[] { listeAbsencesNT.get(i).getNomEtudiant(),
+					listeAbsencesNT.get(i).getPrenomEtudiant(), listeAbsencesNT.get(i).getNomCours(),
+					listeAbsencesNT.get(i).getDate(), listeAbsencesNT.get(i).getIsJustified(), false };
+			if ((listeAbsencesNT.get(i).getIsJustified() == 1) && (listeAbsencesNT.get(i).getIsHandled() == 0)) {
+				model.addRow(row);
+			}
+
 		}
 
 		// Créer la table avec le modèle de table précédemment créé
-	    JTable table = new JTable(model);
-	    CheckBoxCellRenderer checkBoxRenderer = new CheckBoxCellRenderer();
-	    CheckBoxCellEditor checkBoxEditor = new CheckBoxCellEditor();
+		JTable table = new JTable(model);
+		CheckBoxCellRenderer checkBoxRenderer = new CheckBoxCellRenderer();
+		CheckBoxCellEditor checkBoxEditor = new CheckBoxCellEditor();
 
-	    // set the renderer and editor for the checkbox column
-	    table.getColumnModel().getColumn(5).setCellRenderer(checkBoxRenderer);
-	    table.getColumnModel().getColumn(5).setCellEditor(checkBoxEditor);
+		// set the renderer and editor for the checkbox column
+		table.getColumnModel().getColumn(5).setCellRenderer(checkBoxRenderer);
+		table.getColumnModel().getColumn(5).setCellEditor(checkBoxEditor);
 
+		// Créer le JScrollPane et ajouter la table à l'intérieur
+		JScrollPane test = new JScrollPane(table);
+		test.setBounds(160, 98, 653, 296);
+		validationAbsences.getContentPane().add(test);
 
-	    // Créer le JScrollPane et ajouter la table à l'intérieur
-	    JScrollPane test = new JScrollPane(table);
-	    test.setBounds(160, 98, 653, 296);
-	    validationAbsences.getContentPane().add(test);
-	    
-	    JButton btnValider = new JButton("valider");
-	    btnValider.setBounds(712, 412, 117, 21);
-	    validationAbsences.getContentPane().add(btnValider);
-	    
-	    btnValider.addActionListener(e -> {
-			 for (int i =0; i < table.getRowCount(); i++) {
-			   //  System.out.println("row "+i+ " coché "+ table.getValueAt(i, 5));		       
-			     /*// if (isChecked) {
-			        if ((boolean) table.getValueAt(i,5)==true) {
-			            // Do something if the checkbox is checked
-			            System.out.println("Checkbox is checked for row " + (i+1));
-			        }*/
-			}	   
-	    });
+		JButton btnValider = new JButton("valider");
+		btnValider.setBounds(712, 412, 117, 21);
+		validationAbsences.getContentPane().add(btnValider);
+
+		btnValider.addActionListener(e -> {
+			for (int i = 0; i < table.getRowCount(); i++) {
+				// System.out.println("row "+i+ " coché "+ table.getValueAt(i, 5));
+				/*
+				 * // if (isChecked) { if ((boolean) table.getValueAt(i,5)==true) { // Do
+				 * something if the checkbox is checked
+				 * System.out.println("Checkbox is checked for row " + (i+1)); }
+				 */
+			}
+		});
 	}
 }

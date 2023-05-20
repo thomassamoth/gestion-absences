@@ -6,8 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-//import model.Groupe;
-
+/**
+ * Classe pour les appels &agrave;la base de donn&eacute;es concernant le gestionnaire
+ * @author Thomas Beyet
+ * @author Walid Ben Attia
+ */
 public class GestionnaireDAO extends ConnexionBDD {
 
 	/**
@@ -20,18 +23,18 @@ public class GestionnaireDAO extends ConnexionBDD {
 	/**
 	 * Ajoute Utilisateur dans BDD
 	 * 
-	 * @param nom
-	 * @param prenom
-	 * @param identifiant
-	 * @param motdepasse
-	 * @return
+	 * @param nom le nom de l'utilisateur
+	 * @param prenom le pr&eacute;nom de l'utilisateur
+	 * @param identifiant l'identifiant de l'utilisateur
+	 * @param motdepasse le mot de passe de l'utilisateur
+	 * @return 1 si ajout correct
 	 */
 	public int ajouterUtilisateur(String nom, String prenom, String identifiant, String motdepasse) {
 		Connection con = null;
 		PreparedStatement ps = null;
 
 		int ajoutEffectue = 0;
-		// Connexion à la base de données
+		// Connexion &agrave;la base de données
 		try {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
@@ -66,9 +69,9 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Récupère l'ID d'un utilisateur
+	 * R&eacute;cup &egrave;re l'ID d'un utilisateur &agrave;partir de son pr&eacute;nom et nom
 	 * 
-	 * @param identifiant
+	 * @param identifiant 
 	 * @param prenom
 	 * @param nom
 	 * @return
@@ -79,7 +82,7 @@ public class GestionnaireDAO extends ConnexionBDD {
 		ResultSet rs = null;
 
 		int idUtilisateur = 0;
-		// Connexion à la base de données
+		// Connexion &agrave;la base de données
 		try {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
@@ -122,9 +125,9 @@ public class GestionnaireDAO extends ConnexionBDD {
 	 * Ajoute un etudiant dans la table
 	 * 
 	 * @param idutilisateur l'ID de l'utilisateur
-	 * @param adresseMail   l'adresse mail de l'étudiant
+	 * @param adresseMail   l'adresse mail de l'&eacute;tudiant
 	 * @param groupe        le groupe de l'etudiant
-	 * @param filiere       la filiere de l'étudiant. Si filiere = 1 ->
+	 * @param filiere       la filiere de l'&eacute;tudiant. Si filiere = 1 ->
 	 *                      Apprentissage. Si filiere = 2 -> Classique
 	 * @return ajoutEffectue
 	 */
@@ -264,6 +267,13 @@ public class GestionnaireDAO extends ConnexionBDD {
 		return listeGroupes;
 	}
 
+	/**
+	 * Ajoute le professeur &agrave;la base de données
+	 * @param idutilisateur
+	 * @param idprofesseur
+	 * @param numerotel
+	 * @return
+	 */
 	public int ajouterProfesseur(int idutilisateur, int idprofesseur, String numerotel) {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -302,6 +312,13 @@ public class GestionnaireDAO extends ConnexionBDD {
 		return ajoutEffectue;
 	}
 
+	/**
+	 * Supprime un utilisateur de la base de données
+	 * @param identifiant
+	 * @param prenom
+	 * @param nom
+	 * @return
+	 */
 	public int supprimerUtilisateur(String identifiant, String prenom, String nom) {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -341,9 +358,12 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * 
-	 * @param absenceid
-	 * @return
+	 * Modifie les caracteristiques d'un &eacute;tudiant
+	 * @param idutilisateur l'id utilisateur de l'&eacute;l&egrave;ve
+	 * @param adresseMail l'adresse mail de l'&eacute;tudiant
+	 * @param groupe le groupe de l'&eacute;tudiant
+	 * @param filiere la filière de l'&eacute;tudiant
+	 * @return 1 si la modification a correctement &eacute;t&eacute; effectu&eacute;e
 	 */
 	public int modifierEtudiant(int idutilisateur, String adresseMail, int groupe, int filiere) {
 		Connection con = null;
@@ -386,8 +406,8 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Change le groupe d'un étudiant
-	 * @param idetudiant l'id de l'étudiant
+	 * Change le groupe d'un &eacute;tudiant
+	 * @param idetudiant l'id de l'&eacute;tudiant
 	 * @param numeroGroupe le nouveau numéro du groupe
 	 * @return 1 si requete ok
 	 */
@@ -430,8 +450,8 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 	
 	/**
-	 * Change la filière d'un étudiant
-	 * @param idetudiant l'id de l'étudiant
+	 * Change la filière d'un &eacute;tudiant
+	 * @param idetudiant l'id de l'&eacute;tudiant
 	 * @param numFiliere le nouveau numéro du groupe
 	 * @return 1 si requete ok
 	 */
@@ -474,9 +494,9 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 	
 	/**
-	 * Change la filière d'un étudiant
-	 * @param idetudiant l'id de l'étudiant
-	 * @param numFiliere le nouveau numéro du groupe
+	 * Change la filière d'un &eacute;tudiant
+	 * @param idetudiant l'id de l'&eacute;tudiant
+	 * @param mail le nouveau mail de l'etudiant
 	 * @return 1 si requete ok
 	 */
 	public int changerMailEtudiant(int idetudiant, String mail) {
@@ -518,9 +538,9 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Change le nom d'utilisateur d'un étudiant
-	 * @param idetudiant l'id de l'étudiant
-	 * @param numFiliere le nouveau username de l'étudiant
+	 * Change le nom d'utilisateur d'un &eacute;tudiant
+	 * @param idetudiant l'id de l'&eacute;tudiant
+	 * @param username le nouveau username de l'&eacute;tudiant
 	 * @return 1 si requete ok
 	 */
 	public int changerUsernameEtudiant(int idetudiant, String username) {
@@ -562,9 +582,9 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Change le mot de passe de l'étudiant
-	 * @param idetudiant
-	 * @param password
+	 * Change le mot de passe de l'&eacute;tudiant
+	 * @param idutilisateur l'id utilisateur
+	 * @param password le mot de passe
 	 * @return 1 si requete effectuée correctement
 	 */
 	public int changerPasswordEtudiant(int idutilisateur, String password) {

@@ -9,9 +9,9 @@ import dao.GestionnaireDAO;
 import model.*;
 
 /**
- * Classe pour créer la fenetre d'ajout de prof
+ * Classe de la fen&egrave;tre permettant de supprimer un utilisateur
  * 
- * @author walid
+ * @author Walid Ben Attia
  * @version 1.0
  */
 public class SupprimerUtilisateurGUI {
@@ -24,7 +24,7 @@ public class SupprimerUtilisateurGUI {
 	
 
 	/**
-	 * Constructeur pour la fenêtre de creation des professeurs
+	 * Constructeur pour la fen&ecirc;tre de creation des professeurs
 	 * @param user
 	 */
 	public SupprimerUtilisateurGUI(Utilisateur user) {
@@ -171,7 +171,7 @@ public class SupprimerUtilisateurGUI {
 	}
 
 		/**
-		 * Initialise la fenêtre
+		 * Initialise la fen&ecirc;tre
 		 */
 		private void intializeWindow(){
 			// Fenêtre

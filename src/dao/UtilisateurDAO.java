@@ -9,17 +9,19 @@ import model.*;
 @SuppressWarnings("unused")
 
 /**
- * Classe pour les appels à la BDD pour les utilisateurs
+ * Classe pour les appels &agrave;la BDD pour les utilisateurs
  * 
  * @author Thomas
  * @version 1.0
  */
 public class UtilisateurDAO extends ConnexionBDD {
 
+	/**
+	 * Constructeur pour utilisateurDAO
+	 */
 	public UtilisateurDAO() {
 		super();
 	}
-
 
 	/**
 	 * Recupère les informations de connexion de l'utilisateur
@@ -61,26 +63,30 @@ public class UtilisateurDAO extends ConnexionBDD {
 				if (rs != null) {
 					rs.close();
 				}
-			} catch (Exception ignore) {}
-			
+			} catch (Exception ignore) {
+			}
+
 			// Fermeture ps
 			try {
 				if (ps != null) {
 					ps.close();
 				}
-			} catch (Exception ignore) {}
-			
+			} catch (Exception ignore) {
+			}
+
 			// Fermeture con
 			try {
 				if (con != null)
 					con.close();
-			} catch (Exception ignore) {}
+			} catch (Exception ignore) {
+			}
 		}
 		return returnValue;
 	}
 
 	/**
-	 * Récupère le statut d'un utilisateur à partir de son identifiant.
+	 * Récupère le statut d'un utilisateur &agrave;partir de son identifiant.
+	 * 
 	 * @param identifiant
 	 * @return statutUtilisateur
 	 */
@@ -93,10 +99,9 @@ public class UtilisateurDAO extends ConnexionBDD {
 		try {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
-			ps = con.prepareStatement("SELECT count(idgestionnaire) " +
-					"FROM Gestionnaire " +
-					"INNER JOIN Utilisateur on (Utilisateur.idutilisateur = Gestionnaire.idutilisateur) " +
-					"where identifiant LIKE ?");
+			ps = con.prepareStatement("SELECT count(idgestionnaire) " + "FROM Gestionnaire "
+					+ "INNER JOIN Utilisateur on (Utilisateur.idutilisateur = Gestionnaire.idutilisateur) "
+					+ "where identifiant LIKE ?");
 
 			ps.setString(1, identifiant);
 
@@ -105,10 +110,9 @@ public class UtilisateurDAO extends ConnexionBDD {
 			if (rs.next() && rs.getInt(1) > 0) {
 				statutUtilisateur = 1;
 			} else {
-				ps = con.prepareStatement("SELECT count(idprofesseur) " +
-						"FROM Professeur " +
-						"INNER JOIN Utilisateur on (Utilisateur.idutilisateur = Professeur.idutilisateur) " +
-						"where identifiant LIKE ?");
+				ps = con.prepareStatement("SELECT count(idprofesseur) " + "FROM Professeur "
+						+ "INNER JOIN Utilisateur on (Utilisateur.idutilisateur = Professeur.idutilisateur) "
+						+ "where identifiant LIKE ?");
 
 				ps.setString(1, identifiant);
 
@@ -117,10 +121,9 @@ public class UtilisateurDAO extends ConnexionBDD {
 				if (rs.next() && rs.getInt(1) > 0) {
 					statutUtilisateur = 2;
 				} else {
-					ps = con.prepareStatement("SELECT count(idetudiant) " +
-							"FROM Etudiant " +
-							"INNER JOIN Utilisateur on (Utilisateur.idutilisateur = Etudiant.idutilisateur) " +
-							"where identifiant LIKE ?");
+					ps = con.prepareStatement("SELECT count(idetudiant) " + "FROM Etudiant "
+							+ "INNER JOIN Utilisateur on (Utilisateur.idutilisateur = Etudiant.idutilisateur) "
+							+ "where identifiant LIKE ?");
 
 					ps.setString(1, identifiant);
 
@@ -162,7 +165,8 @@ public class UtilisateurDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Récupère le prénom d'un utilisateur à partir de son identifiant.
+	 * Récupère le prénom d'un utilisateur &agrave;partir de son identifiant.
+	 * 
 	 * @param identifiant
 	 * @return prénom de l'utilisateur
 	 */

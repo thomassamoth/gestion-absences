@@ -17,7 +17,7 @@ import model.*;
 import javax.swing.border.LineBorder;
 
 /**
- * Classe pour afficher la fenêtre d'accueil pour les étudiants
+ * Classe pour afficher la fen&ecirc;tre d'accueil pour les &eacute;tudiants
  * 
  * @author Thomas Beyet
  * @version 1.0
@@ -34,12 +34,12 @@ public class ModifierEtudiantGUI {
 	private int numFiliere;
 
 	/**
-	 * Groupe de l'élève etudiant
+	 * Groupe de l'&eacute;l&egrave;ve etudiant
 	 */
 	private int numeroGroupe;
 
 	/**
-	 * Constructeur pour la fenêtre de modification des étudiants
+	 * Constructeur pour la fen&ecirc;tre de modification des &eacute;tudiants
 	 * @param user
 	 * @param prenom
 	 * @param nom
@@ -185,7 +185,7 @@ public class ModifierEtudiantGUI {
 		content.add(fieldPassword);
 
 		/**
-		 * Texte modifié si étudiant correctement ajouté
+		 * Texte modifié si &eacute;tudiant correctement ajouté
 		 */
 		JLabel txtNotif = new JLabel("");
 		txtNotif.setHorizontalAlignment(SwingConstants.CENTER);
@@ -300,8 +300,8 @@ public class ModifierEtudiantGUI {
 					txtNotif.setText("Modification(s) effectuée(s)");
 					txtNotif.setBackground(new Color(217, 237, 218));
 					
-					// Retire le texte après 2 secondes !
-					Timer timer = new Timer(2000, new ActionListener() {
+					// Retire le texte après 3 secondes !
+					Timer timer = new Timer(3000, new ActionListener() {
 				        public void actionPerformed(ActionEvent e) {
 				            txtNotif.setText("");
 				            txtNotif.setBackground(null);
@@ -319,7 +319,7 @@ public class ModifierEtudiantGUI {
 	}
 
 	/**
-	 * Initialise la fenêtre
+	 * Initialise la fen&ecirc;tre
 	 */
 	private void initializeWindow() {
 		// Fenêtre

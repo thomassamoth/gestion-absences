@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * Classe principale qui permet de lancer le programme
+ * <strong>Classe principale qui permet de lancer le programme</strong>
  * @author Thomas
  * @author Walid
  *
@@ -23,7 +23,8 @@ public class GestionAbsence {
 	private JPasswordField passwordField;
 
 	/**
-	 * Lance l'application.
+	 * Lance l'application - classe principale
+	 * @param args args
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -39,7 +40,7 @@ public class GestionAbsence {
 	}
 
 	/**
-	 * Créer l'application
+	 * Cr&eacute;er l'application
 	 */
 	public GestionAbsence() {
 		initialize();
@@ -53,7 +54,7 @@ public class GestionAbsence {
 		windowConnexion = new JFrame();
 		windowConnexion.setTitle("Connexion");
 		windowConnexion.setVisible(true);
-		windowConnexion.getContentPane().setBackground(new Color(255, 102, 102));
+		windowConnexion.getContentPane().setBackground(new Color(0, 0, 0));
 		windowConnexion.setBackground(new Color(0, 0, 0));
 		windowConnexion.setResizable(false);
 		windowConnexion.setSize(853, 480);

@@ -18,27 +18,30 @@ import dao.*;
 import model.*;
 
 /**
- * Classe pour afficher la fenêtre des absences d'un élève
+ * Classe pour afficher la fen&ecirc;tre des absences d'un &eacute;l&egrave;ve
  * 
  * @author Thomas Beyet
  * @version 1.1
  */
 public class AbsencesEtudiantGUI {
 
-	private JFrame AbsencesEtudiant;
+	private JFrame absencesEtudiant;
 
 	/**
-	 * Créer la fenêtre de gestion des absences pour l'étudiant
+	 * Créer la  fen &ecirc; tre  de gestion des absences pour l'&eacute;tudiant
+	 * 
+	 * @param util l'utilisateur dont on veut garder les infos
 	 */
 	public AbsencesEtudiantGUI(Utilisateur util) {
 		initializeWindow();
 		initializeHeader(util);
-		initializeSidebar(util);
+		initializeSidebar();
 		initializeContent(util);
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialise le contenu principal de la fen&ecirc;tre.
+	 * @param util l'utilisateur dont on veut avoir les infos
 	 */
 	private void initializeContent(Utilisateur util) {
 		JPanel content = new JPanel();
@@ -46,8 +49,9 @@ public class AbsencesEtudiantGUI {
 		content.setBackground(new Color(255, 255, 255));
 		content.setBounds(140, 50, 699, 393);
 		content.setLayout(null);
-		AbsencesEtudiant.getContentPane().add(content);
+		absencesEtudiant.getContentPane().add(content);
 
+		/** ===== TEXTES =====**/
 		// JLabel Bonjour
 		JLabel txtBonjour = new JLabel("Bonjour " + util.getUtilisateurPrenom());
 		txtBonjour.setBounds(20, 10, 148, 30);
@@ -60,6 +64,20 @@ public class AbsencesEtudiantGUI {
 		txtListeAbsence.setFont(new Font("Arial", Font.ITALIC, 14));
 		txtListeAbsence.setHorizontalAlignment(SwingConstants.LEFT);
 		content.add(txtListeAbsence);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(26, 250, 164, 21);
+		content.add(lblNewLabel);
+		lblNewLabel.setBackground(new Color(255, 255, 255));
+		
+		JLabel lblCommentaire = new JLabel("Commentaire falcutatif");
+		lblCommentaire.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCommentaire.setFont(new Font("Arial", Font.ITALIC, 14));
+		lblCommentaire.setBounds(20, 114, 217, 30);
+		content.add(lblCommentaire);
+		
+		
+		/** ==== ComboBoxs ====**/
 
 		// JComboBox des absences injustifiées
 		JComboBox<String> dropAbsInj = new JComboBox<>();
@@ -68,10 +86,15 @@ public class AbsencesEtudiantGUI {
 
 		// Remplir la JComboBox avec les absences injustifiées de l'utilisateur
 		EtudiantDAO etuDAO = new EtudiantDAO();
+		
 		ArrayList<Absence> listeAbsencesInjustifiees = etuDAO.getAbsencesInjustifiees(util.getIdentifiant());
+		
 		DefaultComboBoxModel<String> listeDeroulanteAbs = new DefaultComboBoxModel<>();
-		for (Absence absence : listeAbsencesInjustifiees) {
-			listeDeroulanteAbs.addElement(absence.displayToString());
+		
+		// Remplisage de l'arrayList
+		for (int i = 0; i < listeAbsencesInjustifiees.size(); i++) {
+		    Absence absence = listeAbsencesInjustifiees.get(i);
+		    listeDeroulanteAbs.addElement(absence.displayToString());
 		}
 
 		dropAbsInj.setModel(listeDeroulanteAbs);
@@ -87,7 +110,7 @@ public class AbsencesEtudiantGUI {
 
 		// Action du JButton Annuler
 		btnAnnuler.addActionListener(e -> {
-			AbsencesEtudiant.dispose();
+			absencesEtudiant.dispose();
 			new AccueilEtudiantGUI(util);
 		});
 
@@ -102,29 +125,20 @@ public class AbsencesEtudiantGUI {
 		content.add(btnValider);
 
 		JButton btnPlanifier = new JButton("Planifier absence");
+		btnPlanifier.setForeground(new Color(255, 255, 255));
 		btnPlanifier.setBackground(new Color(0, 105, 217));
 		btnPlanifier.setBounds(20, 341, 134, 21);
 		content.add(btnPlanifier);
 
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(26, 250, 164, 21);
-		content.add(lblNewLabel);
-		lblNewLabel.setBackground(new Color(255, 255, 255));
 
 		JTextPane fieldCommentaire = new JTextPane();
 		fieldCommentaire.setBackground(new Color(243, 244, 246));
 		fieldCommentaire.setBounds(20, 142, 341, 119);
 		content.add(fieldCommentaire);
 
-		JLabel lblCommentaire = new JLabel("Commentaire");
-		lblCommentaire.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCommentaire.setFont(new Font("Arial", Font.ITALIC, 14));
-		lblCommentaire.setBounds(20, 114, 217, 30);
-		content.add(lblCommentaire);
-
 		// Action du JButton Planifier
 		btnPlanifier.addActionListener(e -> {
-			AbsencesEtudiant.dispose();
+			absencesEtudiant.dispose();
 			new PlanifierAbsenceGUI(util);
 		});
 
@@ -139,19 +153,20 @@ public class AbsencesEtudiantGUI {
 
 				// Récupère ID de l'absence
 				int idAbsence = absenceChoisie.getIDAbsence();
-				choixFichier(btnValider, etuDAO, idAbsence, fieldCommentaire);
+				choixFichier(btnValider, etuDAO, idAbsence, fieldCommentaire, util);
 			}
 		});
 	}
 
 	/**
 	 * 
-	 * @param btnValider       Permet de changer l'état du bouton valider
+	 * @param btnValider       Changer l'état du bouton valider
 	 * @param etuDAO           etudiantDAO pour avoir les fonctions associées
 	 * @param fieldCommentaire le champ texte dont je veux récuperer le contenu
+	 * @param user 			   l'utilisateur dont on récupère les infos lors du rafraichissement de la page.
 	 * @param idabsence        l'identifiant de l'absence
 	 */
-	private void choixFichier(JButton btnValider, EtudiantDAO etuDAO, int idabsence, JTextPane fieldCommentaire) {
+	private void choixFichier(JButton btnValider, EtudiantDAO etuDAO, int idabsence, JTextPane fieldCommentaire, Utilisateur user) {
 		JFileChooser fileChooser = new JFileChooser();
 
 		// Fichiers PDF seulement affichés
@@ -163,19 +178,12 @@ public class AbsencesEtudiantGUI {
 
 		/* Si user clique sur le bouton Ouvrir */
 		if (choixUser == JFileChooser.APPROVE_OPTION) {
-		    String dossierDest = null;
-		    
 		    // Récupère fichier sélectionné
 		    File fichierAbsence = fileChooser.getSelectedFile();
-		    
-			// Chemin dossier pour les fichiers d'absences
-			// try & catch ajoutés par Eclipse
-		    try {
-		        dossierDest = new File("fichiersAbsences").getCanonicalPath();
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    }
-
+			
+			// Récupère l'adresse du dossier de destination
+			String dossierDest = getDossierDestination();
+		    		    
 		    if (dossierDest != null) {
 		        // Créer nouveau fichier dans dossier destination
 		        File destinationFichier = new File(dossierDest, fichierAbsence.getName());
@@ -185,23 +193,21 @@ public class AbsencesEtudiantGUI {
 		        btnValider.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		        btnValider.addActionListener(new ActionListener() {
 		            public void actionPerformed(ActionEvent e) {
-		                // Copier le fichier sélectionné dans le dossier de destination
 		                String comment = fieldCommentaire.getText();
 		                if (comment.length() != 0) {
-		                    System.out.println(comment);
 		                    if (etuDAO.ajouterCommentaireAbsence(idabsence, comment) == 1) {
-		                        System.out.println("OK pour comment");
+		                        return;
 		                    }
 		                }
 		                try {
-		                    Files.copy(fichierAbsence.toPath(), destinationFichier.toPath(),
-		                            StandardCopyOption.REPLACE_EXISTING);
-		                    System.out.println("Fichier enregistré dans le dossier !");
+		                    Files.copy(fichierAbsence.toPath(), destinationFichier.toPath(),StandardCopyOption.REPLACE_EXISTING);
 
 		                    // Change statut absence
 		                    if (etuDAO.setAbsenceJustifiee(idabsence) == 1) {
-		                        JOptionPane.showMessageDialog(null, "Statut de l'absence modifié.", "Information",
-		                                JOptionPane.INFORMATION_MESSAGE);
+		                        JOptionPane.showMessageDialog(null, "Statut de l'absence modifié.", "Information",JOptionPane.INFORMATION_MESSAGE);
+		                        absencesEtudiant.dispose();
+		                        new AbsencesEtudiantGUI(user);
+		                        
 		                    } else {
 		                        JOptionPane.showMessageDialog(null, "Erreur lors de la modification du statut de l'absence",
 		                                "Information", JOptionPane.ERROR_MESSAGE);
@@ -216,22 +222,40 @@ public class AbsencesEtudiantGUI {
 		}
 	}
 
-	public void initializeWindow() {
-		// Fenêtre
-		AbsencesEtudiant = new JFrame();
-		AbsencesEtudiant.setResizable(false);
-		AbsencesEtudiant.getContentPane().setBackground(new Color(255, 255, 255));
-		AbsencesEtudiant.setVisible(true);
-		AbsencesEtudiant.setTitle("Justification Absences");
-		AbsencesEtudiant.setSize(853, 480);
-		AbsencesEtudiant.setLocationRelativeTo(null); // Centre fenêtre dans l'écran
-		AbsencesEtudiant.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		AbsencesEtudiant.getContentPane().setLayout(null);
+	/**
+	 * Récupère le chemin de destination pour le dossier <i>fichierAbsences</i>
+	 * @return le chemin canonique du dossier <i>fichierAbsences</i>
+	 */
+	private String getDossierDestination(){
+		// Chemin dossier pour les fichiers d'absences
+		// try & catch ajoutés par Eclipse
+		try {
+			return new File("fichiersAbsences").getCanonicalPath();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
-	 * 
-	 * @param util
+	 * Initialise les composants de la fen&ecirc;tre
+	 */
+	public void initializeWindow() {
+		// fen&ecirc;tre
+		absencesEtudiant = new JFrame();
+		absencesEtudiant.setResizable(false);
+		absencesEtudiant.getContentPane().setBackground(new Color(255, 255, 255));
+		absencesEtudiant.setVisible(true);
+		absencesEtudiant.setTitle("Justification Absences");
+		absencesEtudiant.setSize(853, 480);
+		absencesEtudiant.setLocationRelativeTo(null); // Centre fenêtre dans l'écran
+		absencesEtudiant.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		absencesEtudiant.getContentPane().setLayout(null);
+	}
+
+	/**
+	 * Initialise les composants de l'entête de la fen&ecirc;tre
+	 * @param util l'utilisateur dont on affiche le pseudo
 	 */
 	private void initializeHeader(Utilisateur util) {
 		// Header
@@ -239,7 +263,7 @@ public class AbsencesEtudiantGUI {
 		header.setBackground(new Color(255, 25, 25));
 		header.setBounds(0, 0, 839, 50);
 		header.setLayout(null);
-		AbsencesEtudiant.getContentPane().add(header);
+		absencesEtudiant.getContentPane().add(header);
 
 		// Bouton Menu Déconnexion
 		JButton btnDeconnexion = new JButton("Se Déconnecter");
@@ -253,7 +277,7 @@ public class AbsencesEtudiantGUI {
 
 		// Action bouton déconnecter
 		btnDeconnexion.addActionListener(e -> {
-			AbsencesEtudiant.dispose();
+			absencesEtudiant.dispose();
 			new GestionAbsence();
 		});
 
@@ -275,13 +299,16 @@ public class AbsencesEtudiantGUI {
 		ESIGELEC.setFont(new Font("Arial", Font.PLAIN, 30));
 	}
 
-	private void initializeSidebar(Utilisateur util) {
+	/**
+	 * Initialise les composants de la barre latérale
+	 */
+	private void initializeSidebar() {
 		// Menu latéral
 		JPanel sidebar = new JPanel();
 		sidebar.setBackground(new Color(255, 102, 102));
 		sidebar.setBounds(0, 0, 140, 443);
 		sidebar.setLayout(null);
-		AbsencesEtudiant.getContentPane().add(sidebar);
+		absencesEtudiant.getContentPane().add(sidebar);
 
 		// Bouton Menu absences
 		JButton menuBtnAbsences = new JButton("Absences");
@@ -306,19 +333,5 @@ public class AbsencesEtudiantGUI {
 		sidebar.add(menuBtnPlanning);
 
 		menuBtnAbsences.setBackground(new Color(255, 31, 31));
-		// Change couleur fond si cliqué + action bouton
-		/*menuBtnPlanning.addActionListener(e -> {
-			menuBtnPlanning.setBackground(new Color(255, 31, 31));
-			menuBtnAbsences.setBackground(new Color(255, 102, 102));
-		});
-
-		// Change couleur fond si cliqué + action bouton
-		menuBtnAbsences.addActionListener(e -> {
-			menuBtnAbsences.setBackground(new Color(255, 31, 31));
-			menuBtnPlanning.setBackground(new Color(255, 102, 102));
-			AbsencesEtudiant.dispose();
-			new AbsencesEtudiantGUI(util);
-		});*/
-
 	}
 }

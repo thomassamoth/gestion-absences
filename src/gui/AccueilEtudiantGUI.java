@@ -6,13 +6,12 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.*;
 import java.util.ArrayList;
 
-
 // Packages
 import dao.*;
 import model.*;
 
 /**
- * Classe pour afficher la fenêtre d'accueil pour les étudiants
+ * Classe pour afficher la fen&ecirc;tre d'accueil pour les &eacute;tudiants
  * 
  * @author Thomas
  * @version 1.0
@@ -22,9 +21,9 @@ public class AccueilEtudiantGUI {
 	private JFrame AccueilEtudiant;
 
 	/**
-	 * Créer la fenêtre d'accueil pour les étudiants
+	 * Créer la fen&ecirc;tre d'accueil pour les &eacute;tudiants
+	 * 
 	 * @param util l'utilisteur dont on veut afficher les infos
-	 * @param prenom prénom de l'utilisateur, nécessaire pour texte de bienvenue
 	 */
 	public AccueilEtudiantGUI(Utilisateur util) {
 		initializeWindow();
@@ -34,8 +33,9 @@ public class AccueilEtudiantGUI {
 	}
 
 	/**
-	 * Initialise le contenu de la fenêtre d'accueil pour les étudiants
-	 * @param util l'utilisteur dont on veut afficher les infos
+	 * Initialise le contenu de la fen&ecirc;tre d'accueil pour les &eacute;tudiants
+	 * 
+	 * @param util   l'utilisteur dont on veut afficher les infos
 	 * @param prenom prénom de l'utilisateur, nécessaire pour texte de bienvenue
 	 */
 	private void initialize(Utilisateur util) {
@@ -48,13 +48,13 @@ public class AccueilEtudiantGUI {
 
 		// Affichage absences
 		displayAbsencesJustifiees(util.getIdentifiant());
-		displayAbsencesInjustifiees(util.getIdentifiant());		
+		displayAbsencesInjustifiees(util.getIdentifiant());
 	}
 
 	/**
-	 * Initialise la fenêtre
+	 * Initialise la fen&ecirc;tre
 	 */
-	private void initializeWindow(){
+	private void initializeWindow() {
 		// Fenêtre
 		AccueilEtudiant = new JFrame();
 		AccueilEtudiant.setResizable(false);
@@ -113,7 +113,7 @@ public class AccueilEtudiantGUI {
 		ESIGELEC.setFont(new Font("Arial", Font.PLAIN, 30));
 	}
 
-	private void initializeSidebar(Utilisateur util){
+	private void initializeSidebar(Utilisateur util) {
 		// Menu latéral
 		JPanel sidebar = new JPanel();
 		sidebar.setBackground(new Color(255, 102, 102));
@@ -159,9 +159,13 @@ public class AccueilEtudiantGUI {
 		});
 
 	}
+
 	/**
-	 * Affiche les absences injustifiées d'un élève à partir de son identifiant
-	 * @param identifiant l'idenfiant de l'utilisateur dont on veut connaitre les absences
+	 * Affiche les absences injustifiées d'un &eacute;l&egrave;ve &agrave;partir de
+	 * son identifiant
+	 * 
+	 * @param identifiant l'idenfiant de l'utilisateur dont on veut connaitre les
+	 *                    absences
 	 */
 	public void displayAbsencesInjustifiees(String identifiant) {
 		EtudiantDAO etuDAO = new EtudiantDAO();
@@ -174,13 +178,11 @@ public class AccueilEtudiantGUI {
 		txtListeAbsence.setBounds(160, 239, 217, 30);
 		AccueilEtudiant.getContentPane().add(txtListeAbsence);
 
-		DefaultTableModel model = new DefaultTableModel(new Object[][]{}, new Object[]{"Cours", "Durée", "Date"});
+		DefaultTableModel model = new DefaultTableModel(new Object[][] {}, new Object[] { "Cours", "Durée", "Date" });
 
 		for (int i = 0; i < listeAbsencesInjustifiees.size(); i++) {
-			Object[] row = new Object[]{
-					listeAbsencesInjustifiees.get(i).getNomCours(), 
-					listeAbsencesInjustifiees.get(i).getDuree(),  
-					listeAbsencesInjustifiees.get(i).getDate()};
+			Object[] row = new Object[] { listeAbsencesInjustifiees.get(i).getNomCours(),
+					listeAbsencesInjustifiees.get(i).getDuree(), listeAbsencesInjustifiees.get(i).getDate() };
 			model.addRow(row);
 		}
 
@@ -201,8 +203,11 @@ public class AccueilEtudiantGUI {
 	}
 
 	/**
-	 * Affiche les absences justifiées d'un élève à partir de son identifiant
-	 * @param identifiant l'idenfiant de l'utilisateur dont on veut connaitre les absences
+	 * Affiche les absences justifiées d'un &eacute;l&egrave;ve &agrave;partir de
+	 * son identifiant
+	 * 
+	 * @param identifiant l'idenfiant de l'utilisateur dont on veut connaitre les
+	 *                    absences
 	 */
 	public void displayAbsencesJustifiees(String identifiant) {
 		EtudiantDAO etuDAO = new EtudiantDAO();
@@ -216,14 +221,12 @@ public class AccueilEtudiantGUI {
 		AccueilEtudiant.getContentPane().add(txtListeAbsencesJustifiees);
 
 		// Créer tableau par défaut
-		DefaultTableModel model = new DefaultTableModel(new Object[][]{}, new Object[]{"Cours", "Heures", "Date"});
+		DefaultTableModel model = new DefaultTableModel(new Object[][] {}, new Object[] { "Cours", "Heures", "Date" });
 
 		// Rempli tableau avec les données de la liste
 		for (int i = 0; i < listeAbsencesInjustifiees.size(); i++) {
-			Object[] row = new Object[]{
-					listeAbsencesInjustifiees.get(i).getNomCours(), 
-					listeAbsencesInjustifiees.get(i).getDuree(),  
-					listeAbsencesInjustifiees.get(i).getDate()};
+			Object[] row = new Object[] { listeAbsencesInjustifiees.get(i).getNomCours(),
+					listeAbsencesInjustifiees.get(i).getDuree(), listeAbsencesInjustifiees.get(i).getDate() };
 			model.addRow(row);
 		}
 
@@ -238,4 +241,3 @@ public class AccueilEtudiantGUI {
 		AccueilEtudiant.getContentPane().add(ScrollAbsJustif);
 	}
 }
-

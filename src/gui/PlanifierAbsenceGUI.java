@@ -33,15 +33,17 @@ public class PlanifierAbsenceGUI {
 	private JFrame AbsencesEtudiant;
 	private JTextField dateField;
 	//private boolean ajoutJustificatif = false;
-	java.sql.Date sqlDate;
+	private java.sql.Date sqlDate;
 
 	/**
-	 * L'id de la matiere que l'on souhaite récuperer
+	 * l'id de la matiere que l'on souhaite récuperer
 	 */
 	private int idMatiere;
 
 	/**
-	 * Créer la fenêtre de gestion des absences pour l'étudiant
+	 * Créer la fen&ecirc;tre de gestion des absences pour l'&eacute;tudiant
+	 * 
+	 * @param util l'utilisateur
 	 */
 	public PlanifierAbsenceGUI(Utilisateur util) {
 		initializeWindow();
@@ -50,6 +52,9 @@ public class PlanifierAbsenceGUI {
 		initializeContent(util);
 	}
 
+	/**
+	 * Initialise la fenetre
+	 */
 	public void initializeWindow() {
 		// Fenêtre
 		AbsencesEtudiant = new JFrame();
@@ -157,7 +162,7 @@ public class PlanifierAbsenceGUI {
 	}
 
 	/**
-	 * Initialise le contenu de la fenêtre
+	 * Initialise le contenu de la fen&ecirc;tre
 	 * 
 	 * @param util l'utilisateur connecté
 	 */

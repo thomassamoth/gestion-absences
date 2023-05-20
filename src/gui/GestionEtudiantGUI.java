@@ -9,7 +9,7 @@ import dao.GestionnaireDAO;
 import model.*;
 
 /**
- * Classe pour afficher la fenêtre d'accueil pour les étudiants
+ * Classe pour afficher la fen&ecirc;tre d'accueil pour les &eacute;tudiants
  * 
  * @author Thomas Beyet
  * @version 1.0
@@ -28,12 +28,12 @@ public class GestionEtudiantGUI {
 	private int numFiliere;
 
 	/**
-	 * Groupe de l'élève etudiant
+	 * Groupe de l'&eacute;l&egrave;ve etudiant
 	 */
 	private int numeroGroupe;
 
 	/**
-	 * Constructeur pour la fenêtre de creation des étudiants
+	 * Constructeur pour la fen&ecirc;tre de creation des &eacute;tudiants
 	 * @param user
 	 */
 	public GestionEtudiantGUI(Utilisateur user) {
@@ -169,7 +169,7 @@ public class GestionEtudiantGUI {
 		content.add(fieldPassword);
 
 		/**
-		 * Texte modifié si étudiant correctement ajouté
+		 * Texte modifié si &eacute;tudiant correctement ajouté
 		 */
 		JLabel txtEtuAjoute = new JLabel("");
 		txtEtuAjoute.setHorizontalAlignment(SwingConstants.CENTER);
@@ -266,7 +266,7 @@ public class GestionEtudiantGUI {
 	}
 
 	/**
-	 * Initialise la fenêtre
+	 * Initialise la fen&ecirc;tre
 	 */
 	private void initializeWindow(){
 		// Fenêtre

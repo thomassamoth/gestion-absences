@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * Classe pour afficher la fenêtre d'accueil pour les étudiants
+ * Classe pour afficher la fen&ecirc;tre d'accueil pour les &eacute;tudiants
  * 
  * @author Thomas Beyet
  * @author Walid Ben Attia
@@ -22,16 +22,15 @@ public class AccueilGestionnaireGUI {
 	private JFrame AccueilGestionnaireWindow;
 
 	/**
-	 * Constructeur pour créer la fenêtre d'accueil pour les étudiants
+	 * Constructeur pour créer la fen&ecirc;tre d'accueil pour les &eacute;tudiants
 	 * 
-	 * @param util   l'utilisteur dont on veut afficher les infos
-	 * @param prenom prénom de l'utilisateur, nécessaire pour texte de bienvenue
+	 * @param util l'utilisteur dont on veut afficher les infos
 	 */
 	public AccueilGestionnaireGUI(Utilisateur util) {
 		intializeWindow();
 		initializeHeader(util);
 		initializeSidebar();
-		initializeContent(util);	
+		initializeContent(util);
 	}
 
 	private void intializeWindow() {
@@ -99,7 +98,7 @@ public class AccueilGestionnaireGUI {
 		AccueilGestionnaireWindow.getContentPane().add(sidebar);
 	}
 
-	private void initializeContent(Utilisateur util){
+	private void initializeContent(Utilisateur util) {
 		JPanel content = new JPanel();
 		content.setBackground(new Color(255, 255, 255));
 		content.setBounds(140, 50, 699, 393);
@@ -121,7 +120,7 @@ public class AccueilGestionnaireGUI {
 		btnAjouterEtudiant.setBounds(20, 70, 128, 21);
 		btnAjouterEtudiant.setBorderPainted(false);
 		content.add(btnAjouterEtudiant);
-		
+
 		btnAjouterEtudiant.addActionListener(e -> {
 			AccueilGestionnaireWindow.dispose();
 			new GestionEtudiantGUI(util);
@@ -155,23 +154,21 @@ public class AccueilGestionnaireGUI {
 		btnAjouterEnseignant.setBackground(new Color(0, 105, 217));
 		btnAjouterEnseignant.setBounds(20, 124, 128, 21);
 		content.add(btnAjouterEnseignant);
-		
-		/*JButton btnModifierEtudiant = new JButton("Modifier ou supprimer étudiant");
-		btnModifierEtudiant.setForeground(Color.WHITE);
-		btnModifierEtudiant.setFont(new Font("Arial", Font.PLAIN, 10));
-		btnModifierEtudiant.setBorderPainted(false);
-		btnModifierEtudiant.setBackground(new Color(255, 128, 0));
-		btnModifierEtudiant.setBounds(160, 169, 181, 21);
-		content.add(btnModifierEtudiant);
-		
-		btnModifierEtudiant.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AccueilGestionnaireWindow.dispose();
-				new ChoisirEtudiant(txtMessages);
-			}
-		});*/
-		
-		
+
+		/*
+		 * JButton btnModifierEtudiant = new JButton("Modifier ou supprimer étudiant");
+		 * btnModifierEtudiant.setForeground(Color.WHITE);
+		 * btnModifierEtudiant.setFont(new Font("Arial", Font.PLAIN, 10));
+		 * btnModifierEtudiant.setBorderPainted(false);
+		 * btnModifierEtudiant.setBackground(new Color(255, 128, 0));
+		 * btnModifierEtudiant.setBounds(160, 169, 181, 21);
+		 * content.add(btnModifierEtudiant);
+		 * 
+		 * btnModifierEtudiant.addActionListener(new ActionListener() { public void
+		 * actionPerformed(ActionEvent e) { AccueilGestionnaireWindow.dispose(); new
+		 * ChoisirEtudiant(txtMessages); } });
+		 */
+
 		JButton btnSupprimer = new JButton("Supprimer Utilisateur");
 		btnSupprimer.setForeground(Color.WHITE);
 		btnSupprimer.setFont(new Font("Arial", Font.PLAIN, 10));
@@ -179,7 +176,7 @@ public class AccueilGestionnaireGUI {
 		btnSupprimer.setBackground(new Color(0, 105, 217));
 		btnSupprimer.setBounds(170, 124, 157, 21);
 		content.add(btnSupprimer);
-		
+
 		JButton btnAbsence = new JButton("Absences");
 		btnAbsence.setForeground(new Color(255, 255, 255));
 		btnAbsence.setFont(new Font("Arial", Font.PLAIN, 10));
@@ -187,7 +184,7 @@ public class AccueilGestionnaireGUI {
 		btnAbsence.setForeground(new Color(255, 255, 255));
 		btnAbsence.setBounds(352, 124, 157, 21);
 		content.add(btnAbsence);
-		
+
 		JButton btnModifierEtudiant = new JButton("Modifier Etudiant");
 		btnModifierEtudiant.setForeground(Color.WHITE);
 		btnModifierEtudiant.setFont(new Font("Arial", Font.PLAIN, 10));
@@ -195,22 +192,22 @@ public class AccueilGestionnaireGUI {
 		btnModifierEtudiant.setBackground(new Color(0, 105, 217));
 		btnModifierEtudiant.setBounds(352, 70, 157, 21);
 		content.add(btnModifierEtudiant);
-		
+
 		btnAbsence.addActionListener(e -> {
 			AccueilGestionnaireWindow.dispose();
 			new ValidationAbsenceGUI(util);
 		});
-		
+
 		btnAjouterEnseignant.addActionListener(e -> {
 			AccueilGestionnaireWindow.dispose();
 			new CreerProfesseurGUI(util);
 		});
-		
+
 		btnSupprimer.addActionListener(e -> {
 			AccueilGestionnaireWindow.dispose();
 			new SupprimerUtilisateurGUI(util);
 		});
-		
+
 		btnModifierEtudiant.addActionListener(e -> {
 			AccueilGestionnaireWindow.dispose();
 			new ChoisirEtudiant(txtMessages, util);

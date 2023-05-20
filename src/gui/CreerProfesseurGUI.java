@@ -26,8 +26,8 @@ public class CreerProfesseurGUI {
 	
 
 	/**
-	 * Constructeur pour la fenêtre de creation des professeurs
-	 * @param user
+	 * Constructeur pour la fen&ecirc;tre de creation des professeurs
+	 * @param user l'utilisateur dont on veut afficher les infos
 	 */
 	public CreerProfesseurGUI(Utilisateur user) {
 		intializeWindow();
@@ -200,7 +200,7 @@ public class CreerProfesseurGUI {
 	}
 
 		/**
-		 * Initialise la fenêtre
+		 * Initialise la fen&ecirc;tre
 		 */
 		private void intializeWindow(){
 			// Fenêtre
