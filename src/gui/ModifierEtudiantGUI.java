@@ -1,11 +1,18 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
+import java.util.TimerTask;
+
 import javax.swing.*;
 import java.util.ArrayList;
 
 // Packages
 import dao.GestionnaireDAO;
+import dao.EtudiantDAO;
+
 import model.*;
 import javax.swing.border.LineBorder;
 
@@ -32,8 +39,10 @@ public class ModifierEtudiantGUI {
 	private int numeroGroupe;
 
 	/**
-	 * Constructeur pour la fenêtre de creation des étudiants
+	 * Constructeur pour la fenêtre de modification des étudiants
 	 * @param user
+	 * @param prenom
+	 * @param nom
 	 */
 	public ModifierEtudiantGUI(Utilisateur user, String prenom, String nom) {
 		initializeWindow();
@@ -46,12 +55,16 @@ public class ModifierEtudiantGUI {
 		this.numFiliere = numFiliere;
 	}
 
+	/**
+	 * Setter du numéro de groupe
+	 * @param numGroup le numéro du groupe
+	 */
 	private void setNumeroGroupe(int numGroup) {
 		this.numeroGroupe = numGroup;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void initializeContent(Utilisateur util, String prenom, String nom){
+	private void initializeContent(Utilisateur util, String prenom, String nom) {
 		JPanel content = new JPanel();
 		content.setVisible(true);
 		content.setBackground(new Color(255, 255, 255));
@@ -80,14 +93,14 @@ public class ModifierEtudiantGUI {
 		txtNomEtu.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		content.add(txtNomEtu);
 		txtNomEtu.setText(nom);
-		
+
 		JLabel txtPrenomEtu = new JLabel("");
 		txtPrenomEtu.setForeground(Color.BLACK);
 		txtPrenomEtu.setBorder(null);
 		txtPrenomEtu.setBounds(116, 76, 96, 19);
 		content.add(txtPrenomEtu);
 		txtPrenomEtu.setText(prenom);
-		
+
 		JLabel txtFiliere = new JLabel("Filière");
 		txtFiliere.setBounds(10, 105, 84, 13);
 		content.add(txtFiliere);
@@ -109,21 +122,21 @@ public class ModifierEtudiantGUI {
 		dropFiliere.setBounds(10, 123, 96, 21);
 		content.add(dropFiliere);
 
-		//Action ComboBox Filières
+		// Action ComboBox Filières
 		dropFiliere.addActionListener(e -> {
 			String selectedOption = (String) dropFiliere.getSelectedItem();
 			if (!selectedOption.equals("")) {
 				int selectedValue = 0;
-				if(selectedOption.equals("Apprentissage")) {
+				if (selectedOption.equals("Apprentissage")) {
 					selectedValue = 1;
-				} else if(selectedOption.equals("Classique")) {
+				} else if (selectedOption.equals("Classique")) {
 					selectedValue = 2;
 				}
+
 				setFiliere(selectedValue);
-			}
-			else {
+			} else {
 				lblErreur.setText("Veuillez faire un choix pour la filière !");
-				lblErreur.setBackground(new Color(248, 215,218));
+				lblErreur.setBackground(new Color(248, 215, 218));
 			}
 		});
 
@@ -174,14 +187,14 @@ public class ModifierEtudiantGUI {
 		/**
 		 * Texte modifié si étudiant correctement ajouté
 		 */
-		JLabel txtEtuAjoute = new JLabel("");
-		txtEtuAjoute.setHorizontalAlignment(SwingConstants.CENTER);
-		txtEtuAjoute.setBackground(new Color(255, 255, 255));
-		txtEtuAjoute.setFont(new Font("Arial", Font.BOLD, 12));
-		txtEtuAjoute.setForeground(Color.BLACK);
-		txtEtuAjoute.setOpaque(true);
-		txtEtuAjoute.setBounds(10, 173, 308, 26);
-		content.add(txtEtuAjoute);
+		JLabel txtNotif = new JLabel("");
+		txtNotif.setHorizontalAlignment(SwingConstants.CENTER);
+		txtNotif.setBackground(new Color(255, 255, 255));
+		txtNotif.setFont(new Font("Arial", Font.BOLD, 12));
+		txtNotif.setForeground(Color.BLACK);
+		txtNotif.setOpaque(true);
+		txtNotif.setBounds(10, 173, 308, 26);
+		content.add(txtNotif);
 
 		// Texte Groupe
 		JLabel lblGroupe = new JLabel("Groupe");
@@ -191,11 +204,10 @@ public class ModifierEtudiantGUI {
 		GestionnaireDAO gestion = new GestionnaireDAO();
 		ArrayList<String> listeG = gestion.getListeGroupes();
 
-		listeG.add(0, ""); // On ajoute un element vide pour que l'utilisateur doive choisir quelquechose 
+		listeG.add(0, ""); // On ajoute un element vide pour que l'utilisateur doive choisir quelquechose
 
 		// Créer un tableau à partir de l'arrayList
 		Object[] listeGroupesArray = listeG.toArray();
-
 
 		/**
 		 * Menu déroulant liste des Groupes
@@ -219,29 +231,97 @@ public class ModifierEtudiantGUI {
 			new AccueilGestionnaireGUI(util);
 		});
 
-		//Action ComboBox Filières
+		// Action ComboBox Filières
 		dropGroupes.addActionListener(e -> {
 			String selectedOption = (String) dropGroupes.getSelectedItem();
 			if (!selectedOption.equals("")) { // Si l'otion choisie est vide
 				int selectedValue = Integer.parseInt(selectedOption);
 				setNumeroGroupe(selectedValue);
-			}
-			else {
+			} else {
 				lblErreur.setText("Veuillez faire un choix pour le groupe!");
-				lblErreur.setBackground(new Color(248, 215,218));
+				lblErreur.setBackground(new Color(248, 215, 218));
 			}
 		});
 
 		// Actions bouton Valider
-		btnValider.addActionListener(e -> {
-			GestionnaireDAO gestio = new GestionnaireDAO();
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				GestionnaireDAO gestio = new GestionnaireDAO();
+				EtudiantDAO etu = new EtudiantDAO();
+
+				// Récupère id Etudiant
+				int idEtudiant = etu.getIDEtudiantNomPrenom(prenom, nom);
+
+				int idutilisateur = etu.getIDUtilisateurFromIdEtudiant(idEtudiant);
+
+				int messageErreur = 0;
+
+				// Modification groupe
+				if(numeroGroupe != 0){
+					if(gestio.changerGroupeEtudiant(idEtudiant, numeroGroupe) != 1){
+						messageErreur = 1;
+					}
+				}
+
+				// Modification filière
+				if(numFiliere != 0) {
+					if(gestio.changerFiliereEtudiant(idEtudiant, numFiliere) != 1) {
+						messageErreur = 1;
+					}
+				}
+
+				//Modification mail
+				if(fieldMail.getText().length() != 0) {
+					if(gestio.changerMailEtudiant(idEtudiant, fieldMail.getText()) != 1) {
+						messageErreur = 1;
+					}
+				}
+
+				// Modification username
+				if(fieldUsername.getText().length() != 0){
+					if(gestio.changerUsernameEtudiant(idutilisateur, fieldUsername.getText()) != 1) {
+						messageErreur = 1;
+					}
+				}
+
+				// Modification motdepasse
+				if(fieldPassword.getText().length() != 0){
+					if(gestio.changerPasswordEtudiant(idutilisateur, fieldPassword.getText()) != 1) {
+						messageErreur = 1;
+					}
+				}
+
+				if(messageErreur == 1) {
+					JOptionPane.showMessageDialog(null, "Erreur lors de la modification de l'étudiant. ", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					txtNotif.setText("Modification(s) effectuée(s)");
+					txtNotif.setBackground(new Color(217, 237, 218));
+					
+					// Retire le texte après 2 secondes !
+					Timer timer = new Timer(2000, new ActionListener() {
+				        public void actionPerformed(ActionEvent e) {
+				            txtNotif.setText("");
+				            txtNotif.setBackground(null);
+				            ((Timer)e.getSource()).stop(); 
+				        }
+				    });
+				    timer.setRepeats(false);
+				    timer.start();
+				}
+			}
 		});
+
+
+		//gestio.modifierEtudiant(idEtudiant, nom, numeroGroupe, numFiliere);	
 	}
 
 	/**
 	 * Initialise la fenêtre
 	 */
-	private void initializeWindow(){
+	private void initializeWindow() {
 		// Fenêtre
 		modifEtudiantWindow = new JFrame();
 		modifEtudiantWindow.setResizable(false);
@@ -254,7 +334,11 @@ public class ModifierEtudiantGUI {
 		modifEtudiantWindow.getContentPane().setLayout(null);
 	}
 
-	private void initializeHeader(Utilisateur util){
+	/**
+	 * Initialise les composants de l'entête de la page
+	 * @param util
+	 */
+	private void initializeHeader(Utilisateur util) {
 		// Header
 		JPanel header = new JPanel();
 		header.setBackground(new Color(255, 25, 25));
@@ -288,7 +372,6 @@ public class ModifierEtudiantGUI {
 		usernameLabel.setText(util.getIdentifiant());
 		header.add(usernameLabel);
 
-
 		// Titre Esigelec
 		JLabel ESIGELEC = new JLabel("ESIGELEC");
 		ESIGELEC.setHorizontalAlignment(SwingConstants.CENTER);
@@ -296,12 +379,12 @@ public class ModifierEtudiantGUI {
 		header.add(ESIGELEC);
 		ESIGELEC.setForeground(new Color(255, 255, 255));
 		ESIGELEC.setFont(new Font("Arial", Font.PLAIN, 30));
-
 	}
+
 	/**
 	 * Initalise le contenu du menu latéral
 	 */
-	private void initializeSidebar(){
+	private void initializeSidebar() {
 		// Menu latéral
 		JPanel sidebar = new JPanel();
 		sidebar.setBackground(new Color(255, 102, 102));

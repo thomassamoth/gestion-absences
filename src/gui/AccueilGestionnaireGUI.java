@@ -138,7 +138,7 @@ public class AccueilGestionnaireGUI {
 		btnAjouterGroupe.setForeground(Color.WHITE);
 		btnAjouterGroupe.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnAjouterGroupe.setBackground(new Color(253, 126, 20));
-		btnAjouterGroupe.setBounds(170, 70, 128, 21);
+		btnAjouterGroupe.setBounds(170, 70, 157, 21);
 		btnAjouterGroupe.setBorderPainted(false);
 		content.add(btnAjouterGroupe);
 
@@ -185,7 +185,7 @@ public class AccueilGestionnaireGUI {
 		btnAbsence.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnAbsence.setBackground(new Color(0, 105, 217));
 		btnAbsence.setForeground(new Color(255, 255, 255));
-		btnAbsence.setBounds(352, 124, 128, 21);
+		btnAbsence.setBounds(352, 124, 157, 21);
 		content.add(btnAbsence);
 		
 		JButton btnModifierEtudiant = new JButton("Modifier Etudiant");
@@ -193,7 +193,7 @@ public class AccueilGestionnaireGUI {
 		btnModifierEtudiant.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnModifierEtudiant.setBorderPainted(false);
 		btnModifierEtudiant.setBackground(new Color(0, 105, 217));
-		btnModifierEtudiant.setBounds(170, 159, 157, 21);
+		btnModifierEtudiant.setBounds(352, 70, 157, 21);
 		content.add(btnModifierEtudiant);
 		
 		btnAbsence.addActionListener(e -> {

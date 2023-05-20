@@ -234,6 +234,159 @@ public class EtudiantDAO extends ConnexionBDD {
 	}
 	
 	/**
+	 * Récupère l'id etudiant à partir de son prenom & nom.
+	 * @param prenom
+	 * @param nom
+	 * @return
+	 */
+	public int getIDEtudiantNomPrenom(String prenom, String nom){
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		int idEtudiant = 0;
+		// Connexion à la base de données
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+			ps = con.prepareStatement(
+					"select idetudiant from etudiant "
+					+ "inner join utilisateur on(etudiant.idutilisateur = utilisateur.idutilisateur) "
+					+ "where nom = ? and prenom = ?");
+
+			ps.setString(1, nom);
+			ps.setString(2, prenom);
+
+			// Execute la requete
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				idEtudiant = rs.getInt("idetudiant");
+			} else
+				System.out.println("ID non trouvé");
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		} finally {
+			// Fermeture ps
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (Exception ignore) {
+			}
+
+			// Fermeture con
+			try {
+				if (con != null)
+					con.close();
+			} catch (Exception ignore) {
+			}
+		}
+		return idEtudiant;
+	}
+	
+	/**
+	 * Verifie si etudiant existe à partir de son prenom et nom
+	 * @param prenom
+	 * @param nom
+	 * @return le nombre d'étudiant correspondant
+	 */
+	public int verifEtudiantExiste(String prenom, String nom){
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		int nbEtudiant = 0;
+		// Connexion à la base de données
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+			ps = con.prepareStatement(
+					"select count(idetudiant) from etudiant "
+					+ "inner join utilisateur on(etudiant.idutilisateur = utilisateur.idutilisateur) "
+					+ "where nom = ? and prenom = ?");
+
+			ps.setString(1, nom);
+			ps.setString(2, prenom);
+
+			// Execute la requete
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				nbEtudiant = rs.getInt(1); // Récupère la 1ere colonne du resultat
+			}
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		} finally {
+			// Fermeture ps
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (Exception ignore) {
+			}
+
+			// Fermeture con
+			try {
+				if (con != null)
+					con.close();
+			} catch (Exception ignore) {
+			}
+		}
+		return nbEtudiant;
+	}
+
+	/**
+	 * Retourne l'id utilisateur à partir de l'id etudiant.<br/>
+	 * Fonction utilisée car modification mot de passe prend trop de temps
+	 * @param prenom
+	 * @param nom
+	 * @return le nombre d'étudiant correspondant
+	 */
+	public int getIDUtilisateurFromIdEtudiant(int idetudiant){
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		int id = 0;
+		// Connexion à la base de données
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+			ps = con.prepareStatement(
+					"SELECT idutilisateur FROM Etudiant WHERE idetudiant = ?");
+
+			ps.setInt(1, idetudiant);
+
+			// Execute la requete
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				 id = rs.getInt(1); // Récupère la 1ere colonne du resultat
+			}
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		} finally {
+			// Fermeture ps
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (Exception ignore) {
+			}
+
+			// Fermeture con
+			try {
+				if (con != null)
+					con.close();
+			} catch (Exception ignore) {
+			}
+		}
+		return id;
+	}
+	
+	
+	/**
 	 * Ajoute une absence planifiée
 	 * @param idEtudiant l'id de l'étudiant
 	 * @param date la date de l'absence

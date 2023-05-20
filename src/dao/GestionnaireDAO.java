@@ -124,8 +124,8 @@ public class GestionnaireDAO extends ConnexionBDD {
 	 * @param idutilisateur l'ID de l'utilisateur
 	 * @param adresseMail   l'adresse mail de l'étudiant
 	 * @param groupe        le groupe de l'etudiant
-	 * @param filiere       la filiere de l'étudiant. Si filiere = 0 ->
-	 *                      Apprentissage. Si filiere = 1 -> Classique
+	 * @param filiere       la filiere de l'étudiant. Si filiere = 1 ->
+	 *                      Apprentissage. Si filiere = 2 -> Classique
 	 * @return ajoutEffectue
 	 */
 	public int ajouterEtudiant(int idutilisateur, String adresseMail, int groupe, int filiere) {
@@ -213,10 +213,11 @@ public class GestionnaireDAO extends ConnexionBDD {
 
 	/**
 	 * Récupère la liste des groupes présents dans la BDD
+	 * 
 	 * @return listeGroupes la liste des groupes existants
 	 */
-	public ArrayList<String> getListeGroupes(){
-		Connection con =  null;
+	public ArrayList<String> getListeGroupes() {
+		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<String> listeGroupes = new ArrayList<>();
@@ -229,12 +230,11 @@ public class GestionnaireDAO extends ConnexionBDD {
 
 			rs = ps.executeQuery();
 
-			while(rs.next()) {
+			while (rs.next()) {
 				int groupe = rs.getInt("NUMEROGROUPE");
 				listeGroupes.add(Integer.toString(groupe));
 			}
-		}
-		catch (Exception ee) {
+		} catch (Exception ee) {
 			ee.printStackTrace();
 		}
 
@@ -244,24 +244,27 @@ public class GestionnaireDAO extends ConnexionBDD {
 				if (rs != null) {
 					rs.close();
 				}
-			}catch (Exception ignore) {}
+			} catch (Exception ignore) {
+			}
 
 			// Fermeture ps
 			try {
 				if (ps != null)
 					rs.close();
-			}catch (Exception ignore) {}
+			} catch (Exception ignore) {
+			}
 
 			// Fermeture con
 			try {
-				if(con != null)
+				if (con != null)
 					con.close();
-			}catch (Exception ignore) {}
+			} catch (Exception ignore) {
+			}
 		}
 		return listeGroupes;
 	}
-	
-	public int ajouterProfesseur(int idutilisateur, int idprofesseur , String numerotel) {
+
+	public int ajouterProfesseur(int idutilisateur, int idprofesseur, String numerotel) {
 		Connection con = null;
 		PreparedStatement ps = null;
 
@@ -276,8 +279,6 @@ public class GestionnaireDAO extends ConnexionBDD {
 			ps.setInt(1, idutilisateur);
 			ps.setInt(2, idprofesseur);
 			ps.setString(3, numerotel);
-			
-			
 
 			ajoutEffectue = ps.executeUpdate();
 		} catch (Exception ee) {
@@ -300,7 +301,7 @@ public class GestionnaireDAO extends ConnexionBDD {
 		}
 		return ajoutEffectue;
 	}
-	
+
 	public int supprimerUtilisateur(String identifiant, String prenom, String nom) {
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -310,9 +311,9 @@ public class GestionnaireDAO extends ConnexionBDD {
 
 			// tentative de connexion
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
-			
+
 			ps = con.prepareStatement("DELETE FROM UTILISATEUR WHERE IDUTILISATEUR = ?");
-			ps.setInt(1, getIDUtilisateur(identifiant, prenom, nom) );
+			ps.setInt(1, getIDUtilisateur(identifiant, prenom, nom));
 
 			// Execution de la requete
 			returnValue = ps.executeUpdate();
@@ -337,5 +338,269 @@ public class GestionnaireDAO extends ConnexionBDD {
 			}
 		}
 		return returnValue;
+	}
+
+	/**
+	 * 
+	 * @param absenceid
+	 * @return
+	 */
+	public int modifierEtudiant(int idutilisateur, String adresseMail, int groupe, int filiere) {
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		int modifEffectuee = 0;
+		// Connexion à la base de données
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+			ps = con.prepareStatement(
+					"UPDATE Etudiant "
+					+ "SET idutilisateur, mailetudiant, idgroupe, filiere " + "VALUES (?, ?, ?, ?)");
+
+			ps.setInt(1, idutilisateur);
+			ps.setString(2, adresseMail);
+			ps.setInt(3, groupe);
+			ps.setInt(4, filiere);
+
+			modifEffectuee = ps.executeUpdate();
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		} finally {
+			// Fermeture ps
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (Exception ignore) {
+			}
+
+			// Fermeture con
+			try {
+				if (con != null)
+					con.close();
+			} catch (Exception ignore) {
+			}
+		}
+		return modifEffectuee;
+	}
+
+	/**
+	 * Change le groupe d'un étudiant
+	 * @param idetudiant l'id de l'étudiant
+	 * @param numeroGroupe le nouveau numéro du groupe
+	 * @return 1 si requete ok
+	 */
+	public int changerGroupeEtudiant(int idetudiant, int numeroGroupe) {
+		Connection con = null;
+	    PreparedStatement ps = null;
+
+	    int ajoutEffectue = 0;
+
+	    try {
+	        con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+	        ps = con.prepareStatement("UPDATE Etudiant "
+	        		+ "SET idgroupe = ? where idetudiant = ?");
+
+	        ps.setInt(1, numeroGroupe);
+	        ps.setInt(2, idetudiant);
+
+	        ajoutEffectue = ps.executeUpdate();
+
+	    } catch (Exception ee) {
+	        ee.printStackTrace();
+	    } finally {
+	        // Fermeture ps
+	        try {
+	            if (ps != null) {
+	                ps.close();
+	            }
+	        } catch (Exception ignore) {
+	        }
+
+	        // Fermeture con
+	        try {
+	            if (con != null)
+	                con.close();
+	        } catch (Exception ignore) {
+	        }
+	    }
+	    return ajoutEffectue;
+	}
+	
+	/**
+	 * Change la filière d'un étudiant
+	 * @param idetudiant l'id de l'étudiant
+	 * @param numFiliere le nouveau numéro du groupe
+	 * @return 1 si requete ok
+	 */
+	public int changerFiliereEtudiant(int idetudiant, int numFiliere) {
+		Connection con = null;
+	    PreparedStatement ps = null;
+
+	    int ajoutEffectue = 0;
+
+	    try {
+	        con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+	        ps = con.prepareStatement("UPDATE Etudiant "
+	        		+ "SET filiere = ? where idetudiant = ?");
+
+	        ps.setInt(1, numFiliere);
+	        ps.setInt(2, idetudiant);
+
+	        ajoutEffectue = ps.executeUpdate();
+
+	    } catch (Exception ee) {
+	        ee.printStackTrace();
+	    } finally {
+	        // Fermeture ps
+	        try {
+	            if (ps != null) {
+	                ps.close();
+	            }
+	        } catch (Exception ignore) {
+	        }
+
+	        // Fermeture con
+	        try {
+	            if (con != null)
+	                con.close();
+	        } catch (Exception ignore) {
+	        }
+	    }
+	    return ajoutEffectue;
+	}
+	
+	/**
+	 * Change la filière d'un étudiant
+	 * @param idetudiant l'id de l'étudiant
+	 * @param numFiliere le nouveau numéro du groupe
+	 * @return 1 si requete ok
+	 */
+	public int changerMailEtudiant(int idetudiant, String mail) {
+		Connection con = null;
+	    PreparedStatement ps = null;
+
+	    int ajoutEffectue = 0;
+
+	    try {
+	        con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+	        ps = con.prepareStatement("UPDATE Etudiant "
+	        		+ "SET mailetudiant = ? where idetudiant = ?");
+
+	        ps.setString(1, mail);
+	        ps.setInt(2, idetudiant);
+
+	        ajoutEffectue = ps.executeUpdate();
+
+	    } catch (Exception ee) {
+	        ee.printStackTrace();
+	    } finally {
+	        // Fermeture ps
+	        try {
+	            if (ps != null) {
+	                ps.close();
+	            }
+	        } catch (Exception ignore) {
+	        }
+
+	        // Fermeture con
+	        try {
+	            if (con != null)
+	                con.close();
+	        } catch (Exception ignore) {
+	        }
+	    }
+	    return ajoutEffectue;
+	}
+
+	/**
+	 * Change le nom d'utilisateur d'un étudiant
+	 * @param idetudiant l'id de l'étudiant
+	 * @param numFiliere le nouveau username de l'étudiant
+	 * @return 1 si requete ok
+	 */
+	public int changerUsernameEtudiant(int idetudiant, String username) {
+		Connection con = null;
+	    PreparedStatement ps = null;
+
+	    int ajoutEffectue = 0;
+
+	    try {
+	        con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+	        ps = con.prepareStatement("UPDATE Utilisateur "
+	        		+ "SET identifiant = ? where idutilisateur = ?");
+
+	        ps.setString(1, username);
+	        ps.setInt(2, idetudiant);
+
+	        ajoutEffectue = ps.executeUpdate();
+
+	    } catch (Exception ee) {
+	        ee.printStackTrace();
+	    } finally {
+	        // Fermeture ps
+	        try {
+	            if (ps != null) {
+	                ps.close();
+	            }
+	        } catch (Exception ignore) {
+	        }
+
+	        // Fermeture con
+	        try {
+	            if (con != null)
+	                con.close();
+	        } catch (Exception ignore) {
+	        }
+	    }
+	    return ajoutEffectue;
+	}
+
+	/**
+	 * Change le mot de passe de l'étudiant
+	 * @param idetudiant
+	 * @param password
+	 * @return 1 si requete effectuée correctement
+	 */
+	public int changerPasswordEtudiant(int idutilisateur, String password) {
+		Connection con = null;
+	    PreparedStatement ps = null;
+
+	    int modifEffectuee = 0;
+
+	    try {
+	        con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+	        ps = con.prepareStatement("UPDATE Utilisateur SET motdepasse = ? where idutilisateur = ?");
+	        
+	        ps.setString(1, password);
+	        ps.setInt(2, idutilisateur);
+	        
+	        modifEffectuee = ps.executeUpdate();
+
+	    } catch (Exception ee) {
+	        ee.printStackTrace();
+	    } finally {
+	        // Fermeture ps
+	        try {
+	            if (ps != null) {
+	                ps.close();
+	            }
+	        } catch (Exception ignore) {
+	        }
+
+	        // Fermeture con
+	        try {
+	            if (con != null)
+	                con.close();
+	        } catch (Exception ignore) {
+	        }
+	    }
+	    return modifEffectuee;
 	}
 }
