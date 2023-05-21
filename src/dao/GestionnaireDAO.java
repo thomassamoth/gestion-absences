@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
- * Classe pour les appels &agrave;la base de donn&eacute;es concernant le gestionnaire
+ * Classe pour les appels &agrave; la base de donn&eacute;es concernant le gestionnaire
  * @author Thomas Beyet
  * @author Walid Ben Attia
  */
@@ -34,7 +34,7 @@ public class GestionnaireDAO extends ConnexionBDD {
 		PreparedStatement ps = null;
 
 		int ajoutEffectue = 0;
-		// Connexion &agrave;la base de données
+		// Connexion à la base de données
 		try {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
@@ -69,7 +69,7 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * R&eacute;cup &egrave;re l'ID d'un utilisateur &agrave;partir de son pr&eacute;nom et nom
+	 * R&eacute;cup &egrave;re l'ID d'un utilisateur &agrave; partir de son pr&eacute;nom et nom
 	 * 
 	 * @param identifiant 
 	 * @param prenom
@@ -82,7 +82,7 @@ public class GestionnaireDAO extends ConnexionBDD {
 		ResultSet rs = null;
 
 		int idUtilisateur = 0;
-		// Connexion &agrave;la base de données
+		// Connexion à la base de données
 		try {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
@@ -171,11 +171,11 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Créer un nouveau groupe
+	 * Cr&eacute;er un nouveau groupe
 	 * 
-	 * @param numeroGroupe le numéro du groupe
-	 * @param capaciteMax  la capacité maximale du groupe
-	 * @return 1 si ajout effectué, 0 sinon
+	 * @param numeroGroupe le num&eacute;ro du groupe
+	 * @param capaciteMax  la capacit&eacute; maximale du groupe
+	 * @return 1 si ajout effectu&eacute;, 0 sinon
 	 */
 	public int ajouterGroupe(int numeroGroupe, int capaciteMax) {
 		Connection con = null;
@@ -215,7 +215,7 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Récupère la liste des groupes présents dans la BDD
+	 * R&eacute;cupere la liste des groupes présents dans la BDD
 	 * 
 	 * @return listeGroupes la liste des groupes existants
 	 */
@@ -268,7 +268,7 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Ajoute le professeur &agrave;la base de données
+	 * Ajoute le professeur &agrave; la base de données
 	 * @param idutilisateur
 	 * @param idprofesseur
 	 * @param numerotel
@@ -313,7 +313,7 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Supprime un utilisateur de la base de données
+	 * Supprime un utilisateur de la base de donn&eacute;es
 	 * @param identifiant
 	 * @param prenom
 	 * @param nom
@@ -450,9 +450,9 @@ public class GestionnaireDAO extends ConnexionBDD {
 	}
 	
 	/**
-	 * Change la filière d'un &eacute;tudiant
+	 * Change la fili&egrave;re d'un &eacute;tudiant
 	 * @param idetudiant l'id de l'&eacute;tudiant
-	 * @param numFiliere le nouveau numéro du groupe
+	 * @param numFiliere le nouveau num&eacute;ro du groupe
 	 * @return 1 si requete ok
 	 */
 	public int changerFiliereEtudiant(int idetudiant, int numFiliere) {
