@@ -60,7 +60,7 @@ public class CreerProfesseurGUI {
 		fieldNom.setColumns(10);
 		content.add(fieldNom);
 
-		JLabel txtPrenom = new JLabel("Pr&eacute;nom *");
+		JLabel txtPrenom = new JLabel("Prénom *");
 		txtPrenom.setFont(new Font("Arial", Font.BOLD, 10));
 		txtPrenom.setBounds(116, 60, 96, 13);
 		content.add(txtPrenom);
@@ -85,7 +85,7 @@ public class CreerProfesseurGUI {
 		
 
 		// Texte mail
-		JLabel txtNumTel = new JLabel("num&eacute;ro de tel");
+		JLabel txtNumTel = new JLabel("numéro de tel");
 		txtNumTel.setBounds(222, 60, 84, 13);
 		content.add(txtNumTel);
 
@@ -184,7 +184,7 @@ public class CreerProfesseurGUI {
 					// Création d'un professeur
 					if(gestio.ajouterProfesseur(IDUser, IDUser , fieldNumTel.getText() ) == 1) {
 						txtEtuAjoute.setBackground(new Color(212, 237,218));
-						txtEtuAjoute.setText("Professeur ajout&eacute;");
+						txtEtuAjoute.setText("Professeur ajouté;");
 					}
 					else {
 						txtEtuAjoute.setBackground(new Color(248, 215,218));

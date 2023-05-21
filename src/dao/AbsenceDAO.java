@@ -7,7 +7,8 @@ import java.util.*;
 import model.*;
 
 /**
- * Classe pour tous les appels &agrave; la base de donn&eacute;es pour les absences
+ * Classe pour tous les appels &agrave; la base de donn&eacute;es pour les
+ * absences
  * 
  * @author Thomas Beyet
  * @author Walid Ben Attia
@@ -37,7 +38,8 @@ public class AbsenceDAO extends ConnexionBDD {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 
 			PreparedStatement ps = con.prepareStatement(
-					"SELECT nom, prenom, nom_cours, dateabsence , is_justified , is_handled FROM ABSENCE inner join etudiant on (absence.idetudiant = etudiant.idetudiant) inner join utilisateur on (utilisateur.idutilisateur = etudiant.idutilisateur) inner join cours on (cours.idcours = absence.idcours) WHERE is_handled = 0");
+					"SELECT nom, prenom, nom_cours, dateabsence , is_justified , is_handled "
+					+ "FROM ABSENCE inner join etudiant on (absence.idetudiant = etudiant.idetudiant) inner join utilisateur on (utilisateur.idutilisateur = etudiant.idutilisateur) inner join cours on (cours.idcours = absence.idcours) WHERE is_handled = 0");
 
 			rs = ps.executeQuery();
 
@@ -52,5 +54,43 @@ public class AbsenceDAO extends ConnexionBDD {
 		}
 
 		return listeAbsencesNonTraitees;
+	}
+
+	public void validerAbsence(int idabsence) {
+		Connection con = null;
+		ResultSet rs = null;
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+			PreparedStatement ps = con.prepareStatement("UPDATE ABSENCE SET IS_VALIDE = 'oui' WHERE idabsence = ? ");
+			PreparedStatement ps2 = con.prepareStatement("UPDATE ABSENCE SET IS_HANDLED = 1 WHERE idabsence = ? ");
+			ps.setInt(1, idabsence);
+			ps2.setInt(1, idabsence);
+
+			rs = ps.executeQuery();
+			rs = ps2.executeQuery();
+
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		}
+
+	}
+
+	public void handled(int idabsence) {
+		Connection con = null;
+		ResultSet rs = null;
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+			PreparedStatement ps2 = con.prepareStatement("UPDATE ABSENCE SET IS_HANDLED = 1 WHERE idabsence = ? ");
+
+			ps2.setInt(1, idabsence);
+
+			rs = ps2.executeQuery();
+
+		} catch (Exception ee) {
+			ee.printStackTrace();
+		}
+
 	}
 }

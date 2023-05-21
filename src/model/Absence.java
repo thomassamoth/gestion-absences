@@ -61,6 +61,13 @@ public class Absence {
 	public String getNomEtudiant() {
 		return nomEtudiant;
 	}
+	
+	public int getIdAbsence()
+	{
+		return idabsence;
+	}
+	
+
 
 	/**
 	 * R&eacute;cupère l'ID de l'absence

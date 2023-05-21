@@ -259,10 +259,6 @@ public class PlanifierAbsenceGUI {
 		btnAjoutJustif.setBounds(20, 132, 134, 21);
 		content.add(btnAjoutJustif);
 
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Distanciel");
-		rdbtnNewRadioButton.setBounds(319, 83, 103, 21);
-		content.add(rdbtnNewRadioButton);
-
 		btnAjoutJustif.addActionListener(e -> {
 			// File fichierAbsences = choixFichier(btnAjoutJustif);
 			// if (fichierAbsences != null) {
@@ -345,7 +341,6 @@ public class PlanifierAbsenceGUI {
 
 				// Récupérer le fichier sélectionné
 				// File destinationFichier = new File(dossierDest, fichierAbsence.getName());
-				System.out.println("Source fichier : " + fichierAbsence.toPath());
 				return fichierAbsence;
 			}
 		}

@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.*;
+import java.sql.Timestamp;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.*;
@@ -11,67 +13,42 @@ import dao.*;
 import model.*;
 
 /**
- * Classe pour afficher la fen&ecirc;tre d'accueil pour les &eacute;tudiants
+ * Classe pour afficher la fenêtre d'accueil pour les étudiants
  * 
  * @author Thomas
  * @version 1.0
  */
-public class AccueilEtudiantGUI {
+public class PlanningEtudiantGUI {
 
 	private JFrame AccueilEtudiant;
 
 	/**
-	 * Cr&eacute;er la fen&ecirc;tre d'accueil pour les &eacute;tudiants
-	 * 
+	 * Créer la fenêtre d'accueil pour les étudiants
 	 * @param util l'utilisteur dont on veut afficher les infos
+	 * @param prenom prénom de l'utilisateur, nécessaire pour texte de bienvenue
 	 */
-	public AccueilEtudiantGUI(Utilisateur util) {
-		initializeWindow();
-		initializeHeader(util);
-		initializeSidebar(util);
-		initialize(util);
+	public PlanningEtudiantGUI(Utilisateur util, String prenom) {
+		initialize(util, prenom);
 	}
 
 	/**
-	 * Initialise le contenu de la fen&ecirc;tre d'accueil pour les &eacute;tudiants
-	 * 
-	 * @param util   l'utilisteur dont on veut afficher les infos
-	 * @param prenom pr&eacute;nom de l'utilisateur, n&eacute;cessaire pour texte de bienvenue
+	 * Initialise le contenu de la fenêtre d'accueil pour les étudiants
+	 * @param util l'utilisteur dont on veut afficher les infos
+	 * @param prenom prénom de l'utilisateur, nécessaire pour texte de bienvenue
+	 * @wbp.parser.entryPoint
 	 */
-	private void initialize(Utilisateur util) {
-		// texte bonjour + pr&eacute;nom
-		JLabel txtBonjour = new JLabel("");
-		txtBonjour.setFont(new Font("Arial", Font.BOLD, 14));
-		txtBonjour.setBounds(160, 60, 148, 30);
-		txtBonjour.setText("Bonjour " + util.getUtilisateurPrenom());
-		AccueilEtudiant.getContentPane().add(txtBonjour);
-
-		// Affichage absences
-		displayAbsencesJustifiees(util.getIdentifiant());
-		displayAbsencesInjustifiees(util.getIdentifiant());
-	}
-
-	/**
-	 * Initialise la fen&ecirc;tre
-	 */
-	private void initializeWindow() {
+	private void initialize(Utilisateur util, String prenom) {
 		// Fenêtre
 		AccueilEtudiant = new JFrame();
-		AccueilEtudiant.setResizable(false);
+		AccueilEtudiant.setResizable(true);
 		AccueilEtudiant.getContentPane().setBackground(new Color(255, 255, 255));
 		AccueilEtudiant.setVisible(true);
-		AccueilEtudiant.setTitle("Accueil Etudiant");
+		AccueilEtudiant.setTitle("Accueil - Etudiant");
 		AccueilEtudiant.setSize(853, 480);
 		AccueilEtudiant.setLocationRelativeTo(null); // Centre fenêtre dans l'écran
 		AccueilEtudiant.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		AccueilEtudiant.getContentPane().setLayout(null);
-	}
 
-	/**
-	 * 
-	 * @param util
-	 */
-	private void initializeHeader(Utilisateur util) {
 		// Header
 		JPanel header = new JPanel();
 		header.setBackground(new Color(255, 25, 25));
@@ -84,11 +61,11 @@ public class AccueilEtudiantGUI {
 		btnDeconnexion.setForeground(new Color(255, 255, 255));
 		btnDeconnexion.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnDeconnexion.setBorderPainted(false);
+		btnDeconnexion.setFocusPainted(false); // Bordure text invisible
 		btnDeconnexion.setBackground(new Color(255, 25, 25));
 		btnDeconnexion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change curseur quand survole
 		btnDeconnexion.setBounds(712, 0, 117, 50);
 		header.add(btnDeconnexion);
-
 		// Action bouton déconnecter
 		btnDeconnexion.addActionListener(e -> {
 			AccueilEtudiant.dispose();
@@ -104,6 +81,7 @@ public class AccueilEtudiantGUI {
 		usernameLabel.setText(util.getIdentifiant());
 		header.add(usernameLabel);
 
+
 		// Titre Esigelec
 		JLabel ESIGELEC = new JLabel("ESIGELEC");
 		ESIGELEC.setHorizontalAlignment(SwingConstants.CENTER);
@@ -111,9 +89,7 @@ public class AccueilEtudiantGUI {
 		header.add(ESIGELEC);
 		ESIGELEC.setForeground(new Color(255, 255, 255));
 		ESIGELEC.setFont(new Font("Arial", Font.PLAIN, 30));
-	}
 
-	private void initializeSidebar(Utilisateur util) {
 		// Menu latéral
 		JPanel sidebar = new JPanel();
 		sidebar.setBackground(new Color(255, 102, 102));
@@ -147,8 +123,7 @@ public class AccueilEtudiantGUI {
 		menuBtnPlanning.addActionListener(e -> {
 			menuBtnPlanning.setBackground(new Color(255, 31, 31));
 			menuBtnAbsences.setBackground(new Color(255, 102, 102));
-			AccueilEtudiant.dispose();
-			new PlanningEtudiantGUI(util, util.getUtilisateurPrenom());
+			// Action here
 		});
 
 		// Change couleur fond si cliqué + action bouton
@@ -159,86 +134,87 @@ public class AccueilEtudiantGUI {
 			new AbsencesEtudiantGUI(util);
 		});
 
-	}
 
-	/**
-	 * Affiche les absences injustifi&eacute;es d'un &eacute;l&egrave;ve &agrave;partir de
-	 * son identifiant
-	 * 
-	 * @param identifiant l'idenfiant de l'utilisateur dont on veut connaitre les
-	 *                    absences
-	 */
-	public void displayAbsencesInjustifiees(String identifiant) {
+
+		// Change couleur fond si cliqué + action bouton
+		btnDeconnexion.addActionListener(e -> {
+			btnDeconnexion.setBackground(new Color(255, 31, 31));
+			menuBtnPlanning.setBackground(new Color(255, 102, 102));
+			AccueilEtudiant.dispose();
+			new GestionAbsence();
+		});
+
+		// texte bonjour + prénom
+		JLabel txtBonjour = new JLabel("");
+		txtBonjour.setFont(new Font("Arial", Font.BOLD, 14));
+		txtBonjour.setBounds(160, 60, 148, 30);
+		txtBonjour.setText("Bonjour " + prenom);
+		AccueilEtudiant.getContentPane().add(txtBonjour);
+
+		// Affichage absences
+		displayPlanning(util.getIdentifiant());
+		
+
+		/**
+		 * Test 
+		 */
+
+		/**
+		 * Menu déroulant liste des Groupes
+		 */
 		EtudiantDAO etuDAO = new EtudiantDAO();
-		ArrayList<Absence> listeAbsencesInjustifiees = etuDAO.getAbsencesInjustifiees(identifiant);
+		ArrayList<Cours> planning = etuDAO.getPlanning(util.getIdentifiant());
 
-		// Texte absences injustifiées
-		JLabel txtListeAbsence = new JLabel("Liste de vos absences injustifiées");
-		txtListeAbsence.setHorizontalAlignment(SwingConstants.LEFT);
-		txtListeAbsence.setFont(new Font("Arial", Font.ITALIC, 14));
-		txtListeAbsence.setBounds(160, 239, 217, 30);
-		AccueilEtudiant.getContentPane().add(txtListeAbsence);
+		// Créer un modèle pour la liste déroulante
+		DefaultComboBoxModel<String> listeAbsTxt = new DefaultComboBoxModel<>();
 
-		DefaultTableModel model = new DefaultTableModel(new Object[][] {}, new Object[] { "Cours", "Durée", "Date" });
-
-		for (int i = 0; i < listeAbsencesInjustifiees.size(); i++) {
-			Object[] row = new Object[] { listeAbsencesInjustifiees.get(i).getNomCours(),
-					listeAbsencesInjustifiees.get(i).getDuree(), listeAbsencesInjustifiees.get(i).getDate() };
-			model.addRow(row);
+		for (int i = 0; i < planning.size(); i++) {
+			Cours cours = planning.get(i);
+			//String absTxt = cours.displayToString();
+			//listeAbsTxt.addElement(absTxt);
 		}
-
-		// Créer la table avec les données d'avant
-		JTable table = new JTable(model);
-		table.setEnabled(false);
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-
-		// Créer JScrollPane et ajouter la table dedans
-		JScrollPane ScrollAbsJustif = new JScrollPane(table);
-		ScrollAbsJustif.setBounds(159, 269, 653, 125);
-		AccueilEtudiant.getContentPane().add(ScrollAbsJustif);
-
-		JLabel txtAbsencesPage = new JLabel("Pour valider vos absences ou consulter leur statut, passer par le menu");
-		txtAbsencesPage.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtAbsencesPage.setBounds(164, 404, 464, 13);
-		AccueilEtudiant.getContentPane().add(txtAbsencesPage);
 	}
 
+
+	
+
 	/**
-	 * Affiche les absences justifiées d'un &eacute;l&egrave;ve &agrave;partir de
-	 * son identifiant
-	 * 
-	 * @param identifiant l'idenfiant de l'utilisateur dont on veut connaitre les
-	 *                    absences
+	 * Affiche les absences justifiées d'un élève à partir de son identifiant
+	 * @param identifiant l'idenfiant de l'utilisateur dont on veut connaitre les absences
 	 */
-	public void displayAbsencesJustifiees(String identifiant) {
+	public void displayPlanning(String identifiant) {
 		EtudiantDAO etuDAO = new EtudiantDAO();
-		ArrayList<Absence> listeAbsencesInjustifiees = etuDAO.getAbsencesJustifiees(identifiant);
+		ArrayList<Cours> Planning = etuDAO.getPlanning(identifiant);
 
 		// Texte absences justifiées
-		JLabel txtListeAbsencesJustifiees = new JLabel("Liste de vos absences justifiées");
-		txtListeAbsencesJustifiees.setHorizontalAlignment(SwingConstants.LEFT);
-		txtListeAbsencesJustifiees.setFont(new Font("Arial", Font.ITALIC, 14));
-		txtListeAbsencesJustifiees.setBounds(159, 100, 215, 30);
-		AccueilEtudiant.getContentPane().add(txtListeAbsencesJustifiees);
+		JLabel txtListeCours = new JLabel("Liste de vos cours");
+		txtListeCours.setHorizontalAlignment(SwingConstants.LEFT);
+		txtListeCours.setFont(new Font("Arial", Font.ITALIC, 14));
+		txtListeCours.setBounds(159, 100, 215, 30);
+		AccueilEtudiant.getContentPane().add(txtListeCours);
 
 		// Créer tableau par défaut
-		DefaultTableModel model = new DefaultTableModel(new Object[][] {}, new Object[] { "Cours", "Heures", "Date" });
 
 		// Rempli tableau avec les données de la liste
-		for (int i = 0; i < listeAbsencesInjustifiees.size(); i++) {
-			Object[] row = new Object[] { listeAbsencesInjustifiees.get(i).getNomCours(),
-					listeAbsencesInjustifiees.get(i).getDuree(), listeAbsencesInjustifiees.get(i).getDate() };
+DefaultTableModel model = new DefaultTableModel(new Object[][]{}, new Object[]{"nomCours", "idCours", "horaireCours","idGroupe"});
+		
+		for (int i = 0; i < Planning.size(); i++) {
+			Object[] row = new Object[]{
+					Planning.get(i).getNomCours(), 
+					Planning.get(i).getIdCours(),  
+					Planning.get(i).getHoraireCours(),
+					Planning.get(i).getIdGroupe()};
 			model.addRow(row);
 		}
 
 		// Créer table avec les données d'avant
 		JTable table = new JTable(model);
-		table.setEnabled(false);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 		// Créer JScrollPane et ajouter la table dedans
 		JScrollPane ScrollAbsJustif = new JScrollPane(table);
-		ScrollAbsJustif.setBounds(159, 130, 653, 110);
+		ScrollAbsJustif.setBounds(159, 130, 653, 257);
 		AccueilEtudiant.getContentPane().add(ScrollAbsJustif);
 	}
 }
+

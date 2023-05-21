@@ -28,7 +28,7 @@ public class AbsencesEtudiantGUI {
 	private JFrame absencesEtudiant;
 
 	/**
-	 * Cr&eacute;er la  fen &ecirc; tre  de gestion des absences pour l'&eacute;tudiant
+	 * Cr&eacute;er la  fen&ecirc;tre  de gestion des absences pour l'&eacute;tudiant
 	 * 
 	 * @param util l'utilisateur dont on veut garder les infos
 	 */
@@ -58,8 +58,8 @@ public class AbsencesEtudiantGUI {
 		txtBonjour.setFont(new Font("Arial", Font.BOLD, 14));
 		content.add(txtBonjour);
 
-		// JLabel Liste de vos absences injustifi&eacute;es
-		JLabel txtListeAbsence = new JLabel("Liste de vos absences injustifi&eacute;es");
+		// JLabel Liste de vos absences injustifiées
+		JLabel txtListeAbsence = new JLabel("Liste de vos absences injustifiées");
 		txtListeAbsence.setBounds(20, 50, 217, 30);
 		txtListeAbsence.setFont(new Font("Arial", Font.ITALIC, 14));
 		txtListeAbsence.setHorizontalAlignment(SwingConstants.LEFT);
@@ -79,12 +79,12 @@ public class AbsencesEtudiantGUI {
 		
 		/** ==== ComboBoxs ====**/
 
-		// JComboBox des absences injustifi&eacute;es
+		// JComboBox des absences injustifiees
 		JComboBox<String> dropAbsInj = new JComboBox<>();
 		dropAbsInj.setBounds(20, 88, 653, 21);
 		content.add(dropAbsInj);
 
-		// Remplir la JComboBox avec les absences injustifi&eacute;es de l'utilisateur
+		// Remplir la JComboBox avec les absences injustifiees de l'utilisateur
 		EtudiantDAO etuDAO = new EtudiantDAO();
 		
 		ArrayList<Absence> listeAbsencesInjustifiees = etuDAO.getAbsencesInjustifiees(util.getIdentifiant());
@@ -207,7 +207,6 @@ public class AbsencesEtudiantGUI {
 		                }
 		                
 		                try {
-							System.out.println(fichierAbsence.toPath() + " | " + destinationFichier.toPath());
 		                    Files.copy(fichierAbsence.toPath(), destinationFichier.toPath(),StandardCopyOption.REPLACE_EXISTING);
 
 		                    // Change statut absence

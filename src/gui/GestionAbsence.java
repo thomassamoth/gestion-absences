@@ -56,7 +56,7 @@ public class GestionAbsence {
 		windowConnexion = new JFrame();
 		windowConnexion.setTitle("Connexion");
 		windowConnexion.setVisible(true);
-		windowConnexion.getContentPane().setBackground(new Color(0, 0, 0));
+		windowConnexion.getContentPane().setBackground(new Color(255, 102, 102));
 		windowConnexion.setBackground(new Color(0, 0, 0));
 		windowConnexion.setResizable(false);
 		windowConnexion.setSize(853, 480);

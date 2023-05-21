@@ -488,4 +488,66 @@ public class EtudiantDAO extends ConnexionBDD {
 		}
 		return ajoutEffectue;
 	}
+	
+	public ArrayList<Cours> getPlanning(String identifiant) {
+		Connection con =  null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Cours> Planning = new ArrayList<>();
+
+
+		// Connexion à la base de données
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+
+			/*ps = con.prepareStatement("SELECT nom_cours,idcours, horaire_cours,idgroupe "
+					+ "FROM COURS INNER JOIN etudiant ON (cours.idgroupe = etudiant.idgroupe) "
+					+ "INNER JOIN utilisateur ON (utilisateur.idutilisateur = etudiant.idutilisateur) "
+					+ "WHERE  utilisateur.identifiant = ?"					
+					+ "ORDER BY COURS.horaire_cours DESC ");
+					*/
+			ps = con.prepareStatement("SELECT COURS.nom_cours, COURS.idcours, COURS.horaire_cours, COURS.idgroupe "
+			        + "FROM COURS INNER JOIN etudiant ON (COURS.idgroupe = etudiant.idgroupe) "
+			        + "INNER JOIN utilisateur ON (utilisateur.idutilisateur = etudiant.idutilisateur) "
+			        + "WHERE utilisateur.identifiant = ? "
+			        + "ORDER BY COURS.horaire_cours ASC");
+
+			ps.setString(1, identifiant);
+
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				
+				Cours cours = new Cours(rs.getString("nom_cours"), rs.getInt("idcours"), rs.getTimestamp("horaire_cours"), rs.getInt("idgroupe") );
+
+				Planning.add(cours);
+			}
+		}
+
+		catch (Exception ee) {
+			ee.printStackTrace();
+		}
+
+		finally {
+			// Fermeture rs
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			}catch (Exception ignore) {}
+
+			// Fermeture ps
+			try {
+				if (ps != null)
+					rs.close();
+			}catch (Exception ignore) {}
+
+			// Fermeture con
+			try {
+				if(con != null)
+					con.close();
+			}catch (Exception ignore) {}
+		}
+		return Planning;
+	}
 }
