@@ -7,7 +7,7 @@ import java.util.*;
 import model.*;
 
 /**
- * Classe pour tous les appels &agrave; la base de données pour les absences
+ * Classe pour tous les appels &agrave; la base de donn&eacute;es pour les absences
  * 
  * @author Thomas Beyet
  * @author Walid Ben Attia

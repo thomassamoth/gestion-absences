@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import model.*;
 
 /**
- * Classe pour les appels &agrave;la BDD pour les &eacute;tudiants
+ * Classe pour les appels &agrave; la BDD pour les &eacute;tudiants
  * 
  * @author Thomas
  * @version 1.0

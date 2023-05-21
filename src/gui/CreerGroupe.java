@@ -23,7 +23,7 @@ public class CreerGroupe {
 	/**
 	 * Fenetre pour creer un groupe
 	 * 
-	 * @param txtMessages le texte de la plus grande fenetre qui est modifié apres
+	 * @param txtMessages le texte de la plus grande fenetre qui est modifi&eacute; apres
 	 *                    l'ajout du groupe
 	 */
 	public CreerGroupe(JLabel txtMessages) {
@@ -33,7 +33,7 @@ public class CreerGroupe {
 	/**
 	 * Initialise la fenetre de cr&eacute;ation de groupe
 	 * 
-	 * @param txtMessages le message qui doit être modifié
+	 * @param txtMessages le message qui doit être modifi&eacute;
 	 */
 	private void initialize(JLabel txtMessages) {
 		// Fenêtre
@@ -88,7 +88,7 @@ public class CreerGroupe {
 				if (gestio.ajouterGroupe(Integer.valueOf(fieldNumero.getText()),
 						Integer.valueOf(fieldCapacite.getText())) == 1) {
 					creerGroupe.dispose();
-					txtMessages.setText("Le groupe a bien été ajouté");
+					txtMessages.setText("Le groupe a bien été ajout&eacute;");
 					txtMessages.setBackground(new Color(217, 237, 218));
 				} else {
 					txtErreur.setText("Erreur lors de l'ajout d'un groupe");

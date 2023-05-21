@@ -22,7 +22,7 @@ public class AccueilGestionnaireGUI {
 	private JFrame AccueilGestionnaireWindow;
 
 	/**
-	 * Constructeur pour créer la fen&ecirc;tre d'accueil pour les &eacute;tudiants
+	 * Constructeur pour cr&eacute;er la fen&ecirc;tre d'accueil pour les &eacute;tudiants
 	 * 
 	 * @param util l'utilisteur dont on veut afficher les infos
 	 */

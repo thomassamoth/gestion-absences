@@ -29,7 +29,7 @@ public class ModifierEtudiantGUI {
 	private JTextField fieldUsername;
 	private JTextField fieldPassword;
 	/**
-	 * Numéro associé si apprentissage ou classique
+	 * Num&eacute;ro associ&eacute; si apprentissage ou classique
 	 */
 	private int numFiliere;
 
@@ -56,8 +56,8 @@ public class ModifierEtudiantGUI {
 	}
 
 	/**
-	 * Setter du numéro de groupe
-	 * @param numGroup le numéro du groupe
+	 * Setter du num&eacute;ro de groupe
+	 * @param numGroup le num&eacute;ro du groupe
 	 */
 	private void setNumeroGroupe(int numGroup) {
 		this.numeroGroupe = numGroup;
@@ -77,12 +77,12 @@ public class ModifierEtudiantGUI {
 		titreAjouterEtudiant.setBounds(236, 10, 211, 28);
 		content.add(titreAjouterEtudiant);
 
-		JLabel txtNom = new JLabel("Nom de l'élève *");
+		JLabel txtNom = new JLabel("Nom de l'&eacute;lève *");
 		txtNom.setFont(new Font("Arial", Font.BOLD, 10));
 		txtNom.setBounds(10, 60, 96, 13);
 		content.add(txtNom);
 
-		JLabel txtPrenom = new JLabel("Prénom de l'élève *");
+		JLabel txtPrenom = new JLabel("Pr&eacute;nom de l'&eacute;lève *");
 		txtPrenom.setFont(new Font("Arial", Font.BOLD, 10));
 		txtPrenom.setBounds(116, 60, 96, 13);
 		content.add(txtPrenom);
@@ -106,7 +106,7 @@ public class ModifierEtudiantGUI {
 		content.add(txtFiliere);
 
 		/**
-		 * Texte modifié s'il y a une erreur avec les ComboBox
+		 * Texte modifi&eacute; s'il y a une erreur avec les ComboBox
 		 */
 		JLabel lblErreur = new JLabel("");
 		lblErreur.setOpaque(true);
@@ -185,7 +185,7 @@ public class ModifierEtudiantGUI {
 		content.add(fieldPassword);
 
 		/**
-		 * Texte modifié si &eacute;tudiant correctement ajouté
+		 * Texte modifi&eacute; si &eacute;tudiant correctement ajout&eacute;
 		 */
 		JLabel txtNotif = new JLabel("");
 		txtNotif.setHorizontalAlignment(SwingConstants.CENTER);
@@ -210,7 +210,7 @@ public class ModifierEtudiantGUI {
 		Object[] listeGroupesArray = listeG.toArray();
 
 		/**
-		 * Menu déroulant liste des Groupes
+		 * Menu d&eacute;roulant liste des Groupes
 		 */
 		JComboBox<String> dropGroupes = new JComboBox(listeGroupesArray);
 		dropGroupes.setBounds(116, 123, 96, 21);
@@ -293,11 +293,11 @@ public class ModifierEtudiantGUI {
 				}
 
 				if(messageErreur == 1) {
-					JOptionPane.showMessageDialog(null, "Erreur lors de la modification de l'étudiant. ", "Error",
+					JOptionPane.showMessageDialog(null, "Erreur lors de la modification de l'&eacute;tudiant. ", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
 				else {
-					txtNotif.setText("Modification(s) effectuée(s)");
+					txtNotif.setText("Modification(s) effectu&eacute;e(s)");
 					txtNotif.setBackground(new Color(217, 237, 218));
 					
 					// Retire le texte après 3 secondes !
@@ -382,7 +382,7 @@ public class ModifierEtudiantGUI {
 	}
 
 	/**
-	 * Initalise le contenu du menu latéral
+	 * Initalise le contenu du menu lat&eacute;ral
 	 */
 	private void initializeSidebar() {
 		// Menu latéral

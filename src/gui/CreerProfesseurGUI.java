@@ -9,7 +9,7 @@ import dao.GestionnaireDAO;
 import model.*;
 
 /**
- * Classe pour créer la fenetre d'ajout de prof
+ * Classe pour cr&eacute;er la fenetre d'ajout de prof
  * 
  * @author walid
  * @version 1.0
@@ -60,7 +60,7 @@ public class CreerProfesseurGUI {
 		fieldNom.setColumns(10);
 		content.add(fieldNom);
 
-		JLabel txtPrenom = new JLabel("Prénom *");
+		JLabel txtPrenom = new JLabel("Pr&eacute;nom *");
 		txtPrenom.setFont(new Font("Arial", Font.BOLD, 10));
 		txtPrenom.setBounds(116, 60, 96, 13);
 		content.add(txtPrenom);
@@ -71,7 +71,7 @@ public class CreerProfesseurGUI {
 		content.add(fieldPrenom);
 
 		/**
-		 * Texte modifié s'il y a une erreur avec les ComboBox
+		 * Texte modifi&eacute; s'il y a une erreur avec les ComboBox
 		 */
 		JLabel lblErreur = new JLabel("");
 		lblErreur.setOpaque(true);
@@ -85,7 +85,7 @@ public class CreerProfesseurGUI {
 		
 
 		// Texte mail
-		JLabel txtNumTel = new JLabel("numéro de tel");
+		JLabel txtNumTel = new JLabel("num&eacute;ro de tel");
 		txtNumTel.setBounds(222, 60, 84, 13);
 		content.add(txtNumTel);
 
@@ -129,7 +129,7 @@ public class CreerProfesseurGUI {
 		content.add(fieldPassword);
 
 		/**
-		 * Texte modifié si professeur correctement ajouté
+		 * Texte modifi&eacute; si professeur correctement ajout&eacute;
 		 */
 		JLabel txtEtuAjoute = new JLabel("");
 		txtEtuAjoute.setHorizontalAlignment(SwingConstants.CENTER);
@@ -184,7 +184,7 @@ public class CreerProfesseurGUI {
 					// Création d'un professeur
 					if(gestio.ajouterProfesseur(IDUser, IDUser , fieldNumTel.getText() ) == 1) {
 						txtEtuAjoute.setBackground(new Color(212, 237,218));
-						txtEtuAjoute.setText("Professeur ajouté");
+						txtEtuAjoute.setText("Professeur ajout&eacute;");
 					}
 					else {
 						txtEtuAjoute.setBackground(new Color(248, 215,218));
@@ -260,7 +260,7 @@ public class CreerProfesseurGUI {
 
 	}
 	/**
-	 * Initalise le contenu du menu latéral
+	 * Initalise le contenu du menu lat&eacute;ral
 	 */
 	private void initializeSidebar(){
 		// Menu latéral

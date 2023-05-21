@@ -116,7 +116,7 @@ public class ChoisirEtudiant {
 				EtudiantDAO etu = new EtudiantDAO();
 
 				if (etu.verifEtudiantExiste(fieldPrenom.getText(), fieldNom.getText()) != 1) {
-					JOptionPane.showMessageDialog(null, "Etudiant inexistant. Veuillez réessayer.", "Error",
+					JOptionPane.showMessageDialog(null, "Etudiant inexistant. Veuillez r&eacute;essayer.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 					choisirEtudiant.dispose();

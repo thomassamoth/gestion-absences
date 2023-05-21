@@ -18,13 +18,13 @@ public class Absence {
 	private int handled;
 
 	/**
-	 * Constructeur pour les absences non traitées
+	 * Constructeur pour les absences non trait&eacute;es
 	 * 
 	 * @param nomEtudiant    le nom de l'etudiant
 	 * @param prenomEtudiant le prenom de l'etudiant
 	 * @param date           la date de l'absence
 	 * @param nomCours       le nom du cours
-	 * @param justified      le statut justifié de l'absence
+	 * @param justified      le statut justifi&eacute; de l'absence
 	 * @param handled        si l'absence est prises en charge
 	 */
 	public Absence(String nomEtudiant, String prenomEtudiant, String date, String nomCours, int justified,
@@ -63,7 +63,7 @@ public class Absence {
 	}
 
 	/**
-	 * Récupère l'ID de l'absence
+	 * R&eacute;cupère l'ID de l'absence
 	 * 
 	 * @return l'ID de l'absence
 	 */
@@ -72,16 +72,16 @@ public class Absence {
 	}
 
 	/**
-	 * Récupère si l'absence est traitée ou non
+	 * R&eacute;cupère si l'absence est trait&eacute;e ou non
 	 * 
-	 * @return si l'absence est traitée
+	 * @return si l'absence est trait&eacute;e
 	 */
 	public int getIsHandled() {
 		return handled;
 	}
 
 	/**
-	 * Récupère si l'absence est justifi&eacute;e
+	 * R&eacute;cupère si l'absence est justifi&eacute;e
 	 * 
 	 * @return si l'absence est justifi&eacute;e
 	 */
@@ -173,7 +173,7 @@ public class Absence {
 	/**
 	 * Affiche l'absence sous forme de chaine de caractères
 	 * 
-	 * @return les éléments de l'absence comme chaine
+	 * @return les &eacute;l&eacute;ments de l'absence comme chaine
 	 */
 	public String displayToString() {
 		return nomCours + " - " + date + " - " + duree + " Heures";

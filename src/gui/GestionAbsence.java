@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * <strong>Classe principale qui permet de lancer le programme</strong>
+ * 
  * @author Thomas
  * @author Walid
  *
@@ -23,7 +24,8 @@ public class GestionAbsence {
 	private JPasswordField passwordField;
 
 	/**
-	 * Lance l'application - classe principale
+	 * <strong>Lance l'application - classe principale</strong>
+	 * 
 	 * @param args args
 	 */
 	public static void main(String[] args) {
@@ -122,16 +124,16 @@ public class GestionAbsence {
 	}
 
 	/**
-	 * Vérifie les bons identifiants de l'utilisateur et affiche la fenetre suivante
-	 * en fonction de son statut.
+	 * V&eacute;rifie les bons identifiants de l'utilisateur et affiche la fenetre
+	 * suivante en fonction de son statut.
 	 * 
-	 * @param username
-	 * @param password
+	 * @param username le nom d'utilisateur
+	 * @param password le mot de passe
 	 */
 	public void connect(String username, String password) {
 		UtilisateurDAO userDAO = new UtilisateurDAO();
 		Utilisateur user = userDAO.getInfoUser(username, password); // Requete
-		
+
 		// Récuperation statut utilisateur
 		if (user != null) {
 			int utilisateurStatut = userDAO.getStatutUtilisateur(username);
@@ -141,7 +143,7 @@ public class GestionAbsence {
 				// Fenêtre gestion des absences
 				windowConnexion.dispose();
 				new AccueilGestionnaireGUI(user);
-				//new ValidationAbsencesGUI(user);
+				// new ValidationAbsencesGUI(user);
 				break;
 
 			case 2: // Enseignant

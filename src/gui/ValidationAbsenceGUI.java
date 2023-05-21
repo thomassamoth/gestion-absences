@@ -114,7 +114,7 @@ public class ValidationAbsenceGUI {
 	}
 
 	/**
-	 * Créer la fen&ecirc;tre de validation des absences.
+	 * Cr&eacute;er la fen&ecirc;tre de validation des absences.
 	 */
 	public void creerFenetreValidationAbsences() {
 		// Fenêtre
@@ -168,7 +168,7 @@ public class ValidationAbsenceGUI {
 	}
 
 	/**
-	 * Affiche la liste des absences non traitées dans un tableau
+	 * Affiche la liste des absences non trait&eacute;es dans un tableau
 	 */
 
 	public void displayAbsencesNonTraitees() {

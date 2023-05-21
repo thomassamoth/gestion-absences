@@ -60,7 +60,7 @@ public class SupprimerUtilisateurGUI {
 		fieldNom.setColumns(10);
 		content.add(fieldNom);
 
-		JLabel txtPrenom = new JLabel("Prénom *");
+		JLabel txtPrenom = new JLabel("Pr&eacute;nom *");
 		txtPrenom.setFont(new Font("Arial", Font.BOLD, 10));
 		txtPrenom.setBounds(116, 60, 96, 13);
 		content.add(txtPrenom);
@@ -71,7 +71,7 @@ public class SupprimerUtilisateurGUI {
 		content.add(fieldPrenom);
 
 		/**
-		 * Texte modifié s'il y a une erreur avec les ComboBox
+		 * Texte modifi&eacute; s'il y a une erreur avec les ComboBox
 		 */
 		JLabel lblErreur = new JLabel("");
 		lblErreur.setOpaque(true);
@@ -231,7 +231,7 @@ public class SupprimerUtilisateurGUI {
 
 	}
 	/**
-	 * Initalise le contenu du menu latéral
+	 * Initalise le contenu du menu lat&eacute;ral
 	 */
 	private void initializeSidebar(){
 		// Menu latéral

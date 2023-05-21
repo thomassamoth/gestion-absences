@@ -85,7 +85,7 @@ public class UtilisateurDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Récupère le statut d'un utilisateur &agrave;partir de son identifiant.
+	 * R&eacute;cupère le statut d'un utilisateur &agrave;partir de son identifiant.
 	 * 
 	 * @param identifiant
 	 * @return statutUtilisateur
@@ -165,10 +165,10 @@ public class UtilisateurDAO extends ConnexionBDD {
 	}
 
 	/**
-	 * Récupère le prénom d'un utilisateur &agrave;partir de son identifiant.
+	 * R&eacute;cupère le pr&eacute;nom d'un utilisateur &agrave;partir de son identifiant.
 	 * 
 	 * @param identifiant
-	 * @return prénom de l'utilisateur
+	 * @return pr&eacute;nom de l'utilisateur
 	 */
 	public String getPrenomUtilisateur(String identifiant) {
 		Connection con = null;

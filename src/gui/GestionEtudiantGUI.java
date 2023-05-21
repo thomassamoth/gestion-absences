@@ -23,7 +23,7 @@ public class GestionEtudiantGUI {
 	private JTextField fieldUsername;
 	private JTextField fieldPassword;
 	/**
-	 * Numéro associé si apprentissage ou classique
+	 * Num&eacute;ro associ&eacute; si apprentissage ou classique
 	 */
 	private int numFiliere;
 
@@ -75,7 +75,7 @@ public class GestionEtudiantGUI {
 		fieldNom.setColumns(10);
 		content.add(fieldNom);
 
-		JLabel txtPrenom = new JLabel("Prénom *");
+		JLabel txtPrenom = new JLabel("Pr&eacute;nom *");
 		txtPrenom.setFont(new Font("Arial", Font.BOLD, 10));
 		txtPrenom.setBounds(116, 60, 96, 13);
 		content.add(txtPrenom);
@@ -90,7 +90,7 @@ public class GestionEtudiantGUI {
 		content.add(txtFiliere);
 
 		/**
-		 * Texte modifié s'il y a une erreur avec les ComboBox
+		 * Texte modifi&eacute; s'il y a une erreur avec les ComboBox
 		 */
 		JLabel lblErreur = new JLabel("");
 		lblErreur.setOpaque(true);
@@ -169,7 +169,7 @@ public class GestionEtudiantGUI {
 		content.add(fieldPassword);
 
 		/**
-		 * Texte modifié si &eacute;tudiant correctement ajouté
+		 * Texte modifi&eacute; si &eacute;tudiant correctement ajouté
 		 */
 		JLabel txtEtuAjoute = new JLabel("");
 		txtEtuAjoute.setHorizontalAlignment(SwingConstants.CENTER);
@@ -190,12 +190,12 @@ public class GestionEtudiantGUI {
 
 		listeG.add(0, ""); // On ajoute un element vide pour que l'utilisateur doive choisir quelquechose 
 
-		// Créer un tableau à partir de l'arrayList
+		// Cr&eacute;er un tableau à partir de l'arrayList
 		Object[] listeGroupesArray = listeG.toArray();
 
 
 		/**
-		 * Menu déroulant liste des Groupes
+		 * Menu d&eacute;roulant liste des Groupes
 		 */
 		JComboBox<String> dropGroupes = new JComboBox(listeGroupesArray);
 		dropGroupes.setBounds(116, 123, 96, 21);
@@ -236,7 +236,7 @@ public class GestionEtudiantGUI {
 			// Verification si champs obligatoires remplis
 			if(fieldNom.getText().length() <= 0 || fieldPrenom.getText().length() <= 0 || 
 					fieldUsername.getText().length() <= 0 || fieldPassword.getText().length() <= 0) {
-				JOptionPane.showMessageDialog(null, "Veuillez compléter le/les champ(s) manquants. ", "Warning",
+				JOptionPane.showMessageDialog(null, "Veuillez compl&eacute;ter le/les champ(s) manquants. ", "Warning",
 						JOptionPane.WARNING_MESSAGE);
 
 			}
@@ -250,16 +250,16 @@ public class GestionEtudiantGUI {
 					// Création d'un étudiant
 					if(gestio.ajouterEtudiant(IDUser, fieldMail.getText(), numeroGroupe, numFiliere) == 1) {
 						txtEtuAjoute.setBackground(new Color(212, 237,218));
-						txtEtuAjoute.setText("Etudiant ajouté");
+						txtEtuAjoute.setText("Etudiant ajout&eacute;");
 					}
 					else {
 						txtEtuAjoute.setBackground(new Color(248, 215,218));
-						txtEtuAjoute.setText("Erreur lors de l'ajout d'un étudiant");				
+						txtEtuAjoute.setText("Erreur lors de l'ajout d'un &eacute;tudiant");				
 					}
 				}
 				else { // Erreur lors de la création d'un utilisateur
 					txtEtuAjoute.setBackground(new Color(248, 215,218));
-					txtEtuAjoute.setText("Erreur lors de l'ajout d'un étudiant");
+					txtEtuAjoute.setText("Erreur lors de l'ajout d'un &eacute;tudiant");
 				}
 			}
 		});
@@ -290,7 +290,7 @@ public class GestionEtudiantGUI {
 		gestionEtudiantWindow.getContentPane().add(header);
 
 		// Bouton Menu Déconnexion
-		JButton btnDeconnexion = new JButton("Se Déconnecter");
+		JButton btnDeconnexion = new JButton("Se D&eacute;connecter");
 		btnDeconnexion.setForeground(new Color(255, 255, 255));
 		btnDeconnexion.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnDeconnexion.setBorderPainted(false);
@@ -326,7 +326,7 @@ public class GestionEtudiantGUI {
 
 	}
 	/**
-	 * Initalise le contenu du menu latéral
+	 * Initalise le contenu du menu lat&eacute;ral
 	 */
 	private void initializeSidebar(){
 		// Menu latéral

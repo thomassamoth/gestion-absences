@@ -21,7 +21,7 @@ public class AccueilEtudiantGUI {
 	private JFrame AccueilEtudiant;
 
 	/**
-	 * Créer la fen&ecirc;tre d'accueil pour les &eacute;tudiants
+	 * Cr&eacute;er la fen&ecirc;tre d'accueil pour les &eacute;tudiants
 	 * 
 	 * @param util l'utilisteur dont on veut afficher les infos
 	 */
@@ -36,10 +36,10 @@ public class AccueilEtudiantGUI {
 	 * Initialise le contenu de la fen&ecirc;tre d'accueil pour les &eacute;tudiants
 	 * 
 	 * @param util   l'utilisteur dont on veut afficher les infos
-	 * @param prenom prénom de l'utilisateur, nécessaire pour texte de bienvenue
+	 * @param prenom pr&eacute;nom de l'utilisateur, n&eacute;cessaire pour texte de bienvenue
 	 */
 	private void initialize(Utilisateur util) {
-		// texte bonjour + prénom
+		// texte bonjour + pr&eacute;nom
 		JLabel txtBonjour = new JLabel("");
 		txtBonjour.setFont(new Font("Arial", Font.BOLD, 14));
 		txtBonjour.setBounds(160, 60, 148, 30);
@@ -161,7 +161,7 @@ public class AccueilEtudiantGUI {
 	}
 
 	/**
-	 * Affiche les absences injustifiées d'un &eacute;l&egrave;ve &agrave;partir de
+	 * Affiche les absences injustifi&eacute;es d'un &eacute;l&egrave;ve &agrave;partir de
 	 * son identifiant
 	 * 
 	 * @param identifiant l'idenfiant de l'utilisateur dont on veut connaitre les
